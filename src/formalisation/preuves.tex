@@ -1,0 +1,211 @@
+\chapter{Démonstrations et améliorations possibles}
+\section{Première formalisation}
+\subsection{Politiques d'$\alpha$-transitions}
+La sémantique des $\alpha$-transitions peut être modifiée afin de pouvoir fournir plusieurs politiques.
+
+Par exemple : 
+\begin{itemize}
+\item Envoyer un jeton vers toutes ses branches en sortie.
+\item N'envoyer un jeton que vers certaines branches choisies.
+\item Envoyer des jetons vers une ou des branches choisies au hasard.
+\item Envoyer les jetons en différé, pour créer un effet de canon par exemple.
+\item Garder un jeton en mémoire et le renvoyer plus tard (pour une reprise sur erreur, par exemple).
+\end{itemize}
+
+Cela permet d'offrir plus de latitude au compositeur. Néanmoins le réseau de Petri n'est plus "pur", on modifie l'algorithme d'exécution d'une transition.
+
+
+\subsection{Rétropropagation du buffering}
+Un processus a été conçu pour essayer de régler le problème des latences trop grandes entre nœuds.
+
+Il est utile dans le cas ou on n'a pas de point d'interactivité entre différents segments successifs.
+
+\begin{mydef}Un point d'interactivité est un endroit ou l'exécution du réseau de Petri est soumise à influence extérieure : temps souple, ou condition.
+\end{mydef}
+
+Le processus est le suivant : soient deux segments $S$ et $D$ tels que $D$ soit successif à $S$. On désire déplacer $D$, mais la latence entre les deux nœuds est supérieure à la durée de la transition de $S$ : la différence $t_S - x$ est négative.
+
+Soit $B$ l'ensemble des segments précédant $S$.
+
+\begin{enumerate}
+\item Pour chaque segment $b \in B$ : créer un $\alpha$-segment le précédant.
+\item Rajouter une place en sortie de chaque $\alpha$-segment créé à l'étape précédente.
+\item Supprimer l'arc précédant le $\beta$-segment correspondant à $D$.
+\item Créer un arc entre toutes les places créées et ce $\beta$-segment.
+\end{enumerate}
+Soit $t_S - x$ la durée du $\beta$-segment. En raison de la latence élevée, $t_S - x$ est négatif. Soient $t_{b_1}, ..., t_{b_n}$ les durées des segments de $B$.
+
+On remplace $t_S - x$ par $\max(t_{b_1}, ..., t_{b_n}) + t_S - x$.
+
+Si la durée obtenue est toujours négative, on peut réitérer ce processus jusqu'à une de ces deux possibilités : 
+\begin{itemize}
+\item Obtention d'une durée positive ou nulle.
+\item Arriver à un point d'interactivité.
+\end{itemize}
+
+\subsection{Utilisation de la duplication pour un backup}
+Le backup consiste à avoir plusieurs nœuds exécutant la même partie du réseau, mais un seul exécute réellement les processus contenus entre les places.
+
+Cela permet, si un des nœuds rencontre un problème informatique, d'avoir un autre nœud qui prend le relai.
+
+Deux approches sont possibles :
+\begin{itemize}
+\item Une, qui a déjà été évoquée, est d'avoir l'opération qui repart depuis le début du déplacement ($\alpha$-segment).
+\item L'autre serait d'essayer de repartir au plus proche, c'est-à-dire :  
+\begin{itemize}
+\item Soit au début de la dernière transition s'étant exécutée, en replaçant un jeton. Cela implique un léger retour en arrière.
+\item Soit attendre que la dernière transition qui était en cours d'exécution se finisse. Cela implique une impression de "mise en pause".
+\end{itemize}
+
+\item Dans les deux cas présentés ci-dessus, il ne sera pas possible d'échapper à un effet de saut lors de la reprise pour certains processus. Mais une granularité plus fine (c'est-à-dire au niveau des processus et du temps réel) n'est pas possible avec le formalisme des réseaux de Petri.
+
+Cependant, il est simple de l'implémenter : il suffit d'effectuer une duplication au niveau du réseau de Petri, et de donner aux nœuds du graphe une propriété "activé" ou "désactivé". Si un nœud ne répond plus et est dupliqué à des fins de backup, un autre nœud "active" la branche qui est sensée prendre le relai; ce nœud se met alors à émettre des signaux à ses processus instantanément.
+
+De plus, l'idéal serait de pouvoir "muter" uniquement les sorties matérielles de l'ordinateur (ex. : sortie audio, vidéoprojecteur). En effet, un processus externe peut utiliser un effet de feedback; une transition sans interruptions entre une machine ayant planté et la machine de backup ne marchera bien que si toutes les étapes précédentes ont été calculées par la machine de backup.
+
+Enfin, pour des questions d'ergonomie, il pourrait être intéressant d'avoir un concept de groupes de nœuds, sensés posséder les mêmes tâches, et d'associer à chaque segment un ou plusieurs groupes. La détection d'un nœud "mort" se ferait dans le groupe par envoi de messages réguliers, et une des machines au hasard du groupe peut reprendre les tâches laissées en plan.
+\end{itemize}
+
+\subsection{Cas du changement de vitesse}
+Le formalisme permet de changer la vitesse d'exécution, en multipliant les durées des transitions par un facteur numérique.
+
+Pour conserver la correction du formalisme décrit ici, il ne faut pas multiplier le facteur de décalage entre les nœuds, car il ne dépend pas de la vitesse d'exécution du morceau, mais est une caractéristique physique du réseau.
+
+Il serait par exemple possible d'affecter une fonction affine de la forme $av + b$ aux transitions, ou $a$ est la durée de la transition canonique, $v$ le coefficient multiplicateur de vitesse, entre $O.5$ et $2$, et $b$ le délai.
+
+\subsection{Simplifications}
+\subsubsection{$\alpha$-transitions}
+\begin{itemize}
+\item Si un $\alpha$-segment est en sortie d'un autre, ils peuvent être fusionnés : les places de sortie du segment suivant sont reliés à la transition du précédent. Cela ne change rien car dans les deux cas les délais des transitions sont nuls.
+
+\item De même, si un $\alpha$-segment suit directement une $\beta$-segment, on peut supprimer l'$\alpha$-segment et mettre les places qui étaient à sa sortie en sortie du $\beta$-segment.
+\end{itemize}
+\subsubsection{Connaissance de la topologie du réseau de Petri}
+On peut essayer de faire en sorte que les nœuds n'aient connaissance que des segments qu'ils possèdent et sont censés exécuter, et ce afin d'éviter la duplication.
+
+Ils doivent au moins posséder : 
+\begin{itemize}
+\item Leurs places d'entrée, pour savoir quand les transitions sont sensibilisées.
+\item Leurs transitions.
+\item Leurs places de sortie qui correspondent à une fin de processus.
+\end{itemize}
+
+Les autres envois de jetons peuvent être faits par le réseau.
+
+\paragraph{Prise de connaissance dynamique ?}
+Tant que l'on se situe avant l'exécution d'un segment par une machine, on peut lui envoyer.
+
+Il faut néanmoins s'assurer qu'elle reçoive le / les segments avant leurs débuts, en calculant la latence entre les nœuds, et informer les autres nœuds du nouveau responsable de ce segment, pour qu'ils sachent ou envoyer leurs jetons.
+
+\subsubsection{Connaissance de l'état du réseau de Petri}
+Si l'on opte pour une connaissance globale, est-il néanmoins nécessaire que chaque nœud ait connaissance de la position de chaque jeton à chaque instant et fasse évoluer ses propres jetons de son côté ? 
+
+Cela pose problème dans :
+\begin{itemize}
+\item Le cas des points d'interaction, ce qui peut engendrer une surcharge au niveau du réseau si par exemple la valeur d'une variable sur laquelle porte une condition doit être transmise à tous les nœuds.
+\item Le cas ou une machine aurait un ralentissement : il y aurait une incohérence entre la position de son jeton et la position du même jeton dans les autres machines.
+\end{itemize}
+
+Une solution peut être d'avoir une machine maîtresse, dont l'état est prioritaire sur tous les autres. 
+
+Ou alors de ne pas avoir de réplication d'état : cela veut dire que la plupart des machines seront toujours dans un état incohérent vis-à-vis de la sémantique des réseaux de Petri (car des jetons vont apparaître et disparaître au gré des envois par le réseau), mais le fonctionnement est plus simple à gérer et peut être source de moins de problèmes sur le long terme.
+
+\subsection{Déplacement de groupes de segments}
+Si on désire déplacer plusieurs segments adjacents en même temps, il suffit d'appliquer l'opération de déplacement aux segments possédant des places d'entrée ou de sortie communes à un autre segment. En effet, seules celles-ci sont sensibles au délai entre les nœuds.
+
+\subsection{Approche optimisée pour implémentation}
+Comme i-score précompile les réseaux de Petri à chaque lecture, il serait possible d'appliquer le processus "inverse" de celui décrit, pour avoir un nombre de calculs minimaux à réaliser : 
+
+\begin{enumerate}
+\item Affecter à chaque segment le nœud sur lequel il est sensé se trouver.
+\item Pour chaque paire de segments adjacents et n'étant pas sur le même nœud, effectuer une opération de déplacement.
+\end{enumerate}
+
+
+
+\chapter{Preuves et vérifications}
+\section{Formalisation par déplacement de segments}
+ 
+\subsection{Correction de la solution par rapport au problème} 
+Quand on déplace un segment, le réseau s'exécute correctement (dans la contrainte d'un délai fixe).
+
+Soit $S$ un segment, et soit $D$ un segment attenant à $S$ que l'on déplace sur un nœud différent de celui de $S$ par le processus décrit précédemment.
+
+Comme les nœuds de $S$ et $D$ sont séparés par un délai de transmission d'information $x$, quand la $\beta$-transition s'exécute, l'information arrive en place d'entrée de $D$ à $t$ car $t - x + x = t$.   
+
+
+\subsection{L'opération de recombinaison est inverse de celle du déplacement}
+Soit $S$ un segment, et soit $D$ un segment attenant à $S$ que l'on déplace sur un nœud différent de celui de $S$ par le processus décrit précédemment.
+
+$S$ est donc précédé d'un $\alpha$-segment et est suivi d'un $\beta$-segment correspondant à $D$
+Par construction, redéplacer $D$ sur le nœud ou se situe $S$ revient à supprimer le $\beta$-segment, et replacer les entrées de $D$ qui sont aussi des sorties de $S$ en sortie de la transition de base de $S$. S'il n'y a plus de $\beta$-segments suivant l'$\alpha$-segment, on peut le supprimer.
+
+On retrouve alors la configuration initiale.
+
+\subsection{Vérification dans le cas des boucles}
+On désire déplacer un des deux segments de la boucle sur un autre nœud.
+
+Les boucles sont un cas particulier : elles possèdent une condition en sortie.
+Une condition, selon le formalisme mis en place par Antoine Allombert, se manifeste par une place qui se trouve en entrée de plusieurs transitions, ce que nous avions interdit jusqu'alors. La condition se manifeste donc en pratique par la transition qui est tirée si cette condition est vraie.
+
+Deux possibilités s'offrent alors : 
+\begin{itemize}
+\item Permettre aux places d'entrée d'avoir plusieurs sorties, ce qui leur donne plus de sens. C'est ce qui est choisi ici.
+\item Considérer qu'une place est équivalente à un segment de durée nulle, possédant autant de places d'entrée que d'arcs d'entrée de la place, et autant de places de sortie que d'arcs de sortie de la place. Cela déporte la logique des conditions dans la transition de ce nouveau segment. Mais sans conditions, ce n'est pas strictement équivalent, car on aurait une duplication de jetons supplémentaire.
+\end{itemize}
+
+Nous avons dans la figure \ref{fig:verifBoucles} un exemple de ce qui se passe si l'on désire déplacer une transition d'une boucle sur une autre machine. (Les deux nœuds sont notés $N_1$ et $N_2$).
+
+Les délais suivants sont introduits : 
+\begin{itemize}
+\item $x$ entre $N_1$ et $N_2$.
+\item $y$ entre $N_2$ et $N_1$.
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\input{formalisation/figures/verifBoucle}
+\caption{Vérification du fonctionnement du déplacement dans le cas des boucles.}
+\label{fig:verifBoucles}
+\end{figure}
+
+Pour plus de cohérence, on garde les autres arcs de sortie de $B$ sur lui-même, mais il serait possible de les placer sur $B_\beta$ sans que cela n'impacte le fonctionnement du réseau.
+
+En revanche, la condition qui était contenue dans $T_B$ est dupliquée dans $T_{\beta2}$, afin d'avoir une condition :
+\begin{itemize}
+\item Sur l'exécution du processus.
+\item Sur le tour de boucle.
+\end{itemize}
+
+Il serait aussi possible de déplacer les arcs en sortie de $B$ vers $B_\alpha$, et d'avoir $T_\alpha$ qui porte la condition de $T_B$.
+
+Enfin, il est recommandé que le $\beta$-segment contenant $B_\beta$ et $T_{\beta2}$ soit situé sur le nœud ou le segment de $T_B$ est exécuté, pour que la condition ne soit résolue que sur un nœud.
+
+\subsection{Vérification dans le cas de la duplication}
+\label{section:synchroPetri}
+Lors d'une duplication, il est nécessaire de procéder à un recollage par la suite des différentes branches. On reprend le schéma de la figure \ref{fig:deplacementForm2}, mais on décide en plus de dupliquer le segment $B(B_1, T_B, C_1)$ sur plusieurs machines.
+
+Plusieurs approches sont possibles pour le recollement : 
+\begin{itemize}
+\item N'avoir qu'une place d'entrée pour le segment suivant, et relier la sortie des $\beta$-transitions dupliquées à l'entrée de la place du segment suivant.
+
+Cela a pour conséquence d'avoir des jetons dupliqués pour la suite du parcours : le reste du réseau de Petri s'exécutera autant de fois qu'il y a eu duplication. Si ce comportement n'est pas désiré, il est nécessaire d'introduire une construction qui va supprimer les jetons superflus. 
+
+On peut par exemple modifier la sémantique de manière à ce que la transition $T_C$ supprimera tout jeton arrivant dans ses places d'entrée si elle est en cours d'exécution, ou bien introduire un nouveau segment qui aura spécifiquement ce but, ou encore changer la sémantique de la place d'entrée $C$, de manière à ce que lorsqu'elle reçoit un jeton, elle ne tienne pas compte (et supprime) les $k$ prochains segments, ou $k$ est le nombre de machines sur lequel on duplique, moins $1$.
+
+Cela peut par exemple servir à faire un effet de canon musical, et de partir au plus tôt pour la suite.
+
+\item Avoir un segment tampon supplémentaire entre les $\beta$-segments dupliqués, et les segments suivants (représenté en orange sur la figure \ref{fig:duplicationEtRecoll}).
+La conséquence est l'attente de la terminaison de tous les processus (au moins une fois, dans le cas de boucles à effet duplicant) sur toutes les machines.
+
+Ce nouveau segment tampon (appellons-le $\gamma$-segment) devrait être situé sur le nœud du segment qui le suit.
+\item Ne pas avoir de recollement : seule une branche continuera sur la suite et les autres seront mortes. Il revient au compositeur de choisir quelle branche aura la priorité.
+
+Dans ce cas, on n'effectue la seconde opération de déplacement qu'avec la branche qui va effectivement être reliée à l'extérieur.
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\input{formalisation/figures/duplicationEtRecoll}
+\label{fig:duplicationEtRecoll}
+\end{figure}

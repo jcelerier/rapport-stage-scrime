@@ -1,0 +1,113 @@
+\chapter{État de l'art}
+
+\section{Réseaux de Petri}
+Les réseaux de Petri (citer thèse C.A. Petri) sont au cœur du formalisme utilisé ici. Néanmoins, une différence majeure entre leur utilisation dans le projet \ac{OSSIA} avec d'autres utilisations plus courante est que pour \ac{OSSIA}, les réseaux ne servent pas à faire de l'analyse statique mais sont au cœur du moteur d'exécution du programme. C'est-à-dire que la théorie des scénarios a été développée de manière à pouvoir être exprimée en terme de réseaux de Petri, et que ces réseaux de Petri sont ensuite exécutés avec un algorithme standard d'exécution, qui sera détaillé plus tard dans ce document.
+
+\subsection{Familles de réseaux de Petri}
+% http://sfa.univ-poitiers.fr/informatique-telecom/lib/exe/fetch.php?media=quotidien:m2:ue:spec_temps_reel:extension_rdp_10.pdf
+\subsubsection{Base}
+\subsubsection{Réseaux hiérarchiques}
+\subsubsection{Réseaux colorés}
+\subsubsection{Réseaux temporels}
+\subsubsection{Arcs inhibiteurs}
+\subsubsection{Réseaux stochastiques}
+Stochastic Petri Nets, GSPN
+\subsubsection{Réseaux flous}
+Fuzzy petri net : Dynamic representation of fuzzy knowledge based on fuzzy petri net and genetic-particle swarm optimization
+\subsubsection{Réseaux de haut niveau}
+HLPN
+
+\subsection{Standardisation}
+PNML % http://www.pnml.org/papers/gl93-2010.pdf
+
+\subsection{Outils développés pour l'analyse des réseaux de Petri}
+\subsubsection{CPN tools}
+\subsubsection{Simulation orientée objet : PNlib}
+An object-oriented Petri net simulation tool for hybrid biological processes
+\subsubsection{Autres...}
+
+\subsection{Applications récentes}
+Il serait très dur d'établir un inventaire complet des utilisations des réseaux de Petri : comme pour les automates, les machines de Turing, ou encore le lambda-calcul, c'est un outil avec une très forte puissance d'expression, qui peut donc être utilisé dans une variété d'environnements différents, à des fins de modélisation.
+
+Par exemple, à l'origine, C. A. Petri avait conçu les réseaux qui portent aujourd'hui son nom afin de modéliser des réactions chimiques.
+
+\subsubsection{Applications à la répartition et à la parallélisation}
+* Research on Parallel Test Task Scheduling Based on Improved Genetic Algorithm and Petri Net
+\subsubsection{Application aux interfaces homme-système}
+* Elementary Events for Modeling of Human-System Interactions with Petri Net Models
+\subsubsection{Application dans des modèles physiques}
+* Modeling and Analysis for CPS Physical Entities Based on Spatio-Temporal Petri Net.
+\subsubsection{Application à la biologie}
+* Biologie, etc... (cas original)
+
+* Petri Nets in the Biosciences
+
+\section{Projet OSSIA}
+(Présentation travaux Allombert, Toro, Arias, etc.)
+\subsection{Les réseaux de Petri dans OSSIA}
+\subsection{Scénarios interactifs}
+\subsection{Temps souple}
+\subsection{Exemple dans le formalisme OSSIA}
+
+\section{Répartition}
+\subsection{Ouvrages de référence}
+Distributed Algorithms
+
+\subsection{Développment}
+Modularity in the design of robust distributed algorithms
+
+Fully Distributed Algorithms for Minimum Delay Routing Under Heavy Traffic 
+
+A Logic-Based Framework for Verifying Consensus Algorithms
+
+Message-Passing Algorithms for the Verification of Distributed Protocols
+
+Exploiting wireless broadcast property to improve performance of distributed algorithms and mac protocols in wireless networks
+
+Distributed Mutual Exclusion Algorithms for Intersection Traffic Control
+
+New Techniques and Tighter Bounds for Local Computation Algorithms (pertinence bof)
+
+\section{Synchronisation}
+
+\subsection{Synchronisation logique}
+\subsubsection{Origines : les horloges de Lamport}
+\subsubsection{Horloges vectorielles}
+
+\subsection{Synchronisation physique}
+\subsubsection{Algorithmes couramment utilisés}
+\paragraph{NTP}
+\ac{NTP}
+\paragraph{PTP}
+\ac{PTP}
+Cf. articles sur précision et Android. 
+
+Comparer avec NTP + implémentation existantes.
+
+\subsubsection{Travaux plus récents}
+(TODO mieux catégoriser)
+Distributed synchronization under uncertainty: A fuzzy approach
+
+Fine-grained network time synchronization using reference broadcasts
+
+Subscription-Notification mechanisms for synchronization of distributed states
+
+One Clock to Rule Them All: A Primitive for Distributed Wireless Protocols at the Physical Layer
+
+Distributed network synchronization: the internet and electric power grids
+
+Riccati Design for Synchronization of Discrete-Time Systems (bof)
+
+Riccati Design for Synchronization of Continuous-Time Systems
+
+Time Synchronization for High Latency Acoustic Networks
+
+
+\subsection{Estimation de la latence}
+\label{section:latence}
+Network latency estimation % http://www.google.com/patents/US8254264B1
+
+King: estimating latency between arbitrary internet end hosts
+
+Method and system for peer-to-peer network latency measurement % http://www.google.com/patents/US6012096
+

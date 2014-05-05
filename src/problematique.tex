@@ -1,0 +1,48 @@
+\chapter{Problématique et organisation}
+\section{LaBRI et SCRIME}
+Le stage s'est déroulé du deux février au treize juin, dans les bâtiments du \ac{SCRIME} et en tant que stagiaire du \ac{LaBRI}. L'équipe dont je fais partie est variable mais j'étais entouré de deux ingénieurs affectés à ce projet, ainsi que plusieurs autres stagiaires.
+
+J'ai rencontré mes tuteurs, Mme. Desainte-Catherine et M. Chaumette, de manière très régulière, quasiment chaque semaine, pour faire un point sur mon avancement.
+
+\section{Projet OSSIA}
+Le stage s'inscrit dans le cadre du projet \ac{OSSIA}.
+(TODO historique).
+\begin{mydef}
+Scénario
+\end{mydef}
+
+\begin{mydef}
+Processus
+\end{mydef}
+
+\subsection{Logiciel i-score}
+Le logiciel i-score est en développement depuis plusieurs années, et comporte l'héritage de plusieurs autres logiciels et paradigmes qui ont été développé avant lui (TODO figure héritage).
+
+Actuellement, il incarne à la fois l'outil permettant d'écrire les scénarios, et de les exécuter.
+
+Deux versions d'i-score sont en développement parallèle : i-score 0.2, une version fonctionnelle mais qui n'inclut pas les travaux les plus récents du paradigme \ac{OSSIA}, et i-score 0.3, une version pour l'instant non-fonctionnelle, mais qui a pour vocation de représenter l'état actuel du développement théorique.
+(TODO screenshots)
+
+\subsection{Score et API OSSIA}
+\subsubsection{Score}
+Score est la librairie sous-jacente qui comporte la logique utilisée pour faire l'exécution d'i-score.
+
+\subsubsection{API}
+La version 0.3 d'i-score se base sur une \ac{API}, qui offre toutes les possibilités de gestion de scénario directement au programmeur, de manière à ce que d'autres applications puissent être conçues par dessus. Par exemple, des acteurs du jeu vidéo sont intéressés par le fonctionnement offert par \ac{OSSIA} dans un environnement \brand{Unity}. 
+
+\section{Répartition et attentes}
+\subsection{Problèmes posés par la répartition}
+Un des problèmes majeurs ici est le besoin de synchronisation avec une horloge physique. En effet, les relations entre débuts et fins d'évènements sont données sous forme de millisecondes les séparant, les réseaux étant temporels. Ainsi, les mécanismes d'horloges vectorielles et logiques ne sont pas directement applicables.
+
+Le deuxième problème est qu'il n'est pas réellement question de répartition au sens couramment entendu dans le domaine de l'informatique répartie. En effet, ici, les processus correspondent à des besoins physiquement présents sur des machines et qui ne peuvent pas être déplacés sur d'autres machines. Par exemple, une machine peut avoir une sortie vidéo, et une autre machine une carte son : cela conditionne pour le compositeur l'endroit ou s'exécute un processus, selon qu'il soit relatif à l'image ou au son.
+
+Idéalement, il serait possible de faire une différenciation automatique, néanmoins, deux aspects s'y opposent : 
+\begin{itemize}
+\item Le compositeur désire avoir le choix pour la répartition.
+\item Score ne communique qu'avec des messages \ac{OSC}. Un message \ac{OSC} a le format suivant : 
+\begin{verbatim} /adresse/où/écrire argument1 argument2 ... \end{verbatim}.
+
+Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car non standardisées. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
+\end{itemize}
+Un troisième point, limitant, à tenir en compte, est celui de la gestion de l'interactivité. Dans ce cas, l'impact de la latence due au réseau physique est inévitable.
+\section{Organisation au cours du stage}

@@ -1,0 +1,184 @@
+\documentclass[a4paper,11pt,oneside]{report}
+
+\usepackage{setspace}
+\usepackage[tmargin=2.5cm,bmargin=2.5cm,lmargin=3cm,rmargin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[french,english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{kpfonts}
+\usepackage{verbatimbox}
+\usepackage{datetime}
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
+\usepackage{amsthm}
+
+% Pour figures en paysage
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+% more figures per page
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}   
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+\usepackage{graphicx}
+\usepackage{mdframed}
+%% \newcommand{\foofoo}{\hspace{-2.3pt}$\bullet$ \hspace{5pt}}
+
+
+\lstset{
+language=C++,
+basicstyle=\footnotesize,
+numbers=left,
+numberstyle=\footnotesize,
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=single,
+tabsize=2,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+escapeinside={\%*}{*)}
+}
+
+
+\lstset{
+  literate={ù}{{\`u}}1
+           {é}{{\'e}}1
+           {è}{{\'e}}1
+           {à}{{\`a}}1
+}
+
+
+\geometry{headheight=15pt}
+\usepackage{fancyhdr}
+\usepackage[xindy,toc]{glossaries}
+\usepackage[numbers]{natbib}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm2e}
+\usepackage{CJKutf8}
+\usepackage{caption}
+\usepackage[footnote,smaller]{acronym}
+\usepackage[perpage]{footmisc}
+\usepackage[]{titlesec}
+\makeatletter
+\def\ttl@mkchap@i#1#2#3#4#5#6#7{%
+    \ttl@assign\@tempskipa#3\relax\beforetitleunit
+    \vspace{\@tempskipa}
+    \global\@afterindenttrue
+    \ifcase#5 \global\@afterindentfalse\fi
+    \ttl@assign\@tempskipb#4\relax\aftertitleunit
+    \ttl@topmode{\@tempskipb}{%
+        \ttl@select{#6}{#1}{#2}{#7}}%
+    \ttl@finmarks  % Outside the box!
+    \@ifundefined{ttlp@#6}{}{\ttlp@write{#6}}}
+\makeatother
+
+\makeglossaries
+
+\newtheorem{mydef}{Définition}
+\theoremstyle{plain}
+\newtheorem{myth}{Théorême}
+
+\pagestyle{fancy}
+
+\renewcommand*{\acsfont}[1]{\brand{#1}}
+\newcommand{\brand}[1]{\textsc{\textbf{#1}}}
+
+\let\oldpar\paragraph
+\renewcommand{\paragraph}[1]{\oldpar{#1}\mbox{}\\}
+
+\DeclareMathOperator{\power}{power}
+\DeclareMathOperator{\phase}{phase}
+\DeclareMathOperator{\recompute}{recompute}
+
+\DeclareMathOperator{\pre}{Pre}
+\DeclareMathOperator{\post}{Post}
+\DeclareMathOperator{\shared}{Shared}
+\DeclareMathOperator{\memory}{Memory}
+
+
+\acrodef{LaBRI}{Laboratoire Bordelais de Recherche en Informatique}
+\acrodef{SCRIME}{Studio de Création et de Recherche en Musique Électro-acoustique}
+\acrodef{OSSIA}{Open Scenario System for Interactive Application}
+\acrodef{API}{Application Programmation Interface}
+\acrodef{IPB}{Institut Polytechnique de Bordeaux}
+\acrodef{OSC}{Open Sound Control}
+\acrodef{NTP}{Network Time Protocol}
+\acrodef{PTP}{Precision Time Protocol}
+\acrodef{CRR}{Conservatoire à rayonnement régional}
+\acrodef{MCLT}{Modulated Complex Lapped Transform}
+\acrodef{LSB}{Least Significant Bit}
+\acrodef{MSB}{Most Significant Bit}
+\acrodef{RLSB}{Resistant LSB}
+\acrodef{SSW}{Spread-Spectrum Watermarking}
+\acrodef{FFT}{Fast Fourier Transform}
+\acrodef{GUI}{Graphical User Interface}
+
+
+\usepackage{hyperref}
+\begin{document}
+\begin{titlepage}
+\vspace*{\stretch{2}} 
+  \begin{center}
+
+	\begin{spacing}{1.7}
+    \textsc{\Huge Rapport de stage ~ \\ distribution des réseaux de Petri dans le cadre du logiciel i-score}\\[1cm]
+    \textsc{\huge Travail réalisé dans le cadre du Master Recherche de l'Université de Bordeaux}\\[1cm]
+    \end{spacing}
+    \textsc{\Large Version de travail}
+    
+  \end{center}
+  
+  \vspace*{\stretch{2}}
+  \begin{flushbottom}
+   \begin{flushleft}
+    Jean-Michaël \textsc{Celerier} - \today \\
+   \end{flushleft}
+  \end{flushbottom}
+\end{titlepage}
+\clearpage
+
+\selectlanguage{english}
+\begin{abstract}
+TODO abstract (en anglais?)
+\end{abstract}
+\selectlanguage{french}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\include{intro}
+\include{problematique}
+\include{existant}
+\include{formalisation/formalisation}
+\include{formalisation/preuves}
+\include{implementation}
+\include{resultats}
+\include{conclusion}
+
+\bibliographystyle{alpha}
+\bibliography{stagepetri}
+\end{document}

@@ -1,0 +1,46 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,
+  			  fill=black!20,minimum size=4mm]
+
+
+  \begin{scope}
+    \node [transition] (Tk) [label=$t$] {};
+	\node [segment] (Pk) [left of=Tk] {$E_{R_i}$};
+	\node [segment] (S) [right of=Tk] {$S_m$};
+	\node [segment] (Sk) [below of=S] {$O_{R_i} \setminus S_m$};
+			
+  	\path
+  		(Pk) edge[post] node {} (Tk)
+  		(Tk) edge[post] node {} (S)
+  			 edge[post] node {} (Sk);
+  \end{scope}
+   \begin{scope}[xshift=3cm, yshift=-0.8cm]
+   \node[segment] (G) {\huge $\Longrightarrow$};
+   
+   
+   \end{scope}
+  \begin{scope}[xshift=6cm]
+	\node [transition] (Tk) [label=$t - x$] {};
+  	\node [segment] (Pk) [left of=Tk] {$E_{R_i}$};
+  	\node [segment] (S) [right of=Tk] {$S_m$};
+    
+    \node [place] (PN) [below of=S] {};
+    \node [transition] (TN) [right of=PN,  label=$x$] {};
+    \node [segment] (Sk) [right of=TN] {$O_{R_i} \setminus S_m$};
+    \node [place] (C) [below of=Sk] {$Ck$};
+    
+    \path
+      (Pk) edge[post] node {} (Tk)
+      (Tk) edge[post] node {} (S)
+           edge[post] node {} (PN)
+      (PN) edge[post] node {} (TN)
+      (TN) edge[post] node {} (Sk)
+      	   edge[post] node {} (C); 
+    	
+   \end{scope}
+\end{tikzpicture}
+  

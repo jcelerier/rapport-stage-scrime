@@ -1,0 +1,16 @@
+\chapter{Implémentation}
+Méthode assurant une précision maximale : 
+ - synchroniser les machines par NTP, ou bien acquérir régulièrement un vecteur contenant, à une précision de 1ms : 
+ \begin{itemize}
+ \item La différence entre les horloges des deux machines.
+ \item La latence entre les deux machines.
+ \end{itemize}
+ - affecter un temps absolu en ms à chaque point entre nœuds ?
+ 
+ -> Cas des points d'interaction?? Date "au moins".
+ -> Faire une réaffectation subséquente des nouvelles dates auxquelles doivent s'exécuter les transitions sur chaque machine ?
+ 
+ - Implémenter au niveau de l'API Score OSSIA.
+ - Mettre la parallélisation : 
+   - sur les TimeBox
+   - dans des plugins spécialisés

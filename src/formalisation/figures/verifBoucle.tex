@@ -1,0 +1,149 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,minimum size=6mm]
+  \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+
+  \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+  \tikzstyle{red}=[draw=red!75,fill=red!20]
+  \tikzstyle{black}=[draw=black!75,fill=black!20]
+
+  \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+  \tikzstyle{tred}=[draw=red!100,fill=red!75]
+  \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+
+  \begin{scope}
+  \node[segment](I){In};
+  \node [blue,place] (A) [right of=I,label=$A$] {};
+  \node [blue,transition] (Ta) [right of=A, label=$T_A$] {};
+  \node [blue,place] (B) [right of=Ta,label=$B$] {};
+  \node [blue,transition] (Tb) [above of=Ta, label=$T_B$] {};
+  \node[segment](O) [right of=B]{Sortie};
+  
+  \path
+  		(I) edge[post] node {} (A)
+  		(A) edge[post] node {} (Ta)
+  		(Ta) edge[post] node {} (B)
+  		(B) edge[post] node {} (Tb)
+  		(Tb) edge[post] node {} (A)
+  		(B) edge[post] node {} (O);
+  \end{scope}
+\end{tikzpicture}
+
+\vspace{1em}
+Devient
+\vspace{1em}
+
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,minimum size=6mm]
+  \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+
+  \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+  \tikzstyle{red}=[draw=red!75,fill=red!20]
+  \tikzstyle{black}=[draw=black!75,fill=black!20]
+  \tikzstyle{green}=[draw=green!75,fill=green!20]
+
+  \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+  \tikzstyle{tred}=[draw=red!100,fill=red!75]
+  \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+
+  \begin{scope}
+  \node[segment](I){In};
+  \node[red,place] (Aalpha) [right of=I,label=$A_\alpha$] {};
+  \node[red,transition] (Talpha) [right of=Aalpha, label=$T_\alpha$] {}; 
+  \node[green,place] (Aalpha0) [right of=Talpha,label=$A_{\alpha0}$] {};
+  
+  \node[blue,place] (A) [above of=Aalpha0,label=$A$] {};
+  \node[blue,transition] (Ta) [right of=A, label=$T_A$] {};
+  \node[dotted,blue,place] (B0) [right of=Ta,label=$B_0$] {};
+ 
+ 
+  \node[green,transition] (Tbeta) [right of=Aalpha0, label=$T_\beta$] {};
+  \node[blue,place] (B) [right of=Tbeta,label=$B$] {};
+  \node[blue,transition] (Tb) [below of=Tbeta, label=$T_B$] {};
+  \node[segment](O) [right of=B]{Sortie};
+  
+  \path
+  		(I) edge[post] node {} (Aalpha)
+  		(Aalpha) edge[post] node {} (Talpha)
+  		(Talpha) edge[post] node {} (Aalpha0)
+  				 edge[post] node {} (A)
+  		(Aalpha0) edge[post] node {} (Tbeta)
+  		(Tbeta) edge[post] node {} (B)
+  		(A) edge[post] node {} (Ta)
+  		(Ta) edge[post] node {} (B0)
+  		(B) edge[post] node {} (Tb)
+  		(Tb) edge[post] node {} (Aalpha)
+  		(B) edge[post] node {} (O);
+  \end{scope}
+\end{tikzpicture}
+
+\vspace{1em}
+Enfin :
+\vspace{1em}
+
+
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,minimum size=6mm]
+  \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+
+  \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+  \tikzstyle{red}=[draw=red!75,fill=red!20]
+  \tikzstyle{black}=[draw=black!75,fill=black!20]
+  \tikzstyle{green}=[draw=green!75,fill=green!20]
+
+  \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+  \tikzstyle{tred}=[draw=red!100,fill=red!75]
+  \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+
+  \begin{scope}
+  % Début
+    \node[segment](I){In};
+    \node[red,place] (Aalpha) [right of=I] {$A_\alpha$};
+    \node[red,transition] (Talpha) [right of=Aalpha, label=$0$] {$T_\alpha$}; 
+  
+  % Branche centrale
+    \node[green, place] (Abeta2) [right of=Talpha] {$A_{\beta}$};
+    \node[green,transition] (Tbeta) [right of=Abeta2, label=$t_A-t_1$] {$T_\beta$};
+    
+    \node[red,place] (Balpha) [right of=Tbeta] {$B_\alpha$};
+    \node[red, transition] (Talpha2) [right of=Balpha, label=$0$] {$T_\alpha$};
+    
+    \node[blue,place] (B) [right of=Talpha2] {$B$};
+    \node[blue, transition] (TB) [right of=B, label=$t_B$] {$T_B$};
+    \node[blue, dotted, place] (AFake) [right of=TB] {$A_0$};
+    
+  % Branche du bas
+    \node[green, place] (Bbeta) [below of=B] {$B_\beta$};
+    \node[green,transition] (Tbeta2) [right of=Bbeta,label=$t_B-t_2$] {$T_{\beta2}$};
+    \node[segment](O) [above of=TB]{Sortie};
+  
+  % Branche supérieure
+    \node[blue,place] (A) [above of=Abeta2] {$A$};
+    \node[blue,transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+    \node[dotted,blue,place] (B0) [right of=Ta] {$B_0$};
+    
+  \path
+  		(I) edge[post] node {} (Aalpha)
+  		(Aalpha) edge[post,red] node {} (Talpha)
+  		(Talpha) edge[post,red] node {} (A)
+  				 edge[post,red] node {} (Abeta2)
+  		(A) edge[post] node {} (Ta)
+  		(Ta) edge[post] node {} (B0)
+  		
+  		(Abeta2) edge[post,green] node {} (Tbeta)
+  		(Tbeta) edge[post,green] node {} (Balpha)
+  		
+  		(Balpha) edge[post,red] node {} (Talpha2)
+  		(Talpha2) edge[post,red] node {} (B)
+  		 edge[post,red] node {} (Bbeta)
+  		(B) edge[post] node {} (TB)
+  			edge[post] node {} (O)
+  		(TB) edge[post] node {} (AFake)
+  		(Bbeta) edge[post,green] node {} (Tbeta2)
+  		(Tbeta2) edge[post,draw=green!75,bend left] node {} (Aalpha)
+  		;
+  		
+  \end{scope}
+\end{tikzpicture}

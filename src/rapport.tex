@@ -70,7 +70,6 @@ escapeinside={\%*}{*)}
 
 
 \geometry{headheight=15pt}
-\usepackage{fancyhdr}
 \usepackage[xindy,toc]{glossaries}
 \usepackage[numbers]{natbib}
 \usepackage{fancyvrb}
@@ -101,8 +100,10 @@ escapeinside={\%*}{*)}
 \newtheorem{mydef}{Définition}
 \theoremstyle{plain}
 \newtheorem{myth}{Théorême}
+\newtheorem{mynot}{Notation}
 
-\pagestyle{fancy}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
 
 \renewcommand*{\acsfont}[1]{\brand{#1}}
 \newcommand{\brand}[1]{\textsc{\textbf{#1}}}
@@ -115,6 +116,7 @@ escapeinside={\%*}{*)}
 \DeclareMathOperator{\recompute}{recompute}
 
 \DeclareMathOperator{\entree}{E}
+\DeclareMathOperator{\sortie}{O}
 \DeclareMathOperator{\pre}{Pre}
 \DeclareMathOperator{\post}{Post}
 \DeclareMathOperator{\shared}{Shared}

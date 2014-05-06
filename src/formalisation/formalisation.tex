@@ -22,7 +22,7 @@ La première étape de mon travail a été de rechercher l'existant proche du ca
 
 Ainsi, ma recherche s'est plutôt portée sur les moyens de répartir des algorithmes à la base prévus pour une utilisation sur une seule machine. 
 
-L'idée principale a été de lancer les exécutions des sous-scénarios répartis en avance.
+L'idée principale a été de lancer les exécutions des sous-scénarios répartis sur d'autres machines en avance.
 
 Cela engendre deux problèmes : 
 \begin{itemize}
@@ -65,18 +65,23 @@ On notera que mis à part les segments initiaux et finaux, tous les segments par
 
 L'approche utilisée dans les schémas de ce document est de représenter un segment par ses places d'entrée et sa transition.
 
-Notation : On note $\entree(s)$ l'ensemble des places d'entrée de $s$.
+\begin{mynot}
+On note $\entree(s)$ l'ensemble des places d'entrée de $s$, $\sortie(s)$ l'ensemble des places de sortie de $s$.
+\end{mynot}
 
-Notation : On note $\pre(s)$ l'ensemble des segments précédant le segment $s$, $\post(s)$ l'ensemble des segments suivant $s$.
+\begin{mynot}
+On note $\pre(s)$ l'ensemble des segments précédant le segment $s$, $\post(s)$ l'ensemble des segments suivant $s$.
+\end{mynot}
 
-Notation : On note $\shared(s_1, s_2)$ les places en sortie de $s_1$ et en entrée de $s_2$.
+\begin{mynot}
+On note $\shared(s_1, s_2)$ les places en sortie de $s_1$ et en entrée de $s_2$.
+\end{mynot}
 
 \section{Méthodes par modification de la topologie}
 \chaptermark{Premières méthodes}
-Ces formalisations se font par modification de la topologie du réseau de Petri.
+Ces formalisations se font par modification de la topologie du réseau de Petri. C'est-à-dire que des places, arcs, et transitions vont être rajoutées au réseau pour encoder la notion de départ en avance.
 
 \subsection{Définitions}
-
 \subsubsection{Définition des opérations de transformation de base}
 Deux niveaux d'opération sont décrits dans ce document.
 
@@ -85,6 +90,8 @@ Ici, on décrit les opérations atomiques pouvant être exécutées sur les segm
 Par la suite, chaque méthode comportera ses propres opérations, qui serviront spécifiquement à appliquer la répartition. 
 
 Toutes ces opérations seront écrites en police informatique : \texttt{maFonction(x)}.
+
+Il convient de noter que les opérations appliquant la répartition sont réversibles. Ainsi, il est toujours possible d'appliquer les opérations atomiques sans avoir besoin de tenir compte de la répartition : il suffit d'inverser ces dernières, d'appliquer les opérations atomiques, puis de ré-appliquer les opérations de répartition effectuées, si possible (un cas impossible serait celui ou on voudrait supprimer un segment qui était réparti).
 
 \paragraph{Création}
 On considère la fonction \texttt{crée(d, nPlacesEntrée, nPlacesSortie)}. Elle permet de créer un segment, de durée \texttt{d} et avec un nombre explicite de places d'entrée et de sortie.
@@ -144,7 +151,7 @@ Pour tout segment $p \in \pre(s)$ :
 
 \begin{enumerate}
 \item Soit $t_p$ la durée de la transition de $p$. On change cette durée en $t_p - \delta$.
-\item On rajoute une place en sortie de $p$ ainsi qu'une transition $T$ de durée $\delta$ à la suite de cette place. (TODO utiliser crée).
+\item On rajoute une place en sortie de $p$ ainsi qu'une transition $T$ de durée $\delta$ à la suite de cette place. 
 
 Pour tout segment $o$ appartenant à $\post(p)$ à l'exception de $s$, on supprime les arcs entre $o$ et $p$, puis on crée des arcs allant de $T$ aux places d'entrée de $o$.
 
@@ -155,14 +162,14 @@ On notes cet ensemble de places dupliquées $\memory(s, p)$ (la mémoire des pla
 \item On déplace l'information de fin de processus potentiellement contenue sur les places de $\shared(p, s)$ vers les places  $\memory(s, p)$. Cela permet d'avoir les évènements de fin de processus attenants à $p$ exécutés sur le même nœud que $p$.
 \end{enumerate}
 
-Puis, on applique la même opération entre $s$ et les segments appartenant à $\post(s)$, pour avoir une compensation de délai à la fin du segment.
+Puis, on applique la même opération entre $s$ et les segments appartenant à $\post(s)$, pour avoir une compensation de délai par rapport aux nœuds des segments suivant $s$.
 
 Un exemple graphique est présenté en figure \ref{fig:deplacementMethode1}.
 
 \begin{figure}[h!]
 \centering
 \input{formalisation/figures/deplacementMethode1}
-\caption{Opération de déplacement, cas simple}
+\caption{Exemple : Déplacement, première méthode}
 \label{fig:deplacementMethode1}
 \end{figure}
 
@@ -170,13 +177,12 @@ Un exemple graphique est présenté en figure \ref{fig:deplacementMethode1}.
 L'opération de recombinaison intervient quand un segment est déplacé sur un nœud où un autre segment avec lequel il partage une place est présent.
 La recombinaison consiste en la fusion entre les places de $\shared(p, s)$ et de  $\memory(s, p)$ de telle sorte que le temps de démarrage du second segment soit inchangé.
 
-Des opérations de simplification peuvent parfois être possible par la suite.
 La recombinaison est l'opération inverse du déplacement.
 
 \subsubsection{Problèmes}
-Il y a un problème majeur avec cette approche : la soustraction qui est effectuée à la durée de la transition de $p$. En effet, si on désire effectuer plusieurs opérations de déplacement successives, on peut arriver rapidement à une durée de transition négative, ce qui n'est pas acceptable.
+Il y a un problème majeur avec cette approche : la soustraction qui est effectuée à la durée de la transition de $p$. En effet, si on désire effectuer plusieurs opérations de déplacement successives, on peut arriver rapidement à une durée de transition négative, ce qui n'est pas acceptable. 
 
-De plus, la duplication est difficile à mettre en place.
+De plus, cela rend difficile la recombinaison, car il faut garder en mémoire l'inpact de chaque déplacement effectué.
 
 Il faut donc chercher une méthode qui permette plus de souplesse à ce niveau.
 
@@ -192,11 +198,10 @@ Le second servira à ajuster la durée des processus fictifs, ce qui permet d'aj
 
 Enfin, un troisième segment sera introduit plus tard, en partie \ref{section:synchroPetri}, permettant de synchroniser la fin des branches.
 
-\subsubsection{Segments particuliers}
-\paragraph{$\alpha$-segment}
+\subsubsection{Segments spéciaux}
 \label{section:alphasegment}
 \begin{mydef}
-Un $\alpha$-segment est un segment particulier de durée $0$, qui précède nécessairement un $nd$-segment, et ne peut en être dissocié.
+Un $\alpha$-segment est un nd-segment particulier de durée $0$, possédant au moins deux places de sortie et une place d'entrée.
 \end{mydef}
 Un $\alpha$-segment peut être créé en précédence d'un segment $s$ de la manière suivante : 
 \begin{enumerate}
@@ -208,16 +213,14 @@ Le rôle des $\alpha$-segments est de permettre à un segment d'être suivi par 
 
 Dans les schémas qui suivent, il sera représenté en \textcolor{BrickRed}{rouge}.
 
-\paragraph{$\beta$-segment}
-Un $\beta$-segment est un segment particulier de durée variable.
-
+\begin{mydef}
+Un $\beta$-segment est un d-segment particulier dont la durée vaut celle d'un autre segment moins un délai variable. Il précède nécessairement un nd-segment, et ne peut en être dissocié.
+\end{mydef}
 Son rôle est de simuler l'exécution d'un autre segment en ajustant sa durée de manière à ce qu'elle prenne en compte le lien entre deux nœuds, lorsque deux segments consécutifs sont placés sur deux nœuds différents.
 
-Un $\beta$-segment est toujours un d-segment.
-
 Dans les schémas qui suivent, il sera représenté en \textcolor{OliveGreen}{vert}.
-\subsubsection{Opérations sur segments}
-\paragraph{Déplacement}
+\subsubsection{Opérations définies sur segments}
+\paragraph{Déplacement et recombinaison}
 
 Il convient de noter que l'opération de déplacement ne peut produire, dans l'idéal, de résultats identiques aux cas non répartis que : 
 \begin{itemize}
@@ -248,14 +251,17 @@ L'ensemble composé des places $e_s$, de $T_s$, et de la place d'entrée de $s$ 
 
 Néanmoins, la place qui était en sortie de la transition de $p$ et partagée avec $s$ est conservée, comme dans la méthode précédente. De cette manière, on peut garder la position originale pour l'opération de recombinaison.
 ~ \\
-~ \\
+
 C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $s$ et $p$ ont même nœud initial.
+
+Un exemple partiel est fourni en figure \ref{fig:deplacementForm2}.
 }
 \\
-\item Si $p$ est sur un nœud $N_1$, $s$ sur un nœud $N_2 \neq N_1$, et que $N_d \neq N_1$, comme il y a déjà eu une opération de déplacement, il suffit d'ajuster le temps de la transition $T_s$, qui vaut $t_p - \delta_{N_1 \rightarrow N_2}$ : on ajoute $\delta_{N_1 \rightarrow N_2}$ et on enlève le nouveau délai entre les deux nœuds, $\delta_{N_1 \rightarrow N_d}$.
-~ \\
+\item{ Si $p$ est sur un nœud $N_1$, $s$ sur un nœud $N_2 \neq N_1$, et que $N_d \neq N_1$, comme il y a déjà eu une opération de déplacement, il suffit d'ajuster le temps de la transition $T_s$, qui vaut $t_p - \delta_{N_1 \rightarrow N_2}$ : on ajoute $\delta_{N_1 \rightarrow N_2}$ et on enlève le nouveau délai entre les deux nœuds, $\delta_{N_1 \rightarrow N_d}$.
+
 ~ \\
 C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $s$ et $p$ n'ont pas même nœud initial.
+}
 \\
 \item Si $p$ est sur un nœud $N$, et que $N_d = N$, on effectue une opération de recombinaison : toutes les places de sortie de $p$ qui avaient été préservées dans le premier cas de déplacement sont fusionnées avec les places réelles, et le $\beta$-segment correspondant à ce déplacement est supprimé. S'il n'est plus suivi d'aucun $\beta$-segment, on peut aussi supprimer l'$\alpha$-segment précédant $p$.
 ~ \\
@@ -281,37 +287,27 @@ Par exemple, on peut préférer la deuxième approche si le lien de connexion es
 \begin{figure}[h]
 \centering
 \input{formalisation/figures/deplacement2}
-\caption{Exemple sur un cas simple. On veut déporter l'exécution du segment $B(B_1, T_B, C_1)$. On représente en rouge les $\alpha$-segments, en vert les $\beta$-segments.}
+\caption{Exemple : seconde méthode de déplacement}
 \label{fig:deplacementForm2}
 \end{figure}
 
 Sur la figure \ref{fig:deplacementForm2}, on n'a appliqué \texttt{deplacement} qu'au segment précédent, et non au segment suivant.
 
-\subsection{Opérations communes}
-Ces opérations sont communes aux deux formalismes décrits précédemments.
+On y montre comment on déporte l'exécution du segment $B(B_1, T_B, C_1)$.
 
-\subsubsection{Insertion et suppression}
-(TODO à revoir)
-L'opération d'insertion consiste en l'ajout d'un segment entre deux segments situés sur des nœuds différents.
-
-L'opération de suppression consiste en la suppression d'un segment, et la recombinaison entre ses arcs entrants et sortants.
-
-Ces deux opérations peuvent se réaliser simplement en déplaçant les segments impliqués de manière à ce qu'ils se retrouvent sur le même nœud, puis en les redéplaçant sur leurs nœuds d'origine.
-
-\subsubsection{Duplication}
-L'opération de duplication consiste à faire s'exécuter un nd-segment $S$ sur plusieurs nœuds de $G$ (distincts?). Il faut donc le recopier.
+\paragraph{Duplication}
+L'opération de duplication consiste à faire s'exécuter un nd-segment $s$ sur plusieurs nœuds de $G$ (distincts?). Il faut donc le recopier.
 
 Cette opération revient à la suite d'opérations suivantes : 
-(TODO màj notations)
 \begin{enumerate}
-\item Dupliquer localement $S$ : \\
-		Soient $E_S$ les places d'entrées de $S$, $O_S$ les places de sorties de $S$, $T_S$ la transition de $S$.
+\item Dupliquer localement $s$ : \\
+		On crée un nouveau segment similaire à $s$ (même nombre de places, transitions, même durée, mêmes processus et évènements).
 		
-		On les duplique en $E'_S$, $O'_S$, $T'_S$ de telle sorte que des arcs soient créées dans les segments précédant et suivant $S$ pour répliquer le comportement de $S$, en un nouveau segment $S'$.
-\item Déplacer $S'$ avec la méthode vue précédemment.
+		Des arcs sont créés dans les segments précédant et suivant $s$ pour répliquer le comportement de $s$, en un nouveau segment $s'$.
+\item Déplacer $s'$ avec une des méthodes vues précédemment.
 \end{enumerate}
 
-
+Un cas de duplication pour la seconde méthode est donné en exemple en figure \ref{fig:duplicationEtRecoll}.
 
 \section{Méthode par coloration}
 \chaptermark{Coloration}
@@ -348,5 +344,17 @@ Cette opération est similaire au déplacement : au lieu de changer la couleur, 
 \caption{Exemple de répartition par couleur} 
 \end{figure}
 
+\subsection{Problèmes}
+Cette méthode présente plusieurs faiblesses : 
+\begin{itemize}
+	\item Elle change l'algorithme d'exécution, ce qui peut poser des problèmes de compatibilité.
+	\item L'utilisation de la couleur fait que cette dernière ne peut pas être utilisée facilement dans d'autres extensions du formalisme \ac{OSSIA}, comme par exemple dans le cas du traitement de données\cite{arias2014modelling}.
+	\item Il n'y a pas de moyen facile de re-synchroniser plusieurs machines dans le cas de la duplication.
+\end{itemize}
 \section{Comparaison entre les méthodes}
-(TODO)
+
+\begin{figure}
+	\begin{tabular}
+		contenu...
+	\end{tabular}
+\end{figure}

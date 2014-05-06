@@ -3,7 +3,7 @@
 Le but de cette partie est de fournir une sémantique  personnalisée pour la distribution de l'exécution d'un réseau de Petri sur un réseau informatique, en prenant en compte les délais dûs à la répartition physique des machines et les contraintes issues du projet \ac{OSSIA}.
 
 \subsection{Rappel du formalisme}
-Le formalisme de base utilisé est celui des réseaux de Petri t-temporisés, disposant d'un couple place $\rightarrow$ transition initial et transition $\rightarrow$ place final, avec pour restriction le fait qu'une place ne puisse posséder qu'une entrée et qu'une sortie, et ce pour éviter les problèmes de conflits et confusions. L'utilisation de la couleur est possible.
+Le formalisme de base utilisé est celui des réseaux de Petri t-temporisés, disposant d'un couple place $\rightarrow$ transition initiale et transition $\rightarrow$ place finale, avec pour restriction le fait qu'une place ne puisse posséder qu'une entrée et qu'une sortie, et ce pour éviter les problèmes de conflits et confusions. L'utilisation de la couleur est possible.
 
 Les réseaux de Petri utilisés ici sont connexes : la seule place n'étant pas en sortie de transition est la place initiale, et la seule place n'étant pas en entrée de transition est la place finale.
 
@@ -64,6 +64,8 @@ Un segment est composé d'une transition, de ses $N$ places d'entrées, et de se
 On notera que mis à part les segments initiaux et finaux, tous les segments partagent au moins une place avec un autre segment.
 
 L'approche utilisée dans les schémas de ce document est de représenter un segment par ses places d'entrée et sa transition.
+
+Notation : On note $\entree(s)$ l'ensemble des places d'entrée de $s$.
 
 Notation : On note $\pre(s)$ l'ensemble des segments précédant le segment $s$, $\post(s)$ l'ensemble des segments suivant $s$.
 
@@ -192,19 +194,28 @@ Enfin, un troisième segment sera introduit plus tard, en partie \ref{section:sy
 
 \subsubsection{Segments particuliers}
 \paragraph{$\alpha$-segment}
+\label{section:alphasegment}
 \begin{mydef}
 Un $\alpha$-segment est un segment particulier de durée $0$, qui précède nécessairement un $nd$-segment, et ne peut en être dissocié.
 \end{mydef}
 Un $\alpha$-segment peut être créé en précédence d'un segment $s$ de la manière suivante : 
 \begin{enumerate}
 \item Une transition $T_\alpha$ de durée 0 est créée. Toutes les places d'entrée de $s$ sont déconnectées de $s$ et placées en entrée de $T_\alpha$.
-\item Une place $P$ est placé en sortie de $T_\alpha$ et en entrée de $s$. 
+\item Une place est créée en sortie de $T_\alpha$ et en entrée de $s$. 
 \end{enumerate}
 
 Le rôle des $\alpha$-segments est de permettre à un segment d'être suivi par un nombre quelconque d'autres segments s'exécutant sur d'autres nœuds, avec des délais différents entre les nœuds.
 
-\paragraph{$\beta$-segment}
+Dans les schémas qui suivent, il sera représenté en \textcolor{BrickRed}{rouge}.
 
+\paragraph{$\beta$-segment}
+Un $\beta$-segment est un segment particulier de durée variable.
+
+Son rôle est de simuler l'exécution d'un autre segment en ajustant sa durée de manière à ce qu'elle prenne en compte le lien entre deux nœuds, lorsque deux segments consécutifs sont placés sur deux nœuds différents.
+
+Un $\beta$-segment est toujours un d-segment.
+
+Dans les schémas qui suivent, il sera représenté en \textcolor{OliveGreen}{vert}.
 \subsubsection{Opérations sur segments}
 \paragraph{Déplacement}
 
@@ -215,50 +226,51 @@ Il convient de noter que l'opération de déplacement ne peut produire, dans l'i
 \end{itemize} 
 
 \subparagraph{Processus}
-Soit $s$ le segment à déplacer.
+Soit $s$ le segment à déplacer, sur un nœud $N_d$.
 
-On déclare une fonction \texttt{deplacement(Segment1, Segment2, Nœud)} (déplacement du segment 2 sur Nœud par rapport à Segmet1) que l'on définit comme suit :
+On déclare une fonction \texttt{deplacement(Segment1, Segment2, Nœud)} (déplacement de \texttt{Segment2} sur \texttt{Nœud} par rapport à \texttt{Segment1}) que l'on définit comme suit :
 ~ \\
-Pour tout segment $B_i \in B$:
+Pour tout segment $p \in \pre(s)$:
 \begin{itemize}
-\item {Si $B_i$ et $S$ sont sur un nœud $N \neq N_d$ :
+\item {Si $p$ et $s$ sont sur le même nœud $N \neq N_d$ :
 
-On nomme $E_{B_i}$ l'ensemble des places d'entrées de $B_i$.
-On note $t_i$ la durée de la transition de $B_i$.
+On considère $E_{p}$ l'ensemble des places d'entrées de $p$.
+On note $t_p$ la durée de la transition de $p$.
 
 \begin{itemize}
-\item Si $B_i$ n'est pas précédé par un $\alpha$-segment, on en crée un de la manière décrite précédemment.
-\item On rajoute en sortie de cet $\alpha$-segment une place $e_S$.
+\item Si $p$ n'est pas précédé par un $\alpha$-segment, on en crée un de la manière décrite précédemment, en \ref{section:alphasegment}.
+\item On rajoute en sortie de cet $\alpha$-segment une place $e_s$.
 \end{itemize}
 \vspace{1em}
 
-On crée ensuite une transition $T_S$ de durée $t_i - x$ (avec un minimum de 0), à laquelle on rajoute en entrée toutes les places $e_S$ créées précédemment. On déplace $S$ de telle sorte que les places qu'il partageait avec $B_i$ soient maintenant en sortie de $T_S$.
-L'ensemble des places $e_S$, de $T_S$, et des places d'entrée de $S$ est appelé un $\beta$-segment : c'est le segment qui effectue la bufferisation. Un $\beta$-segment est un cas particulier de d-segment.
+On crée ensuite une transition $T_s$ de durée $t_p - \delta_{N \rightarrow N_d}$ (avec un minimum de 0), à laquelle on rajoute en entrée la place $e_s$ créée précédemment. On déplace $s$ de telle sorte que la place de $\shared(p, s)$ soit maintenant en sortie de $T_s$.
+L'ensemble composé des places $e_s$, de $T_s$, et de la place d'entrée de $s$ est un $\beta$-segment : c'est le segment qui effectue la bufferisation.
 
-Néanmoins, les places qui étaient en sortie de la transition de $B_i$ et partagées avec $S$ sont conservées. De cette manière, on peut garder leur position originale pour l'opération de recombinaison et finir les processus locaux.
+Néanmoins, la place qui était en sortie de la transition de $p$ et partagée avec $s$ est conservée, comme dans la méthode précédente. De cette manière, on peut garder la position originale pour l'opération de recombinaison.
 ~ \\
 ~ \\
-C'est le résultat de \texttt{deplacement(Bi, S, Nd)} lorsque $S$ et $B_i$ ont même nœud initial.
+C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $s$ et $p$ ont même nœud initial.
 }
 \\
-\item Si $B_i$ est sur un nœud $N_1$, $S$ sur un nœud $N_2 \neq N_1$, et que $N_d \neq N_1$, comme il y a déjà eu une opération de déplacement, il suffit d'ajuster le temps de la transition $T_S$, qui vaut $t_i - x$ : on ajoute $x$ et on enlève le nouveau délai entre les deux nœuds.
+\item Si $p$ est sur un nœud $N_1$, $s$ sur un nœud $N_2 \neq N_1$, et que $N_d \neq N_1$, comme il y a déjà eu une opération de déplacement, il suffit d'ajuster le temps de la transition $T_s$, qui vaut $t_p - \delta_{N_1 \rightarrow N_2}$ : on ajoute $\delta_{N_1 \rightarrow N_2}$ et on enlève le nouveau délai entre les deux nœuds, $\delta_{N_1 \rightarrow N_d}$.
 ~ \\
 ~ \\
-C'est le résultat de \texttt{deplacement(Bi, S, Nd)} lorsque $S$ et $B_i$ n'ont pas même nœud initial.
+C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $s$ et $p$ n'ont pas même nœud initial.
 \\
-\item Si $B_i$ est sur un nœud $N$, et que $N_d = N$, on effectue une opération de recombinaison : la transition $T_S$ est fusionnée avec la transition $T_{B_i}$ : toutes les places de sortie de $B_i$ qui avaient été préservées dans le premier cas de déplacement sont fusionnées avec les places réelles, et le $\beta$-segment correspondant à $S$ est supprimé. S'il n'est plus suivi d'aucun $\beta$-segment, on peut aussi supprimer l'$\alpha$-segment précédant $B_i$.
+\item Si $p$ est sur un nœud $N$, et que $N_d = N$, on effectue une opération de recombinaison : toutes les places de sortie de $p$ qui avaient été préservées dans le premier cas de déplacement sont fusionnées avec les places réelles, et le $\beta$-segment correspondant à ce déplacement est supprimé. S'il n'est plus suivi d'aucun $\beta$-segment, on peut aussi supprimer l'$\alpha$-segment précédant $p$.
 ~ \\
 ~ \\
-C'est le résultat de \texttt{deplacement(Bi, S, Nd)} lorsque $N_d$ est le nœud de $B_i$.
+C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $N_d$ est le nœud de $p$.
 \end{itemize}
 
-On applique ensuite la même transformation entre $S$ et les segments appartenant à $F$.
+On applique ensuite la même transformation entre $s$ et les segments appartenant à $\post(s)$.
 
 \subparagraph{Choix de répartition}
 Deux choix sont possibles pour la répartition : 
+
 \begin{itemize}
-\item Exécuter $T_S$ sur le nœud d'origine.
-\item Exécuter $T_S$ sur le nœud ou est déplacé.
+\item Exécuter $T_s$, la transition du $\beta$-segment, sur le nœud d'origine.
+\item Exécuter $T_s$ sur le nœud ou est déplacé $s$.
 \end{itemize}
 
 Dans le premier cas, on attend jusqu'au dernier moment pour envoyer le message, dans le second, on l'envoie au plus tôt. Selon les applications, les deux approches peuvent avoir leur intérêt.
@@ -279,7 +291,7 @@ Sur la figure \ref{fig:deplacementForm2}, on n'a appliqué \texttt{deplacement} 
 Ces opérations sont communes aux deux formalismes décrits précédemments.
 
 \subsubsection{Insertion et suppression}
-(TODO bof)
+(TODO à revoir)
 L'opération d'insertion consiste en l'ajout d'un segment entre deux segments situés sur des nœuds différents.
 
 L'opération de suppression consiste en la suppression d'un segment, et la recombinaison entre ses arcs entrants et sortants.
@@ -290,6 +302,7 @@ Ces deux opérations peuvent se réaliser simplement en déplaçant les segments
 L'opération de duplication consiste à faire s'exécuter un nd-segment $S$ sur plusieurs nœuds de $G$ (distincts?). Il faut donc le recopier.
 
 Cette opération revient à la suite d'opérations suivantes : 
+(TODO màj notations)
 \begin{enumerate}
 \item Dupliquer localement $S$ : \\
 		Soient $E_S$ les places d'entrées de $S$, $O_S$ les places de sorties de $S$, $T_S$ la transition de $S$.

@@ -1,3 +1,5 @@
+*.xdy
+*.pdf
 *.aux
 *.glo
 *.idx

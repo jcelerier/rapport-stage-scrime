@@ -3,7 +3,7 @@
 Le but de cette partie est de fournir une sémantique  personnalisée pour la distribution de l'exécution d'un réseau de Petri sur un réseau informatique, en prenant en compte les délais dûs à la répartition physique des machines et les contraintes issues du projet \ac{OSSIA}.
 
 \subsection{Rappel du formalisme}
-Le formalisme de base utilisé est celui des réseaux de Petri t-temporisés, disposant d'un couple place $\rightarrow$ transition initiale et transition $\rightarrow$ place finale, avec pour restriction le fait qu'une place ne puisse posséder qu'une entrée et qu'une sortie, et ce pour éviter les problèmes de conflits et confusions. L'utilisation de la couleur est possible.
+Le formalisme de base utilisé est celui des réseaux de Petri t-temporisés, disposant d'un couple place $\rightarrow$ transition initiale et transition $\rightarrow$ place finale, avec pour restriction le fait qu'une place ne puisse posséder qu'une entrée et qu'une sortie, et ce pour éviter les problèmes de conflits et confusions : cela en fait des graphes d'évènements\cite[p. 7--9]{david2010discrete}. L'utilisation de la couleur est possible.
 
 Les réseaux de Petri utilisés ici sont connexes : la seule place n'étant pas en sortie de transition est la place initiale, et la seule place n'étant pas en entrée de transition est la place finale.
 

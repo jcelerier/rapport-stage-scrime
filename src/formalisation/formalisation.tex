@@ -39,18 +39,19 @@ De plus, la notion de segment est introduite, qui est une légère abstraction p
 \section{Définitions}
 Un des problèmes de vocabulaire principal dans ce document est que nous faisons référence à deux types de réseaux tout à fait distincts : les réseaux de Petri, et les réseaux informatiques présents dans le monde physique.
 
-Pour pallier ce problème, nous utiliserons de préférence l'idée de graphe quand il s'agit de réseau informatique, et l'idée de réseau quand il s'agit de réseau de Petri.
+Pour pallier ce problème, nous utiliserons de préférence l'idée de graphe et de nœuds quand il s'agit de réseau informatique, et l'idée de réseau quand il s'agit de réseau de Petri.
 
 \subsection{Définitions relatives aux réseaux physiques}
-\begin{mydef}
+\begin{mydef}[Réseau informatique]
 Un réseau informatique est représenté par un graphe orienté $G$ dont les nœuds représentent les machines, et les arêtes les liens entre ces machines. 
 
 Les arêtes sont étiquetées par un temps $\delta$, signifiant le temps de transmission d'un message entre les deux nœuds attenants à l'arête.
 \end{mydef}
 $\delta$ sera considéré fixe. Néanmoins, dans un scénario réel, il serait envisageable (et recommandé) de mesurer et corriger $\delta$ régulièrement en raison de la latence entre les nœuds qui peut varier, notamment à l'aide des méthodes présentées en partie \ref{section:latence}.
-
-(TODO faire thm propre pour notation) \\
-Notation : soient $N_1$ et $N_2$ deux nœuds du graphe. On note $\delta_{N_1 \rightarrow N_2}$ le temps de transmission entre $N_1$ et $N_2$. 
+\\
+\begin{mynot}
+	Soient $N_1$ et $N_2$ deux nœuds du graphe. On note $\delta_{N_1 \rightarrow N_2}$ le temps de transmission entre $N_1$ et $N_2$.
+\end{mynot} 
 
 Bien que dans de nombreux cas, $\delta_{N_1 \rightarrow N_2} \simeq \delta_{N_2 \rightarrow N_1}$, nous ne ferons pas cette supposition ici. En revanche, nous considérerons toujours des liens en duplex.
 
@@ -138,6 +139,10 @@ Un réseau de Petri distribué contient des d-segments et des nd-segments consé
 Des processus existent de plus au-dessus de segments, qui sont signifiés par un changement d'état d'un paramètre entre deux places. Il est donc important d'assurer que la durée de ces processus ne change pas lors de la distribution. (TODO déplacer dans pbq)
 
 \subsection{Première tentative de formalisation}
+Cette section présente la première idée qui a été pensée pour résoudre ce problème.
+
+L'idée principale est d'exécuter les segments en les coupant au moment ou les segments suivants sont sensés partir en considérant les délais de transmission entre nœuds, puis de continuer leur exécution dans un autre segment.
+ 
 \subsubsection{Opérations définies sur segment}
 On considère que dans l'état initial du système, tous les segments sont situés sur le même nœud.
 
@@ -182,9 +187,9 @@ La recombinaison est l'opération inverse du déplacement.
 \subsubsection{Problèmes}
 Il y a un problème majeur avec cette approche : la soustraction qui est effectuée à la durée de la transition de $p$. En effet, si on désire effectuer plusieurs opérations de déplacement successives, on peut arriver rapidement à une durée de transition négative, ce qui n'est pas acceptable. 
 
-De plus, cela rend difficile la recombinaison, car il faut garder en mémoire l'inpact de chaque déplacement effectué.
+Cela est dû au fait que les transitions de $\pre(s)$ sont brisées en deux (ou plus) sous-transitions, de durées inférieures.
 
-Il faut donc chercher une méthode qui permette plus de souplesse à ce niveau.
+Il faut donc chercher une méthode qui permette plus de souplesse, et qui préserve les nd-segments dans leur forme originale.
 
 \subsection{Seconde tentative de formalisation}
 Cette formalisation est similaire à la précédente, car elle change aussi la topologie. Néanmoins, elle permet une plus grande flexibilité et ne pose pas de problèmes en cas d'enchaînements de déplacements.
@@ -284,7 +289,7 @@ Dans le premier cas, on attend jusqu'au dernier moment pour envoyer le message, 
 Par exemple, on peut préférer la deuxième approche si le lien de connexion est peu stable. On peut préférer la première approche si des évènements venaient à modifier le réseau de Petri pendant l'exécution.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \input{formalisation/figures/deplacement2}
 \caption{Exemple : seconde méthode de déplacement}
@@ -324,7 +329,7 @@ Si une transition est sensibilisée (elle possède un jeton de couleur $c$ dans 
 Pour chaque place en sortie :
 \begin{enumerate}
 \item Elle compare la couleur $c$ avec la couleur $d$ de la place. 
-\item Soit $N_1$ le nœud qui possède la couleur $c$, $N_2$ le nœud qui possède la couleur $d$. Soit $x$ le délai entre $N_1$ et $N_2$. Soit $t$ la durée de la transition. La transition s'exécute pour ce jeton avec la durée $t - x$, avec un minimum de 0, en gardant en mémoire les jetons qui doivent s'exécuter plus tard.
+\item Soit $N_1$ le nœud qui possède la couleur $c$, $N_2$ le nœud qui possède la couleur $d$. Soit $\delta$ le délai entre $N_1$ et $N_2$. Soit $t$ la durée de la transition. La transition s'exécute pour ce jeton avec la durée $t - \delta$, avec un minimum de 0, en gardant en mémoire les jetons qui doivent s'exécuter plus tard.
 \end{enumerate}
 
 \subsubsection{Exécution d'une transition}
@@ -338,11 +343,7 @@ On change la couleur de la transition et des places d'entrée du segment que l'o
 \subsubsection{Duplication}
 Cette opération est similaire au déplacement : au lieu de changer la couleur, on en ajoute une. Si on désire enlever un nœud, il suffit de supprimer une couleur.
 
-\begin{figure}[h]
-\centering
-\input{formalisation/figures/deplacementCol}
-\caption{Exemple de répartition par couleur} 
-\end{figure}
+Un exemple est donné en figure \ref{fig:repartCouleur}.
 
 \subsection{Problèmes}
 Cette méthode présente plusieurs faiblesses : 
@@ -351,10 +352,38 @@ Cette méthode présente plusieurs faiblesses :
 	\item L'utilisation de la couleur fait que cette dernière ne peut pas être utilisée facilement dans d'autres extensions du formalisme \ac{OSSIA}, comme par exemple dans le cas du traitement de données\cite{arias2014modelling}.
 	\item Il n'y a pas de moyen facile de re-synchroniser plusieurs machines dans le cas de la duplication.
 \end{itemize}
-\section{Comparaison entre les méthodes}
 
-\begin{figure}
-	\begin{tabular}
-		contenu...
-	\end{tabular}
+\begin{figure}[H]
+	\centering
+	\input{formalisation/figures/deplacementCol}
+	\caption{Exemple de répartition par couleur} 
+	\label{fig:repartCouleur}
 \end{figure}
+
+\newpage
+\section{Comparaison entre les méthodes}
+Dans cette partie, nous faisons une brève comparaison entre les méthodes vues jusqu'à présent, en considérant les qualités et les défauts de chacune, en figure \ref{fig:compMethods}.
+
+\begin{figure}[h]
+	\begin{tabular}{l|c|c|c}
+		& Méthode 1 & Méthode 2 & Méthode 3 \\
+		\hline
+		\multirow{5}{*}{{\huge +}}
+			& Transformation simple & Conserve les nd-segments & Ne change pas la topologie \\
+			& & Passe bien à l'échelle & Passe bien à l'échelle \\
+			& & Permet effets particuliers (cf. \ref{section:canon}) & Théorie simple \\
+			& & Permet rétropropagation (cf. \ref{section:retropropag}) & \\
+			& & Permet synchronisation (cf. \ref{fig:duplicationEtRecoll}) &  \\
+			\hline
+		\multirow{3}{*}{{\huge -}} 
+			& Passe mal à l'échelle & Transformation complexe & Change l'algorithme \\
+			& nd-segments découpés  & Introduit de nouveaux segments & Bloque les couleurs  \\
+			& Boucles ingérables & & \\
+	\end{tabular}
+	\caption{Points positifs et négatifs des méthodes}
+	\label{fig:compMethods}
+\end{figure}
+
+En raison du nombre de points positifs de la méthode 2, et de la durée du stage, c'est celle qui a été principalement retenue pour vérifications ultérieures.
+
+\input{formalisation/ameliorations2f}

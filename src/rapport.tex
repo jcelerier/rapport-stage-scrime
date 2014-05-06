@@ -82,6 +82,7 @@ escapeinside={\%*}{*)}
 \usepackage[footnote,smaller]{acronym}
 \usepackage[perpage]{footmisc}
 \usepackage[]{titlesec}
+\usepackage{multirow}
 \makeatletter
 \def\ttl@mkchap@i#1#2#3#4#5#6#7{%
     \ttl@assign\@tempskipa#3\relax\beforetitleunit
@@ -100,7 +101,7 @@ escapeinside={\%*}{*)}
 \newtheorem{mydef}{Définition}
 \theoremstyle{plain}
 \newtheorem{myth}{Théorême}
-\newtheorem{mynot}{Notation}
+\newtheorem*{mynot}{Notation}
 
 %\usepackage{fancyhdr}
 %\pagestyle{fancy}

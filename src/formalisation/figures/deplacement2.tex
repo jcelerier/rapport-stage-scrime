@@ -16,7 +16,7 @@
   \node [place] (A3) [above of=B] {$A_3$};
   \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
   \node [place] (C) [right of=Tb] {$C_1$};
-  \node[segment](O) [right of=C]{Sortie};
+  \node[segment](O) [right of=C]{Out};
   
   \path
   		(I) edge[post] node {} (A)
@@ -65,7 +65,7 @@ Devient
   \node [place] (B) [right of=TS] {$B_1$};
   \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
   \node [place] (C) [right of=Tb] {$C_1$};
-  \node[segment](O) [right of=C]{Sortie};
+  \node[segment](O) [right of=C]{Out};
   
   \path
   		(I) edge[post] node {} (Aalpha) 

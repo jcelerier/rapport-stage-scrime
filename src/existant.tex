@@ -1,35 +1,106 @@
 \chapter{État de l'art}
+L'état de l'art des domaines relatifs à ce stage s'intéressera à trois aspects : 
+\begin{itemize}
+	\item Les avancées en réseaux de Petri, qui sont au cœur du modèle.
+	\item Les avancées en terme de répartition, et de synchronisation en temps entre machines.
+	\item L'état actuel du projet \ac{OSSIA}. 
+\end{itemize}
 
 \section{Réseaux de Petri}
-Les réseaux de Petri (citer thèse C.A. Petri) sont au cœur du formalisme utilisé ici. Néanmoins, une différence majeure entre leur utilisation dans le projet \ac{OSSIA} avec d'autres utilisations plus courante est que pour \ac{OSSIA}, les réseaux ne servent pas à faire de l'analyse statique mais sont au cœur du moteur d'exécution du programme. C'est-à-dire que la théorie des scénarios a été développée de manière à pouvoir être exprimée en terme de réseaux de Petri, et que ces réseaux de Petri sont ensuite exécutés avec un algorithme standard d'exécution, qui sera détaillé plus tard dans ce document.
+Les réseaux de Petri\cite{petri1962kommunikation} sont au cœur du formalisme utilisé ici. Néanmoins, une différence majeure entre leur utilisation dans le projet \ac{OSSIA} avec d'autres utilisations plus courante est que pour \ac{OSSIA}, les réseaux ne servent pas à faire de l'analyse statique mais sont au cœur du moteur d'exécution du programme. C'est-à-dire que la théorie des scénarios a été développée de manière à pouvoir être exprimée en terme de réseaux de Petri, et que ces réseaux de Petri sont ensuite exécutés avec un algorithme relativement simple, qui sera détaillé plus tard dans ce document.
+
+La conférence principale sur le thème des réseaux de Petri est l'\textit{International Conference on Application and Theory of Petri Nets and Concurrency}, qui présente cette année sa 35\ieme édition.
 
 \subsection{Familles de réseaux de Petri}
-% http://sfa.univ-poitiers.fr/informatique-telecom/lib/exe/fetch.php?media=quotidien:m2:ue:spec_temps_reel:extension_rdp_10.pdf
 \subsubsection{Base}
-État des lieux assez général : \cite{david2010discrete}
+Origine : réseaux places-transitions.
+État des lieux assez général : \cite{david2010discrete}.
+
 \subsubsection{Réseaux hiérarchiques}
-Réseaux hiérarchiques par blocs:  \cite{fehling1993concept}.
+L'idée de base des réseaux hiérarchiques consiste à avoir des sous-réseaux qui s'exécutent lorsqu'un jeton arrive dans une place.
+
+Une extension aux transitions existe, en utilisant la notion de blocs de construction\cite{fehling1993concept}.
+
+Actuellement, l'essentiel de la recherche dans ce domaine consiste en la recherche de formalisations pouvant généraliser les différents concepts de modularité, comme par exemple \brand{LLAMAS} (Language for Advanced Modular Algebraic Nets)\cite{colom2013application}.
+
+Les réseaux hiérarchiques sont principalement utilisés pour modéliser des systèmes complexes du monde réel, dans des cas industriels par exemple.
+
 \subsubsection{Réseaux colorés}
-Ouvrage de référence : \cite{jensen1987coloured}
-Hierarchies in coloured petri nets : \cite{rozenberg1991advances}
-\subsubsection{Réseaux temporels}
-Article d'origine : \cite{suzuki1989temporal}
-Abstraction au dessus des réseaux temporels : \cite{klai2013temporal} (encode tps écoulé min/max à chaque instant)
-\subsubsection{Réseaux stochastiques}
-Stochastic Petri Nets, GSPN
+Les réseaux colorés\cite{zervos1977colored}\cite{jensen1987coloured} ont été une des premières extensions des réseaux de Petri. L'idée principale est de permettre aux jetons d'être porteurs de donnée, à l'aide des couleurs. 
+
+Les transitions peuvent créer des jetons de couleur, et les arcs possèdent des fonctions d'arc laissant passer les couleurs choisies.
+
+La notion de hiérarchie a été étendue aux réseaux colorés de plusieurs manières différentes \cite{rozenberg1991advances}, qui sont à choisir en fonction des cas d'utilisation.
+
+Une généralisation des réseaux colorés porte le nom de réseaux de haut niveau (\textit{high-level Petri nets}) \cite{jensen1983high}. Elle remplace la notion de couleur par celle de type, plus extensible.
+Il est possible de convertir des machines à état \brand{UML} en réseaux de Petri de haut niveau en utilisant un algorithme génétique \cite{alhroob2014transforming}.
+
+\subsubsection{Réseaux liés au temps}
+Il existe plusieurs manières d'introduire la notion de temps dans les réseaux de Petri.
+
+La première méthode a été celle des réseaux temporisés (\textit{timed Petri net}) : les places ou transitions portent les durées des actions qu'elles simulent. C'est le cas d'i-score.
+
+Peu après a été établi le formalisme des réseaux temporels (\textit{time Petri net}) : les éléments du réseau (place ou transition) peuvent avoir une date minimale et maximale d'exécution.
+Une extension récente \cite{klai2013temporal} au dessus des réseaux temporels  présente un moyen d'encoder le temps minimal et maximal écoulé à chaque instant, ainsi que les avantages que cela peut avoir.
+
+Enfin, le modèle relatif au temps le plus récent utilise les opérateurs de logique temporelle \cite{logic2002temporal}\cite{suzuki1989temporal}. L'avantage par rapport aux modèles temporels et temporisés est une meilleure représentation des propriétés de vivacité (\textit{liveness}).
+
+\paragraph{Réseaux stochastiques}
+Les réseaux de Petri stochastiques \cite{bause1996stochastic} sont d'une certaine manière reliés au temps.
+
+Dans ce type de réseau, les transitions franchissables sont activées après un délai déterminé par une variable aléatoire.
+ 
 \subsubsection{Réseaux flous}
-Fuzzy petri net : Dynamic representation of fuzzy knowledge based on fuzzy petri net and genetic-particle swarm optimization
-\subsubsection{Réseaux de haut niveau}
-HLPN
+Les réseaux de Petri flous (\textit{fuzzy Petri nets}) \cite{pedrycz1994generalized} sont une classe de réseau de Petri inspirés des réseaux neuronaux. Leur utilité principale est comme pour les réseaux neuronaux l'apprentissage informatique.
+
+Une approche récente utilise les réseaux de Petri flous pour modéliser des systèmes à connaissance floue\cite{wang2014dynamic}, et plus généralement les systèmes de modélisation de la connaissance, en prenant en compte la notion d'incertitude.
 
 \subsection{Standardisation}
-PNML % http://www.pnml.org/papers/gl93-2010.pdf
+Il est assez apparent au vu de la section précédente que les variations autour du formalisme de base sont assez ample, et que beaucoup d'extensions sont possibles.
+
+Un effort de standardisation est mené depuis le début des années 2000 pour avoir un format d'échange commun à différents outils, avec le langage \ac{PNML}.
+
+Cet effort a abouti en 2008 et 2011 avec la standardisation dans la norme ISO/IEC 15909-2.
+
+Le langage est basé sur du \brand{XML}, avec une attention importante à la modularité. Il a été conçu à l'aide de \glspl{metamodel} \brand{UML}.
+
+Un état de l'art\cite{hillah2010standardisation} a été dressé par les auteurs du langage en 2010.
+
+L'accent actuel est mis sur la gestion de la modularité, avec l'implémentation des concepts de hiérarchie, ou d'encapsulation. Ce travail est réalisé dans \brand{Modular PNML}. Un méta-modèle pour représenter les réseaux de Petri modulaires est en cours d'étude\cite{marechal2012modular}.
 
 \subsection{Outils développés pour l'analyse des réseaux de Petri}
-\subsubsection{CPN tools}
+En sus de la théorie bâtie depuis bientôt un demi-siècle, les réseaux de Petri sont aussi très utilisé en pratique, pour réaliser des simulations de systèmes à complexité variable.
+
+(TODO mettre captures d'écran ?)
+
+\subsubsection{ePNK}
+\brand{ePNK} est une plateforme logicielle travaillant en format PNML. Elle est bâtie autour de la notion d'extensibilité, en permettant aux autres développeurs d'insérer facilement leurs propres formalismes de réseaux de Petri avec une architecture en plug-in.
+
+À la base prévue pour l'édition, elle est aussi désormais capable de simuler l'exécution de réseaux de Petri  \cite{kindler2013simulator}.
+
+\subsubsection{PetriNet API}
+\brand{PetriNet API} \cite{lohmann2009petri} est une interface de programmation en \brand{C++} offrant aux développeurs des structures de données simples (place, transition, réseau de Petri) permettant de bâtir leurs propres outils par dessus.
+
+Un des avantages est l'import de données au format \ac{PNML} et l'export au format \brand{DOT} de \gls{graphviz}, à des fins de visualisation.
+
+\subsubsection{CPN Tools}
+\brand{CPN Tools} permet comme \brand{ePNK} d'éditer, simuler, et analyser des réseaux de Petri colorés \cite{jensen2007coloured}.
+
+Il est notamment utilisé dans le projet \ac{OSSIA} à des fins de validation.
+
 \subsubsection{Simulation orientée objet : PNlib}
-An object-oriented Petri net simulation tool for hybrid biological processes
-\subsubsection{Autres...}
+\brand{PNlib} \cite{pross2014object} est un outil de simulation visant le cas particulier des processus biologiques.
+
+\brand{PNlib} a été réalisé en \gls{modelica} et s'y intègre facilement.
+
+\subsubsection{Snoopy}
+\brand{Snoopy} \cite{heiner2012snoopy} est un autre cadre logiciel à vocation unificatrice, permettant aussi l'utilisation de la couleur. Il supporte la hiérarchie.
+
+Des outils d'analyse dynamique sont intégrés au logiciel.
+
+Il a été appliqué aux réseaux biomoléculaires \cite{rohr2010snoopy}.
+
+Une des particularités du logiciel est d'avoir plusieurs vues pour le même modèle, et d'aleterner facilement entre ces vues. Par exemple, il est possible d'avoir un modèle stochastique et un modèle continu pour le même réseau, qui partagent certaines propriétés.
 
 \subsection{Applications récentes}
 Il serait très dur d'établir un inventaire complet des utilisations des réseaux de Petri : comme pour les automates, les machines de Turing, ou encore le lambda-calcul, c'est un outil avec une très forte puissance d'expression, qui peut donc être utilisé dans une variété d'environnements différents, à des fins de modélisation.
@@ -42,8 +113,9 @@ Par exemple, à l'origine, C. A. Petri avait conçu les réseaux qui portent auj
 * Elementary Events for Modeling of Human-System Interactions with Petri Net Models
 \subsubsection{Application dans des modèles physiques}
 * Modeling and Analysis for CPS Physical Entities Based on Spatio-Temporal Petri Net.
+
 \subsubsection{Application à la biologie}
-* Biologie, etc... (cas original)
+* Snoopy
 
 * Petri Nets in the Biosciences
 

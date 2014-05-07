@@ -12,10 +12,13 @@ Les réseaux de Petri\cite{petri1962kommunikation} sont au cœur du formalisme u
 La conférence principale sur le thème des réseaux de Petri est l'\textit{International Conference on Application and Theory of Petri Nets and Concurrency}, qui présente cette année sa 35\ieme édition.
 
 \subsection{Familles de réseaux de Petri}
-\subsubsection{Base}
-Origine : réseaux places-transitions.
-État des lieux assez général : \cite{david2010discrete}.
+À l'origine, les réseaux portaient le nom de réseaux places-transitions. La définition la plus simple est celle d'un graphe orienté biparti, dont les deux parties sont les places, et les transitions.
 
+Les places contiennent des jetons; quand les places antécédentes à une transition possèdent toutes au moins un jeton, celle-ci est dite \textit{sensibilisée}. Elle peut alors s'exécuter (on dit qu'elle est \textit{tirée}) en enlevant un jeton à chaque place la précédant et en rajoutant un jeton à chaque place la suivant.
+
+Plusieurs cours et livres récents présentent les généralités des réseaux de Petri \citep[voir][]{david2010discrete, diaz2013petri}, avec les notations et vocabulaires contemporains.
+
+Néanmoins, étant un formalisme facilement extensible, plusieurs modifications des réseaux de Petri ont prouvé leur intérêt; elles seront vues plus en détail dans les prochains paragraphes.
 \subsubsection{Réseaux hiérarchiques}
 L'idée de base des réseaux hiérarchiques consiste à avoir des sous-réseaux qui s'exécutent lorsqu'un jeton arrive dans une place.
 
@@ -26,7 +29,7 @@ Actuellement, l'essentiel de la recherche dans ce domaine consiste en la recherc
 Les réseaux hiérarchiques sont principalement utilisés pour modéliser des systèmes complexes du monde réel, dans des cas industriels par exemple.
 
 \subsubsection{Réseaux colorés}
-Les réseaux colorés\cite{zervos1977colored}\cite{jensen1987coloured} ont été une des premières extensions des réseaux de Petri. L'idée principale est de permettre aux jetons d'être porteurs de donnée, à l'aide des couleurs. 
+Les réseaux colorés\cite{zervos1977colored,jensen1987coloured} ont été une des premières extensions des réseaux de Petri. L'idée principale est de permettre aux jetons d'être porteurs de donnée, à l'aide des couleurs. 
 
 Les transitions peuvent créer des jetons de couleur, et les arcs possèdent des fonctions d'arc laissant passer les couleurs choisies.
 
@@ -37,14 +40,14 @@ Il est possible de convertir des machines à état \brand{UML} en réseaux de Pe
 
 \subsubsection{Réseaux liés au temps}
 Il existe plusieurs manières d'introduire la notion de temps dans les réseaux de Petri.
+\begin{itemize}
+\item La première méthode a été celle des réseaux temporisés (\textit{timed Petri net}) : les places ou transitions portent les durées des actions qu'elles simulent. C'est le cas d'i-score.
 
-La première méthode a été celle des réseaux temporisés (\textit{timed Petri net}) : les places ou transitions portent les durées des actions qu'elles simulent. C'est le cas d'i-score.
-
-Peu après a été établi le formalisme des réseaux temporels (\textit{time Petri net}) : les éléments du réseau (place ou transition) peuvent avoir une date minimale et maximale d'exécution.
+\item Peu après a été établi le formalisme des réseaux temporels (\textit{time Petri net}) : les éléments du réseau (place ou transition) peuvent avoir une date minimale et maximale d'exécution.
 Une extension récente \cite{klai2013temporal} au dessus des réseaux temporels  présente un moyen d'encoder le temps minimal et maximal écoulé à chaque instant, ainsi que les avantages que cela peut avoir.
 
-Enfin, le modèle relatif au temps le plus récent utilise les opérateurs de logique temporelle \cite{logic2002temporal}\cite{suzuki1989temporal}. L'avantage par rapport aux modèles temporels et temporisés est une meilleure représentation des propriétés de vivacité (\textit{liveness}).
-
+\item Enfin, le modèle relatif au temps le plus récent utilise les opérateurs de logique temporelle \cite{logic2002temporal,suzuki1989temporal}. L'avantage par rapport aux modèles temporels et temporisés est une meilleure représentation des propriétés de vivacité (\textit{liveness}).
+\end{itemize}
 \paragraph{Réseaux stochastiques}
 Les réseaux de Petri stochastiques \cite{bause1996stochastic} sont d'une certaine manière reliés au temps.
 
@@ -73,28 +76,23 @@ En sus de la théorie bâtie depuis bientôt un demi-siècle, les réseaux de Pe
 
 (TODO mettre captures d'écran ?)
 
-\subsubsection{ePNK}
-\brand{ePNK} est une plateforme logicielle travaillant en format PNML. Elle est bâtie autour de la notion d'extensibilité, en permettant aux autres développeurs d'insérer facilement leurs propres formalismes de réseaux de Petri avec une architecture en plug-in.
+\subparagraph{ePNK} est une plateforme logicielle travaillant en format PNML. Elle est bâtie autour de la notion d'extensibilité, en permettant aux autres développeurs d'insérer facilement leurs propres formalismes de réseaux de Petri avec une architecture en plug-in.
 
 À la base prévue pour l'édition, elle est aussi désormais capable de simuler l'exécution de réseaux de Petri  \cite{kindler2013simulator}.
 
-\subsubsection{PetriNet API}
-\brand{PetriNet API} \cite{lohmann2009petri} est une interface de programmation en \brand{C++} offrant aux développeurs des structures de données simples (place, transition, réseau de Petri) permettant de bâtir leurs propres outils par dessus.
+\subparagraph{PetriNet API} \cite{lohmann2009petri} est une interface de programmation en \brand{C++} offrant aux développeurs des structures de données simples (place, transition, réseau de Petri) permettant de bâtir leurs propres outils par dessus.
 
 Un des avantages est l'import de données au format \ac{PNML} et l'export au format \brand{DOT} de \gls{graphviz}, à des fins de visualisation.
 
-\subsubsection{CPN Tools}
-\brand{CPN Tools} permet comme \brand{ePNK} d'éditer, simuler, et analyser des réseaux de Petri colorés \cite{jensen2007coloured}.
+\subparagraph{CPN Tools} (\textit{Colored Petri Net Tools}) permet comme \brand{ePNK} d'éditer, simuler, et analyser des réseaux de Petri colorés \cite{jensen2007coloured}.
 
 Il est notamment utilisé dans le projet \ac{OSSIA} à des fins de validation.
 
-\subsubsection{Simulation orientée objet : PNlib}
-\brand{PNlib} \cite{pross2014object} est un outil de simulation visant le cas particulier des processus biologiques.
+\subparagraph{PNlib}  \cite{pross2014object} est un outil de simulation orienté objet visant le cas particulier des processus biologiques.
 
 \brand{PNlib} a été réalisé en \gls{modelica} et s'y intègre facilement.
 
-\subsubsection{Snoopy}
-\brand{Snoopy} \cite{heiner2012snoopy} est un autre cadre logiciel à vocation unificatrice, permettant aussi l'utilisation de la couleur. Il supporte la hiérarchie.
+\subparagraph{Snoopy} \cite{heiner2012snoopy} est un autre cadre logiciel à vocation unificatrice, permettant aussi l'utilisation de la couleur. Il supporte la hiérarchie.
 
 Des outils d'analyse dynamique sont intégrés au logiciel.
 
@@ -107,8 +105,10 @@ Il serait très dur d'établir un inventaire complet des utilisations des résea
 
 Par exemple, à l'origine, C. A. Petri avait conçu les réseaux qui portent aujourd'hui son nom afin de modéliser des réactions chimiques.
 
-\subsubsection{Applications à la répartition et à la parallélisation}
-* Research on Parallel Test Task Scheduling Based on Improved Genetic Algorithm and Petri Net
+Une des applications les plus courantes des réseaux de Petri est de simuler des systèmes répartis.
+
+Un domaine annexe est celui de la parallélisation. Récemment, des progrès ont été fait dans la gestion de l'ordonnancement dans le cas d'applications s'exécutant en parallèle. :  Research on Parallel Test Task Scheduling Based on Improved Genetic Algorithm and Petri Net
+
 \subsubsection{Application aux interfaces homme-système}
 * Elementary Events for Modeling of Human-System Interactions with Petri Net Models
 \subsubsection{Application dans des modèles physiques}

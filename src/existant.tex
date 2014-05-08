@@ -105,14 +105,20 @@ Il serait très dur d'établir un inventaire complet des utilisations des résea
 
 Par exemple, à l'origine, C. A. Petri avait conçu les réseaux qui portent aujourd'hui son nom afin de modéliser des réactions chimiques.
 
+\subsubsection{Parallélisme}
 Une des applications les plus courantes des réseaux de Petri est de simuler des systèmes répartis.
 
-Un domaine annexe est celui de la parallélisation. Récemment, des progrès ont été fait dans la gestion de l'ordonnancement dans le cas d'applications s'exécutant en parallèle. :  Research on Parallel Test Task Scheduling Based on Improved Genetic Algorithm and Petri Net
+Un domaine annexe est celui de la parallélisation. Récemment, des progrès ont été fait dans la gestion de l'ordonnancement dans le cas d'applications s'exécutant en parallèle\cite{chen2014research}. Notamment, le système est modélisé à l'aide d'un réseau de Petri, et un algorithme génétique est utilisé pour y rechercher un chemin permettant un temps d'exécution minimal. 
 
 \subsubsection{Application aux interfaces homme-système}
-* Elementary Events for Modeling of Human-System Interactions with Petri Net Models
-\subsubsection{Application dans des modèles physiques}
-* Modeling and Analysis for CPS Physical Entities Based on Spatio-Temporal Petri Net.
+Les réseaux de Petri peuvent servir à modéliser toutes sortes de systèmes se basant sur une succession d'évènements.
+ 
+Ils ont par exemple été utilisés pour la modélisation des interactions homme-système\cite{campos2014elementary}, avec différentes catégories d'évènements, comme le dépassement d'un seuil ou l'émission d'un signal, ce qui permet par la suite d'effectuer une analyse statique qui pourrait montrer des failles dans la conception du dit système.
+
+\subsubsection{Application à des modèles cyber-physiques}
+La \gls{cyberphysique} peut tirer un certain bénéfice des réseaux de Petri pour la simulation de son bon fonctionnement. En effet, elle consiste en différents éléments répartis et communiquants.
+
+Des réseaux de Petri spatio-temporels ont été introduits\cite{zhang2014modeling} pour gérer les aspects de déplacements physique au cours du temps dans ce cas.
 
 \subsubsection{Application à la biologie}
 * Snoopy

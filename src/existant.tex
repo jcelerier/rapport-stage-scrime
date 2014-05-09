@@ -78,7 +78,7 @@ En sus de la théorie bâtie depuis bientôt un demi-siècle, les réseaux de Pe
 
 (TODO mettre captures d'écran ?)
 
-\subparagraph{ePNK} est une plateforme logicielle travaillant en format PNML. Elle est bâtie autour de la notion d'extensibilité, en permettant aux autres développeurs d'insérer facilement leurs propres formalismes de réseaux de Petri avec une architecture en plug-in.
+\subparagraph{ePNK} est une plateforme logicielle travaillant en format \ac{PNML}. Elle est bâtie autour de la notion d'extensibilité, en permettant aux autres développeurs d'insérer facilement leurs propres formalismes de réseaux de Petri avec une architecture en plug-in.
 
 À la base prévue pour l'édition, elle est aussi désormais capable de simuler l'exécution de réseaux de Petri  \cite{kindler2013simulator}.
 
@@ -132,31 +132,57 @@ Au niveau des algorithmes, le livre de Nancy Lynch \cite{lynch1996distributed} p
 
 Un autre ouvrage \cite{attiya2004distributed} met plus l'accent sur la simulation d'algorithmes distribués.
 
-Data-Aware Distributed Computing
-
 \subsection{Vérification}
-A Logic-Based Framework for Verifying Consensus Algorithms
+La vérification des algorithmes distribués est une branche majeure qui nécessite des outils particuliers par rapport aux méthodes formelles usuelles, comme la \gls{logiquedehoare} telle qu'elle fut définie à l'origine par exemple.
 
-Message-Passing Algorithms for the Verification of Distributed Protocols
+Les outils de base sont la sécurité (\textit{safety} et la vivacité \textit{liveness}), telles qu'énoncées par Leslie Lamport \cite{lamport1977proving}.
 
-FlockLab: a testbed for distributed, synchronized tracing and profiling of wireless embedded systems
-\subsection{Développment}
+De nombreux articles plus ou moins récents sur ce sujet sont référencés par un laboratoire de l'université de l'Illinois \cite{formaldistributed}.
+
+Un des aspects particulièrement important dans le cas d'algorithme distribué est celui de la tolérance aux pannes. Par exemple, comment faire si un câble est débranché ? Et, plus précisément ici, comment vérifier qu'un algorithme donné sera tolérant aux pannes possibles ? 
+
+Un exemple est donné \cite{mcmillan2014verification} pour le cas des algorithmes de consensus, qui introduit une logique de premier ordre particulière (nommée \textit{Consensus verification logic}).
+
+Une autre approche utilisée est celle des algorithmes de transmission de messages \cite{jezequel2014message}, qui a été appliquée à la vérification de certains protocoles distribués, comme par exemple un protocole de \gls{mutex}.
+
+\subsection{Développement}
 Cette partie traitera des publications récentes ayant trait à l'implémentation des algorithmes de répartition.
 
 Un ouvrage récent \cite{varela2013programming} fait le lien entre la théorie et la pratique, en présentant les méthodes les plus récentes pour écrire certains algorithmes. Un accent est mis sur la manière dont différents langages de programmation vont permettre plus ou moins simplement de réaliser différents paradigmes. Il tient aussi compte des avancées sur le \gls{calculambiant}, le \gls{picalcul}, et le \gls{joincalcul}.
 
-Modularity in the design of robust distributed algorithms
+\subsubsection{Modèles au fait des données (\textit{data-aware})}
+Un algorithme opère toujours sur des données, néanmoins les opérations relatives à ces dernières (déplacement, envoi...) sont souvent considérées comme secondaires et comme quelque chose sur lesquelles l'auteur de l'algorithme distribué n'a pas de pouvoir.
 
-Fully Distributed Algorithms for Minimum Delay Routing Under Heavy Traffic 
+Néanmoins, avec l'avènement du \gls{bigdata}, il est nécessaire de mieux prendre en compte cet aspect, parfois au niveau du système d'exploitation, ou encore des protocoles de routage utilisés \cite{baehni2004dependable} car les effets de bord deviennent trop volumineux.
 
-Distributed Mutual Exclusion Algorithms for Intersection Traffic Control
+Ainsi, des nouveaux paradigmes d'ordonnancement ont été proposés \cite{yildirim2012data, kosar2009paradigm}, ainsi que des méthodes pour optimiser le transfert de ces données.
 
-\subsection{Réseaux sans-fil}
-Exploiting wireless broadcast property to improve performance of distributed algorithms and mac protocols in wireless networks
+\subsubsection{Routage}
+Le routage est une problématique centrale des systèmes répartis, l'idéal étant de minimiser son temps.
+
+Une méthode a été récemment proposée pour réduire ce temps en cas de forte charge sur les lignes, mais uniquement dans des cas de réseaux statiques \cite{jeon2014fully}.
+
+% % % % Modularity in the design of robust distributed algorithms
+
+De plus, il est intéressant de noter que des problèmes de routage comme la gestions des congestions peuvent s'appliquer à d'autres types de réseaux que les réseaux informatiques. Par exemple, des algorithmes ont été développés pour gérer en temps réel les problèmes des feux de circulation \cite{aoxue2014distributed}, en s'inspirant du concept de \gls{mutex} et en utilisant des capteurs embarqués sur chaque véhicule.
+
+\subsubsection{Réseaux sans-fil}
+Les réseaux sans-fil sont désormais omniprésents, et offrent de nouvelles opportunités d'optimisation qui leur sont propres.
+
+Par exemple, il a été montré dans \cite{hosseinabadi2014exploiting} que les paquets entendus par un client mais qui ne lui étaient pas directement destinés (\textit{overheard packets}) pouvaient être utilisés pour améliorer la performance du réseau (et notamment les temps d'attentes dûs aux collisions), à l'aide d'algorithmes spécifiques.
+
+Un outil, \brand{FlockLab} \cite{lim2013flocklab} a été conçu spécifiquement pour la vérification et l'analyse de réseaux sans-fil embarqués. Il permet le débogage, et l'étude des timings à une précision proche de la microseconde en utilisant les protocoles généralement utilisés sur l'embarqué, comme \ac{GPIO}.  
+
 \section{Synchronisation}
+Les problèmes de synchronisation sont généralement vus comme une sous-partie des problèmes inhérents aux systèmes embarqués. Néanmoins, dans ce sujet, c'est une des partie les plus importantes et pertinentes, d'où l'accent qui y est apporté.
+
+La synchronisation implique toujours un concept d'horloges. Deux branches sont étudiées : les horloges logiques, qui servent à ordonner les éléments entre eux, et les horloges physiques, qui servent de référence absolue.
 
 \subsection{Synchronisation logique}
 \subsubsection{Origines : les horloges de Lamport}
+Le premier système d'horloge logique est celui conçu par Leslie Lamport, récipient du prestigieux \textit{Turing Award 2013}.
+
+Il a notamment conçu les horloges et horodatages qui portent son nom, et qui expriment la notion de "arrivé-avant".
 \subsubsection{Horloges vectorielles}
 
 \subsection{Synchronisation physique}

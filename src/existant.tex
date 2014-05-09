@@ -6,6 +6,8 @@ L'état de l'art des domaines relatifs à ce stage s'intéressera à trois aspec
 	\item L'état actuel du projet \ac{OSSIA}. 
 \end{itemize}
 
+Quand ils ne sont pas semblables au français, les noms anglais des termes scientifiques employés seront marqués en \textit{italique}.
+
 \section{Réseaux de Petri}
 Les réseaux de Petri\cite{petri1962kommunikation} sont au cœur du formalisme utilisé ici. Néanmoins, une différence majeure entre leur utilisation dans le projet \ac{OSSIA} avec d'autres utilisations plus courante est que pour \ac{OSSIA}, les réseaux ne servent pas à faire de l'analyse statique mais sont au cœur du moteur d'exécution du programme. C'est-à-dire que la théorie des scénarios a été développée de manière à pouvoir être exprimée en terme de réseaux de Petri, et que ces réseaux de Petri sont ensuite exécutés avec un algorithme relativement simple, qui sera détaillé plus tard dans ce document.
 
@@ -103,7 +105,7 @@ Une des particularités du logiciel est d'avoir plusieurs vues pour le même mod
 \subsection{Applications récentes}
 Il serait très dur d'établir un inventaire complet des utilisations des réseaux de Petri : comme pour les automates, les machines de Turing, ou encore le lambda-calcul, c'est un outil avec une très forte puissance d'expression, qui peut donc être utilisé dans une variété d'environnements différents, à des fins de modélisation.
 
-Par exemple, à l'origine, C. A. Petri avait conçu les réseaux qui portent aujourd'hui son nom afin de modéliser des réactions chimiques.
+Par exemple, à l'origine, C. A. Petri avait conçu les réseaux qui portent aujourd'hui son nom afin de modéliser des réactions chimiques. Ils sont maintenant très utilisés dans les modélisations de comportements biologiques \cite{koch2014petri}.
 
 \subsubsection{Parallélisme}
 Une des applications les plus courantes des réseaux de Petri est de simuler des systèmes répartis.
@@ -120,39 +122,37 @@ La \gls{cyberphysique} peut tirer un certain bénéfice des réseaux de Petri po
 
 Des réseaux de Petri spatio-temporels ont été introduits\cite{zhang2014modeling} pour gérer les aspects de déplacements physique au cours du temps dans ce cas.
 
-\subsubsection{Application à la biologie}
-* Snoopy
-
-* Petri Nets in the Biosciences
-
-\section{Projet OSSIA}
-(Présentation travaux Allombert, Toro, Arias, etc.)
-
-Modelling Data Processing for Interactive Scores Using Coloured Petri Nets
-\subsection{Les réseaux de Petri dans OSSIA}
-\subsection{Scénarios interactifs}
-\subsection{Temps souple}
-\subsection{Exemple dans le formalisme OSSIA}
-
 \section{Répartition}
+La répartition (\textit{distribution}) est un second point important de ce stage. C'est un domaine qui est souvent très proche de la technique : le besoin d'utiliser des algorithmes répartis provient souvent de contraintes matérielles ou temporelles.
+
 \subsection{Ouvrages de référence}
-\cite{lynch1996distributed}
+Plusieurs livres sont dédiés à des présentations générales du sujet, celui-ci étant étudié depuis plusieurs décénnies.
 
-\subsection{Développment}
-Modularity in the design of robust distributed algorithms
+Au niveau des algorithmes, le livre de Nancy Lynch \cite{lynch1996distributed} présente les cas et problèmes les plus courants, en séparant les méthodes synchrones et asynchrones. 
 
-Fully Distributed Algorithms for Minimum Delay Routing Under Heavy Traffic 
+Un autre ouvrage \cite{attiya2004distributed} met plus l'accent sur la simulation d'algorithmes distribués.
 
+Data-Aware Distributed Computing
+
+\subsection{Vérification}
 A Logic-Based Framework for Verifying Consensus Algorithms
 
 Message-Passing Algorithms for the Verification of Distributed Protocols
 
-Exploiting wireless broadcast property to improve performance of distributed algorithms and mac protocols in wireless networks
+FlockLab: a testbed for distributed, synchronized tracing and profiling of wireless embedded systems
+\subsection{Développment}
+Cette partie traitera des publications récentes ayant trait à l'implémentation des algorithmes de répartition.
+
+Un ouvrage récent \cite{varela2013programming} fait le lien entre la théorie et la pratique, en présentant les méthodes les plus récentes pour écrire certains algorithmes. Un accent est mis sur la manière dont différents langages de programmation vont permettre plus ou moins simplement de réaliser différents paradigmes. Il tient aussi compte des avancées sur le \gls{calculambiant}, le \gls{picalcul}, et le \gls{joincalcul}.
+
+Modularity in the design of robust distributed algorithms
+
+Fully Distributed Algorithms for Minimum Delay Routing Under Heavy Traffic 
 
 Distributed Mutual Exclusion Algorithms for Intersection Traffic Control
 
-New Techniques and Tighter Bounds for Local Computation Algorithms (pertinence bof)
-
+\subsection{Réseaux sans-fil}
+Exploiting wireless broadcast property to improve performance of distributed algorithms and mac protocols in wireless networks
 \section{Synchronisation}
 
 \subsection{Synchronisation logique}
@@ -196,4 +196,14 @@ Network latency estimation % http://www.google.com/patents/US8254264B1
 King: estimating latency between arbitrary internet end hosts
 
 Method and system for peer-to-peer network latency measurement % http://www.google.com/patents/US6012096
+
+
+\section{Projet OSSIA}
+(Présentation travaux Allombert, Toro, Arias, etc.)
+
+Modelling Data Processing for Interactive Scores Using Coloured Petri Nets
+\subsection{Les réseaux de Petri dans OSSIA}
+\subsection{Scénarios interactifs}
+\subsection{Temps souple}
+\subsection{Exemple dans le formalisme OSSIA}
 

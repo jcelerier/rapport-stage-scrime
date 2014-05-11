@@ -90,7 +90,7 @@ Un des avantages est l'import de données au format \ac{PNML} et l'export au for
 
 Il est notamment utilisé dans le projet \ac{OSSIA} à des fins de validation.
 
-\subparagraph{PNlib}  \cite{pross2014object} est un outil de simulation orienté objet visant le cas particulier des processus biologiques.
+\subparagraph{PNlib} \cite{pross2014object} est un outil de simulation orienté objet visant le cas particulier des processus biologiques.
 
 \brand{PNlib} a été réalisé en \gls{modelica} et s'y intègre facilement.
 
@@ -184,12 +184,30 @@ Le premier système d'horloge logique est celui conçu par Leslie Lamport, réci
 
 Il a notamment conçu les horloges et horodatages qui portent son nom, et qui expriment la notion de "arrivé-avant".
 \subsubsection{Horloges vectorielles}
+Les horloges vectorielles (\textit{vector clocks}) sont une amélioration au dessus du concept des horloges de Lamport.
+
+Néanmoins, plutôt que de ne faire garder que leur état logique aux nœuds, on leur fait garder l'état de tous les nœuds dont ils ont reçu des messages dans un vecteur. Lorsqu'un nœud envoie un message à un autre, ce dernier se met à jour avec les horodatages maximaux contenus dans le vecteur qui est envoyé.
+
+Le problème des horloges vectorielles est la croissance de la taille du vecteur dans un système contenant beaucoup de nœuds.
+
+\paragraph{Horloges plausibles}
+Plausible clocks: constant size logical clocks for distributed systems
 
 \subsection{Synchronisation physique}
+Comme i-score est un logiciel permettant de manipuler le temps, il nécessite de travailler avec une horloge physique. Le problème principal des systèmes distribués se basant sur une horloge est de s'assurer que tous les nœuds ont la même heure.
+
 \subsubsection{Algorithmes couramment utilisés}
-\paragraph{NTP}
-\ac{NTP}
-\paragraph{PTP}
+En pratique, il existe deux méthodes couramment utilisées pour garantir une synchronisation des horloges entre machines.
+
+\subparagraph{NTP} (\textit{Network Time Protocol}) est la méthode couramment utilisée sur Internet pour synchroniser l'heure des machines.
+
+Elle emploie une structure en arbres avec plusieurs niveaux, chacun communiquant uniquement avec ses niveaux supérieurs et inférieurs.
+
+Elle permet une synchronisation de l'ordre de (TODO)
+\subparagraph{PTP} (\textit{Precision Time Protocol}) est une méthode qui a été développée après \brand{NTP}, et qui est optimisée pour les réseaux locaux requérant une plus grande précision que celle que peut offrir \brand{PTP}.
+
+Elle permet une synchronisation de l'ordre de (TODO)
+
 \ac{PTP}
 Cf. articles sur précision sur Android : 
 A Measurement of Time synchronization on Mobile Devices.
@@ -225,9 +243,13 @@ Method and system for peer-to-peer network latency measurement % http://www.goog
 
 
 \section{Projet OSSIA}
+Le projet \ac{OSSIA}
+
 (Présentation travaux Allombert, Toro, Arias, etc.)
 
 Modelling Data Processing for Interactive Scores Using Coloured Petri Nets
+
+
 \subsection{Les réseaux de Petri dans OSSIA}
 \subsection{Scénarios interactifs}
 \subsection{Temps souple}

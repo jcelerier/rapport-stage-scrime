@@ -1,5 +1,5 @@
 \section{Améliorations possibles sur seconde formalisation}
-\subsection{Politiques d'$\alpha$-transitions}
+\subsection{Politiques d'\texorpdfstring{$\alpha$-transitions}~}
 \label{section:canon}
 La sémantique des $\alpha$-transitions peut être modifiée afin de pouvoir fournir plusieurs politiques.
 
@@ -21,10 +21,12 @@ Un processus a été conçu pour essayer de régler le problème des latences tr
 
 Il est utile dans le cas ou on n'a pas de point d'interactivité entre différents segments successifs.
 
-\begin{mydef}Un point d'interactivité (TODO nom à revoir?) est un endroit ou l'exécution du réseau de Petri est soumise à influence extérieure : temps souple, ou condition.
+\begin{mydef}[Point d'interactivité]
+	Un point d'interactivité (TODO nom à revoir?) est un endroit ou l'exécution du réseau de Petri est soumise à influence extérieure : temps souple, ou condition.
 \end{mydef}
 
-Le processus est le suivant : soient deux segments $p$ et $s$ tels que $s$ soit successif à $p$. On désire déplacer $s$, mais la latence entre les deux nœuds est supérieure à la durée de la transition de $p$ : la différence $t_p - \delta$ est négative.
+\paragraph{Processus}
+Soient deux segments $p$ et $s$ tels que $s$ soit successif à $p$. On désire déplacer $s$, mais la latence entre les deux nœuds est supérieure à la durée de la transition de $p$ : la différence $t_p - \delta$ est négative.
 
 
 Pour tout segment $u \in \pre(p)$ : 

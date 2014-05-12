@@ -1,45 +1,58 @@
-\documentclass[a4paper,11pt,oneside]{report}
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[a4paper,11pt,oneside,french,english]{report}
 
+\usepackage{hhline}
 \usepackage{setspace}
 \usepackage[tmargin=2.5cm,bmargin=2.5cm,lmargin=3cm,rmargin=2cm]{geometry}
-\geometry{headheight=15pt}
+\usepackage{fixltx2e}
+\usepackage{booktabs}
 \usepackage[utf8]{inputenc}
-\usepackage[french,english]{babel}
+\usepackage{babel}
+\usepackage{caption}
 \usepackage[T1]{fontenc}
 \usepackage{relsize}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{listings}
 \usepackage{float}
 \usepackage{kpfonts}
+\usepackage{microtype} % after fonts
 \usepackage{verbatimbox}
 \usepackage{datetime}
 \usepackage[version=0.96]{pgf}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
 \usepackage{amsthm}
-\usepackage{hyperref}
-\usepackage[xindy,toc]{glossaries}
-\usepackage[numbers]{natbib}
 \usepackage{fancyvrb}
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{algorithm2e}
-\usepackage{caption}
 \usepackage[footnote,smaller]{acronym}
 \usepackage[perpage]{footmisc}
 \usepackage[]{titlesec}
 \usepackage{multirow}
 \usepackage{graphicx}
+\usepackage{tabu}
+\usepackage{mfirstuc}
 \usepackage{mdframed}
-
-%\usepackage{fancyhdr}
-%\pagestyle{fancy}
 
 % Pour figures en paysage
 \usepackage{wrapfig}
 \usepackage{lscape}
 \usepackage{rotating}
+
+\usepackage{caption}
+
+\usepackage[unicode]{hyperref}
+\usepackage[xindy,toc]{glossaries}
+\usepackage[numbers,longnamesfirst]{natbib}
+
+\usepackage{cleveref}
+
+%\LoadPackagesNow
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+
 
 \input{personnalisation}
 \input{acronymes}

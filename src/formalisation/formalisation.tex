@@ -58,7 +58,7 @@ Bien que dans de nombreux cas, $\delta_{N_1 \rightarrow N_2} \simeq \delta_{N_2 
 Les nœuds de $G$ peuvent contenir des places et des transitions. Si un nœud contient une transition, on dit qu'il l'\textit{exécute}.
 
 \subsection{Définitions relatives aux réseaux de Petri}
-\begin{mydef}
+\begin{mydef}[Segment]
 Un segment est composé d'une transition, de ses $N$ places d'entrées, et de ses $M$ places de sortie, avec $N \geq 1, M \geq 1$.
 \end{mydef}
 
@@ -118,19 +118,19 @@ Si un segment ne se retrouve plus relié à rien suite à cette opération, une 
 (TODO cela aurait-il sa place dans la partie plus générale ? Moins utilisé dans formalisation par couleur...)
 
 Ces segments relient les notions de graphe de machines et de réseau de Petri.
-\begin{mydef}
+\begin{mydef}[nd-transition]
 Une transition non-distribuée, notée nd-transition, correspond à une transition dont aucune des places d'entrée ou de sortie ne sont situées sur un autre nœud du graphe.
 \end{mydef}
 
-\begin{mydef}
+\begin{mydef}[d-transition]
 Une transition distribuée, notée d-transition, correspond à une transition dont une des places d'entrée ou de sortie est située sur un autre nœud du graphe.
 \end{mydef}
 
-\begin{mydef}
+\begin{mydef}[nd-segment]
 Un d-segment (resp. nd-segment) est un segment bâti autour d'une d-transition (resp. nd-transition).
 \end{mydef}
 
-\begin{mydef}
+\begin{mydef}[Segments consécutifs]
 Deux segments sont dits consécutifs s'ils partagent au moins une place. Cela implique qu'au moins une place de sortie de l'un soit une place d'entrée de l'autre.
 \end{mydef}
 
@@ -174,7 +174,7 @@ Un exemple graphique est présenté en figure \ref{fig:deplacementMethode1}.
 \begin{figure}[h!]
 \centering
 \input{formalisation/figures/deplacementMethode1}
-\caption{Exemple : Déplacement, première méthode}
+\caption{Exemple : déplacement, première méthode}
 \label{fig:deplacementMethode1}
 \end{figure}
 
@@ -205,7 +205,7 @@ Enfin, un troisième segment sera introduit plus tard, en partie \ref{section:sy
 
 \subsubsection{Segments spéciaux}
 \label{section:alphasegment}
-\begin{mydef}
+\begin{mydef}[$\alpha$-segment]
 Un $\alpha$-segment est un nd-segment particulier de durée $0$, possédant au moins deux places de sortie et une place d'entrée.
 \end{mydef}
 Un $\alpha$-segment peut être créé en précédence d'un segment $s$ de la manière suivante : 
@@ -218,7 +218,7 @@ Le rôle des $\alpha$-segments est de permettre à un segment d'être suivi par 
 
 Dans les schémas qui suivent, il sera représenté en \textcolor{BrickRed}{rouge}.
 
-\begin{mydef}
+\begin{mydef}[$\beta$-segment]
 Un $\beta$-segment est un d-segment particulier dont la durée vaut celle d'un autre segment moins un délai variable. Il précède nécessairement un nd-segment, et ne peut en être dissocié.
 \end{mydef}
 Son rôle est de simuler l'exécution d'un autre segment en ajustant sa durée de manière à ce qu'elle prenne en compte le lien entre deux nœuds, lorsque deux segments consécutifs sont placés sur deux nœuds différents.
@@ -356,33 +356,35 @@ Cette méthode présente plusieurs faiblesses :
 \begin{figure}[H]
 	\centering
 	\input{formalisation/figures/deplacementCol}
-	\caption{Exemple de répartition par couleur} 
+	\caption{Exemple : répartition par couleur} 
 	\label{fig:repartCouleur}
 \end{figure}
 
 \newpage
 \section{Comparaison entre les méthodes}
-Dans cette partie, nous faisons une brève comparaison entre les méthodes vues jusqu'à présent, en considérant les qualités et les défauts de chacune, en figure \ref{fig:compMethods}.
+Dans cette partie, nous faisons une brève comparaison entre les méthodes vues jusqu'à présent, en considérant les qualités et les défauts de chacune, en \cref{tblcompMethods}.
 
-\begin{figure}[h]
-	\begin{tabular}{l|c|c|c}
+\begin{table}[h]
+	\centering
+	\tabulinesep=3pt
+	\begin{tabu}  to \linewidth {X[0.1,c]XXX}
 		& Méthode 1 & Méthode 2 & Méthode 3 \\
-		\hline
-		\multirow{5}{*}{{\huge +}}
+		\toprule
+		\multirow{5}{*}{{\textbf{\huge $+$}}}
 			& Transformation simple & Conserve les nd-segments & Ne change pas la topologie \\
 			& & Passe bien à l'échelle & Passe bien à l'échelle \\
 			& & Permet effets particuliers (cf. \ref{section:canon}) & Théorie simple \\
 			& & Permet rétropropagation (cf. \ref{section:retropropag}) & \\
 			& & Permet synchronisation (cf. \ref{fig:duplicationEtRecoll}) &  \\
 			\hline
-		\multirow{3}{*}{{\huge -}} 
+		\multirow{3}{*}{{\textbf{\huge $-$}}} 
 			& Passe mal à l'échelle & Transformation complexe & Change l'algorithme \\
 			& nd-segments découpés  & Introduit de nouveaux segments & Bloque les couleurs  \\
-			& Boucles ingérables & & \\
-	\end{tabular}
+			& Boucles ingérables & & 
+	\end{tabu}
 	\caption{Points positifs et négatifs des méthodes}
-	\label{fig:compMethods}
-\end{figure}
+	\label{tblcompMethods}
+\end{table}
 
 En raison du nombre de points positifs de la méthode 2, et de la durée du stage, c'est celle qui a été principalement retenue pour vérifications ultérieures.
 

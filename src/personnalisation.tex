@@ -1,3 +1,6 @@
+\geometry{headheight=15pt}
+\usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,petri}
+
 % Plus de figures
 \renewcommand\floatpagefraction{.9}
 \renewcommand\topfraction{.9}
@@ -50,6 +53,18 @@ escapeinside={\%*}{*)}
 \makeatother
 
 % Théorêmes usuels
+\newtheoremstyle{joliedef}% name
+   {1em}%      Space above
+   {1em}%      Space below
+   {}%         Body font
+   {}%         Indent amount (empty = no indent, \parindent = para indent)
+   {\bfseries}% Thm head font
+   {\\}%        Punctuation after thm head
+   {1em}%     Space after thm head: " " = normal interword space;
+   %       \newline = linebreak
+   {\thmname{#1}: \textit{\thmnote{#3}}} %         Thm head spec (can be left empty, meaning `normal')
+
+\theoremstyle{joliedef}
 \newtheorem{mydef}{Définition}
 \theoremstyle{plain}
 \newtheorem{myth}{Théorême}

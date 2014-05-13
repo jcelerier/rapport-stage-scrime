@@ -98,7 +98,81 @@ Cette bibliothèque utilise le cadriciel \brand{Jamoma}.
 \subsubsection{API}
 La version 0.3 d'i-score se base sur une \ac{API}, qui offre toutes les possibilités de gestion de scénario directement au programmeur, de manière à ce que d'autres applications puissent être conçues par dessus. Par exemple, des acteurs du jeu vidéo sont intéressés par le fonctionnement offert par \ac{OSSIA} dans un environnement \brand{Unity}. 
 
-\section{Répartition et attentes}
+\section{Organisation au cours du stage}
+Cette partie précisera le déroulement de mon stage : compréhension du sujet, recherche, implémentation\dots
+
+Pour rappel, le sujet précis du stage était : 
+\begin{center}
+	\noindent\fbox{\parbox{31em}{Répartition du séquenceur multimedia i-score sur plusieurs machines}}
+\end{center}
+
+L'énoncé complet du sujet est disponible en \cref{apx.SujetStage}.
+\subsection{Attentes}
+\label{sectionAttentes}
+Les différents acteurs du projet ont tous eu des attentes différentes par rapport à mon stage.
+
+Néanmoins, il est ressorti des réunions les points suivants : 
+\begin{itemize}
+	\item La répartition peut être faite au niveau des processus ou des scénarios.
+	\item Il est nécessaire de pouvoir grouper facilement les parties sensées s'exécuter sur une même machine.
+	\item Le backup doit être rendu possible.
+	\item Le choix de synchroniser ou non est laissée au compositeur.
+	\item Un des intérêts principaux est l'embarqué, que ce soit sur des micro-ordinateurs comme \brand{Raspberry Pi} et \brand{BeagleBoard}, ou bien sur des smartphones et tablettes tactiles.
+	\item Le processus de composition doit pouvoir lui aussi être réparti (ou du moins accessible à plusieurs utilisateurs simultanément).
+	\item Le formalisme doit être modifié pour prendre en compte la répartition.
+	\item L'interface utilisateur doit être modifiée de manière à pouvoir cacher les parties qui s'exécutent à distance.
+	\item Une interface utilisateur "chef d'orchestre" doit être présente et permettre de pouvoir tout voir et tout modifier.
+\end{itemize}
+
+Au niveau de la répartition, plus précisément, deux possibilités principales ont été vues comme désirables par les compositeurs : 
+\begin{itemize}
+	\item Le déplacement : le fait de déporter l'exécution d'un processus ou scénario sur une autre machine.
+	\item La duplication : le fait de copier l'exécution d'un processus ou scénario sur une autre machine.
+\end{itemize}
+
+La duplication peut avoir une arité définie ou indéfinie, c'est à dire que le nombre de machines n'est pas forcément connu à l'avance.
+
+Au niveau plus précis des processus, il a été envisagé de concevoir des cas particuliers permettant notamment de réaliser des opérations sur un groupe de signaux entrants. Par exemple, si onze machines sont lancées, dont une "maître" et dix exécutant un sous-scénario spécifique, on veut que les dix puissent agir chacune indépendamment sur un paramètre donné, et prendre comme résultat la moyenne, la somme, le minimum, le maximum, ou autre, de la valeur de ce paramètre sur les dix machines.
+
+\subsubsection{Example dans le formalisme}
+Un exemple, présenté en \cref{fig.RepartOSSIA}, a été conçu pour permettre de mettre en valeur les possibilités offertes.
+
+Il est inspiré de l'exemple canonique du moine d'\ac{OSSIA}, présent en \cref{apx.OSSIAExemple}, et suit la même nomenclature.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.7]{images/ossiaDistri.pdf}
+	\caption{Example de répartition dans le formalisme \brand{OSSIA}.}
+	\label{fig.RepartOSSIA}
+\end{figure}
+
+Les couleurs représentent les groupes.
+Il y a ici trois groupes : 
+
+\begin{enumerate}
+	\item Le premier groupe, \textcolor{BrickRed}{rouge}, sert à projeter de la vidéo sur un écran géant.
+	\item Le second groupe, \textcolor{OliveGreen}{vert}, sert à lire des fichiers sons dans une salle.
+	\item Le troisième groupe, \textcolor{SteelBlue}{bleu}, est exécuté sur un nombre quelconque d'appareils, comme des tablettes tactiles.  
+\end{enumerate}
+
+Le fonctionnement est le suivant : 
+\begin{itemize}
+	\item Quand personne n'est connecté, des vidéos quelconques sont jouées sur le vidéoprojecteur.
+	\item Quand quelqu'un est connecté, il voit sur sa tablette un moine apparaître, qui suit le mouvement de ses yeux.
+	\item Quand quelqu'un touche sa tablette, le moine de sa tablette récite un proverbe.
+	\item Quand quelqu'un est connecté, un moine s'affiche sur l'écran géant. Le moine regarde dans la direction moyenne des moines présents sur les tablettes connectées au système. Des murmures sont aussi joués par le système de son, avec une augmentation continue et linéaire d'un paramètre (comme volume), puis son retour à zéro.
+	\item Quand quelqu'un se déconnecte, un message d'au revoir est dit dans la salle.
+\end{itemize}
+
+Les dispositifs suivants sont nécessaires pour exécuter ce scénario : 
+\begin{itemize}
+	\item Une machine dédiée à l'audio reliée au système de son.
+	\item Une machine dédiée à la vidéo reliée au vidéoprojecteur.
+	\item Un ensemble de tablettes ou téléphones tactiles avec une caméra en face avant, un logiciel de vidéo, et logiciel d'eye-tracking.
+\end{itemize}
+
+Il n'y a pas besoin de machine spécifiquement maîtresse : une des deux machines audio ou vidéo peut en faire office.
+Néanmoins, une telle machine peut être rajoutée.
 \subsection{Problèmes posés par la répartition}
 Un des problèmes majeurs ici est le besoin de synchronisation avec une horloge physique. En effet, les relations entre débuts et fins d'évènements sont données sous forme de millisecondes les séparant, les réseaux étant temporels. Ainsi, les mécanismes d'horloges vectorielles et logiques ne sont pas directement applicables.
 
@@ -106,23 +180,39 @@ Le deuxième problème est qu'il n'est pas réellement question de répartition 
 
 Idéalement, il serait possible de faire une différenciation automatique, néanmoins, deux aspects s'y opposent : 
 \begin{itemize}
-\item Le compositeur désire avoir le choix pour la répartition.
-\item Score ne communique qu'avec des messages \ac{OSC}. Un message \ac{OSC} a le format suivant : 
-\begin{verbatim} /adresse/où/écrire argument1 argument2 ... \end{verbatim}.
-
-Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car non standardisées. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
+	\item Le compositeur désire avoir le choix pour la répartition.
+	\item Score ne communique qu'avec des messages \ac{OSC}. Un message \ac{OSC} a le format suivant : 
+	\begin{verbatim} /adresse/où/écrire argument1 argument2 ... \end{verbatim}.
+	
+	Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car non standardisées. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
 \end{itemize}
-Un troisième point, limitant, à tenir en compte, est celui de la gestion de l'interactivité. Dans ce cas, l'impact de la latence due au réseau physique est inévitable.
-
-\section{Organisation au cours du stage}
-Cette partie précisera le déroulement de mon stage : compréhension du sujet, recherche, implémentation\dots
-
-Pour rappel, le sujet précis du stage était : 
-\begin{center}
-	\noindent\fbox{\parbox{31em}{Répartition du séquenceur multimedia i-score sur plusieurs machines.}}
-\end{center}
+Un troisième point, limitant, à tenir en compte, est celui de la gestion de l'interactivité. Dans ce cas, l'impact de la latence due au réseau physique est inévitable, si par exemple un artiste décide d'activer une fonction qui est sensée s'exécuter sur une autre machine.
 
 
 \subsection{Définition du travail à réaliser}
+Étant donné la nature duale du stage, mon travail a été séparé en deux parties qui se sont précisées au fil des réunions avec mes encadrants.
+
+\subsubsection{Recherche théorique sur les réseaux de Petri}
+Il est apparu assez clairement que la majorité de mon travail théorique porterait sur les réseaux de Petri, car l'intérêt majeur est d'avoir une exécution répartie des scénarios.
+
+J'ai donc essayé de réaliser un existant à jour sur ce sujet, ainsi que sur celui des dernières avancées en répartition et en synchronisation de machines et d'horloges.
+Néanmoins, malgré des rencontres avec plusieurs enseignants, je n'ai pas trouvé d'existant portant spécifiquement sur l'exécution des réseaux de Petri dans un cas réparti.
+Cette phase est détaillée au \cref{chapterStateOfTheArt}.
+
+Par la suite, j'ai essayé de concevoir des méthodes théoriques pouvant répondre au problème.
+J'ai ensuite choisi celle qui a semblé la plus pertinente en les comparant, et ai essayé de prouver sa correction, ainsi que de proposer des améliorations.
+Ce travail est présenté dans le \cref{chapterApports}.
+
+\subsubsection{Travail de conception}
+La conception a été divisée en trois parties : 
+\begin{itemize}
+	\item Choix des technologies à utiliser et de la position ou mon travail doit se situer.
+	\item Conception d'un logiciel de test de répartition de réseaux de Petri.
+	\item Intégration des idées présentées en \cref{sectionAttentes} dans i-score.
+\end{itemize}
+
+Elle a été suivie d'une phase d'implémentation.
+
+Les détails se trouvent au \cref{chapterImpl}.
 \subsection{Organisation temporelle}
 (TODO mettre diagramme de Gantt)

@@ -206,7 +206,7 @@ Ce travail est présenté dans le \cref{chapterApports}.
 \subsubsection{Travail de conception}
 La conception a été divisée en trois parties : 
 \begin{itemize}
-	\item Choix des technologies à utiliser et de la position ou mon travail doit se situer.
+	\item Choix et prise en main des technologies à utiliser et de la position où mon travail doit se situer : i-score 0.2, 0.3, API Score\dots
 	\item Conception d'un logiciel de test de répartition de réseaux de Petri.
 	\item Intégration des idées présentées en \cref{sectionAttentes} dans i-score.
 \end{itemize}
@@ -214,5 +214,27 @@ La conception a été divisée en trois parties :
 Elle a été suivie d'une phase d'implémentation.
 
 Les détails se trouvent au \cref{chapterImpl}.
-\subsection{Organisation temporelle}
-(TODO mettre diagramme de Gantt)
+
+\subsubsection{Organisation temporelle}
+Je me suis principalement organisé en sprints de 15 jours, qui pouvaient parfois être ponctués par des évènements particuliers. Le détail est présent en \cref{tbl.Timeline}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabu} to \linewidth {r |@{\vtbullet} X[l]}
+		Début à mi-février & Prise en main du sujet \\
+		10 et 11 février & Première réunion \ac{OSSIA} \\
+		Mi à fin février & Recherche d'existant et portage de \brand{Jamoma} et i-score sous Linux \\
+		Début à mi-mars & Conception de l'application de test de répartition, portage sous \brand{Android} et plateformes \brand{ARM} \\
+		14 et 15 mars & Seconde réunion \ac{OSSIA} \\
+		Mi-mars & Préparation et rendu du rapport à 6 semaines pour l'ENSEIRB-MATMECA. \\
+		20 mars & Présentation à un GT du Scrime \\
+		Mi à fin mars &  Essais de conception des algorithmes de répartition de réseaux de Petri \\
+		Début à mi-avril & Formalisation et vérification, portage de \brand{Jamoma} sous CMake \\
+		Mi à fin avril & Conception de l'\ac{API} dédiée à la répartition dans Score \\
+		Début à mi-mai & Rédaction du présent mémoire \\
+		14, 15, 16 Mai & Troisième réunion \ac{OSSIA} \\
+		Mi à fin mai & Rédaction du mémoire pour l'ENSEIRB-MATMECA, préparation des soutenances \\
+	\end{tabu}
+	\caption{Organisation au cours du stage}
+	\label{tbl.Timeline}
+\end{table}

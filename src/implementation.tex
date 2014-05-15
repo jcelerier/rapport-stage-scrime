@@ -16,8 +16,25 @@ Néanmoins, très tôt j'ai décidé d'entreprendre un portage des librairies n�
 
 \section{Organisation du travail}
 \subsection{Choix effectués}
-PetriNet API
-ZeroConf
+\subsubsection{Prototypage}
+Pour prototyper rapidement des applications utilisant les réseaux de Petri, j'ai choisi d'utiliser \brand{PetriNet API}, en raison de la simplicité d'utilisation de cette bibliothèque. En la prenant en main, j'ai rapidement pu comprendre le fonctionnement des réseaux de Petri.
+J'ai aussi utilisé \brand{Qt} pour les interfaces graphiques, en raison de la connaissance préalable que j'en avais.
+
+\subsubsection{Technologie réseau}
+Pour le réseau, j'ai très vite choisi d'utiliser \gls{zeroconf}. En effet, la majorité des utilisateurs étant des artistes, ils ne devraient pas avoir à se poser la question des adresses IP et ports à utiliser.
+Néanmoins, j'ai gardé la possibilité de connexions entre machines en utilisant un couple IP:port.
+Pour la communication inter-machines, j'ai choisi d'utiliser \brand{OSC}. En effet, c'est le protocole utilisé dans \brand{i-score} et \brand{Jamoma}, et des bibliothèques pour s'en servir étaient déjà présentes.
+
+\subsection{Fonctionnement en équipe}
+Étant dans un travail en équipe et open-source, j'ai été confronté de multiples fois à des problèmes courants dans cette situation : 
+
+\begin{itemize}
+	\item Dans le cas d'implémentations divergentes. Une partie de mon travail étant situé sur les branches de développement, et n'étant pas le seul à y avoir les droits de commit, il arrivait parfois que les builds soient cassés.
+	\item Dans le cas de contributions à mon travail. Il est arrivé que des contributeurs extérieurs fassent des requêtes (\textit{pull requests}) sur mon code, afin d'ajouter des fonctionnalités.
+\end{itemize}
+
+Les dépôts étant publics, il m'est aussi arrivé d'avoir des questions sur le fonctionnement de mon code d'utilisateurs extérieurs.
+
 \section{Réalisations}
 \subsection{Logiciel de test de répartition}
 Ma première impulsion a été de créer un logiciel, nommé \brand{dpetri} (pour \textit{distributed petri}) qui permette d'exécuter un réseau de Petri sur un réseau informatique, en associant à chaque machine du réseau des transitions (la valeur des places est partagée intelligemment entre les deux nœuds qui y sont attenants).
@@ -121,6 +138,15 @@ Un groupe peut aussi être mis en sourdine, que ce soit au niveau local (sur une
 
 Enfin, l'idée d'un groupe spécial dédié à la sauvegarde (\textit{backup}) est proposée : dans ce groupe, les clients sont par défaut mis en sourdine, à l'exception d'un seul. Si lors de l'exécution un des clients ne répond plus, la session maîtresse enlève sa sourdine à un autre client.
 
+\paragraph{Duplication et indépendance des choix}
+Une des fonctionnalités des groupes est la duplication des choix. C'est-à-dire que l'on peut choisir si dans un groupe toutes les machines exécuteront exactement les mêmes choses (c'est-à-dire que la première à faire un choix impose son choix sur les autres), ou si chaque machine pourra avoir un comportement interne divergeant.
+
+\paragraph{Synchronisation en sortie de groupe}
+Cela correspond aux comportements présentés en \cref{fig.duplicationEtRecoll}.
+
+Au niveau de l'interface, il a été convenu d'ajouter une condition spéciale d'attente dans les évènements de sortie d'un scénario, qui serait traduite en condition \brand{OSC} de manière transparente.
+
+\paragraph{Interface OSC}
 Un groupe possède de plus certaines fonctionnalités d'agrégation des clients qui l'exécutent, via l'exposition d'une interface en \ac{OSC}.
 
 L'interface proposée est la suivante : (\texttt{group} peut être remplacé par le nom du groupe, mais cela pose problème car il faut alors interdire les caractères spéciaux et les espaces).
@@ -137,5 +163,6 @@ En écriture sur le groupe :
 	\item /group/connexions
 	\item /group/nomDuParamère/fonctionnalité
 \end{itemize}
+
 \subsection{Implémentation dans le logiciel i-score}
 \subsection{Démonstration dans le cadre d'un vrai scénario}

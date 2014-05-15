@@ -77,8 +77,6 @@ L'accent actuel est mis sur la gestion de la modularité, avec l'implémentation
 \subsection{Outils développés pour l'analyse des réseaux de Petri}
 En sus de la théorie bâtie depuis bientôt un demi-siècle, les réseaux de Petri sont aussi très utilisé en pratique, pour réaliser des simulations de systèmes à complexité variable.
 
-(TODO mettre captures d'écran ?)
-
 \subparagraph{ePNK} est une plateforme logicielle travaillant en format \ac{PNML}. Elle est bâtie autour de la notion d'extensibilité, en permettant aux autres développeurs d'insérer facilement leurs propres formalismes de réseaux de Petri avec une architecture en plug-in.
 
 À la base prévue pour l'édition, elle est aussi désormais capable de simuler l'exécution de réseaux de Petri  \cite{kindler2013simulator}.
@@ -89,7 +87,14 @@ Un des avantages est l'import de données au format \ac{PNML} et l'export au for
 
 \subparagraph{CPN Tools} (\textit{Colored Petri Net Tools}) permet comme \brand{ePNK} d'éditer, simuler, et analyser des réseaux de Petri colorés \cite{jensen2007coloured}.
 
-Il est notamment utilisé dans le projet \ac{OSSIA} à des fins de validation.
+Il est notamment utilisé dans le projet \ac{OSSIA} à des fins de validation. Une capture d'écran est visible en \cref{fig.cpntools}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{images/cpntools.png}
+	\caption{Capture d'écran : \brand{CPN Tools}}
+	\label{fig.cpntools}
+\end{figure}
 
 \subparagraph{PNlib} \cite{pross2014object} est un outil de simulation orienté objet visant le cas particulier des processus biologiques.
 

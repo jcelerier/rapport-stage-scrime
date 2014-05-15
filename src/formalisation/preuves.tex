@@ -32,7 +32,7 @@ On retrouve alors la configuration initiale.
 On désire déplacer un des deux segments de la boucle sur un autre nœud.
 
 Les boucles sont un cas particulier : elles possèdent une condition en sortie.
-Une condition, selon le formalisme mis en place par Antoine Allombert (TODO citer page), se manifeste par une place qui se trouve en entrée de plusieurs transitions, ce que nous avions interdit jusqu'alors. La condition se manifeste donc en pratique par la transition qui est tirée si cette condition est vraie.
+Une condition, selon le formalisme mis en place par Antoine Allombert \cite[p. 167--170]{allombert2009aspects}, se manifeste par une place qui se trouve en entrée de plusieurs transitions, ce que nous avions interdit jusqu'alors. La condition se manifeste donc en pratique par la transition qui est tirée si cette condition est vraie.
 
 Deux possibilités s'offrent alors : 
 \begin{itemize}
@@ -64,7 +64,7 @@ On peut par exemple modifier la sémantique de manière à ce que la transition 
 
 Cela peut par exemple servir à faire un effet de canon musical, et de partir au plus tôt pour la suite.
 
-\item Avoir un segment tampon supplémentaire entre les $\beta$-segments dupliqués, et les segments suivants (représenté en orange sur la figure \ref{fig:duplicationEtRecoll}).
+\item Avoir un segment tampon supplémentaire entre les $\beta$-segments dupliqués, et les segments suivants (représenté en orange sur la figure \ref{fig.duplicationEtRecoll}).
 La conséquence est l'attente de la terminaison de tous les processus (au moins une fois, dans le cas de boucles à effet duplicant) sur toutes les machines.
 
 Ce nouveau segment tampon (nommons-le $\gamma$-segment) devrait être situé sur le nœud du segment qui le suit.
@@ -76,5 +76,5 @@ Dans ce cas, on n'effectue la seconde opération de déplacement qu'avec la bran
 \begin{figure}[h!]
 \centering
 \input{formalisation/figures/duplicationEtRecoll}
-\label{fig:duplicationEtRecoll}
+\label{fig.duplicationEtRecoll}
 \end{figure}

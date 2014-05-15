@@ -137,7 +137,7 @@ Deux segments sont dits consécutifs s'ils partagent au moins une place. Cela im
 
 Un réseau de Petri distribué contient des d-segments et des nd-segments consécutifs, ainsi qu'une place initiale et une place finale.
 
-Des processus existent de plus au-dessus de segments, qui sont signifiés par un changement d'état d'un paramètre entre deux places. Il est donc important d'assurer que la durée de ces processus ne change pas lors de la distribution. (TODO déplacer dans pbq)
+Des processus existent de plus au-dessus de segments, qui sont signifiés par un changement d'état d'un paramètre entre deux places. Il est donc important d'assurer que la durée de ces processus ne change pas lors de la distribution. (TODO reformaliser par rapport à pbq)
 
 \subsection{Première tentative de formalisation}
 Cette section présente la première idée qui a été pensée pour résoudre ce problème.
@@ -313,7 +313,7 @@ Cette opération revient à la suite d'opérations suivantes :
 \item Déplacer $s'$ avec une des méthodes vues précédemment.
 \end{enumerate}
 
-Un cas de duplication pour la seconde méthode est donné en exemple en figure \ref{fig:duplicationEtRecoll}.
+Un cas de duplication pour la seconde méthode est donné en exemple en figure \ref{fig.duplicationEtRecoll}.
 
 \section{Méthode par coloration}
 \chaptermark{Coloration}
@@ -376,7 +376,7 @@ Dans cette partie, nous faisons une brève comparaison entre les méthodes vues 
 			& & Passe bien à l'échelle & Passe bien à l'échelle \\
 			& & Permet effets particuliers (cf. \ref{section:canon}) & Théorie simple \\
 			& & Permet rétropropagation (cf. \ref{section:retropropag}) & \\
-			& & Permet synchronisation (cf. \ref{fig:duplicationEtRecoll}) &  \\
+			& & Permet synchronisation (cf. \ref{fig.duplicationEtRecoll}) &  \\
 			\hline
 		\multirow{3}{*}{{\textbf{\huge $-$}}} 
 			& Passe mal à l'échelle & Transformation complexe & Change l'algorithme \\

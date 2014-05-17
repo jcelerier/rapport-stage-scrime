@@ -63,11 +63,11 @@ Deux approches sont possibles :
 
 \item Dans les deux cas présentés ci-dessus, il ne sera pas possible d'échapper à un effet de saut lors de la reprise pour certains processus. Mais une granularité plus fine (c'est-à-dire au niveau des processus et du temps réel) n'est pas possible avec le formalisme des réseaux de Petri.
 
-Cependant, il est simple de l'implémenter : il suffit d'effectuer une duplication au niveau du réseau de Petri, et de donner aux nœuds du graphe une propriété "activé" ou "désactivé". Si un nœud ne répond plus et est dupliqué à des fins de backup, un autre nœud "active" la branche qui est sensée prendre le relai; ce nœud se met alors à émettre des signaux à ses processus instantanément.
+Cependant, il est simple de l'implémenter : il suffit d'effectuer une duplication au niveau du réseau de Petri, et de donner aux nœuds du graphe une propriété "activé" ou "désactivé". Si un nœud ne répond plus et est dupliqué à des fins de backup, un autre nœud "active" la branche qui est censée prendre le relai; ce nœud se met alors à émettre des signaux à ses processus instantanément.
 
 De plus, l'idéal serait de pouvoir "muter" uniquement les sorties matérielles de l'ordinateur (ex. : sortie audio, vidéoprojecteur). En effet, un processus externe peut utiliser un effet de feedback; une transition sans interruptions entre une machine ayant planté et la machine de backup ne marchera bien que si toutes les étapes précédentes ont été calculées par la machine de backup.
 
-Enfin, pour des questions d'ergonomie, il pourrait être intéressant d'avoir un concept de groupes de nœuds, sensés posséder les mêmes tâches, et d'associer à chaque segment un ou plusieurs groupes. La détection d'un nœud "mort" se ferait dans le groupe par envoi de messages réguliers, et une des machines au hasard du groupe peut reprendre les tâches laissées en plan.
+Enfin, pour des questions d'ergonomie, il pourrait être intéressant d'avoir un concept de groupes de nœuds, censés posséder les mêmes tâches, et d'associer à chaque segment un ou plusieurs groupes. La détection d'un nœud "mort" se ferait dans le groupe par envoi de messages réguliers, et une des machines au hasard du groupe peut reprendre les tâches laissées en plan.
 \end{itemize}
 
 \subsection{Cas du changement de vitesse}
@@ -121,6 +121,6 @@ Si on désire déplacer plusieurs segments adjacents en même temps, il suffit d
 Comme i-score précompile les réseaux de Petri à chaque lecture, il serait possible d'appliquer le processus "inverse" de celui décrit, pour avoir un nombre de calculs minimaux à réaliser : 
 
 \begin{enumerate}
-\item Affecter à chaque segment le nœud sur lequel il est sensé se trouver.
+\item Affecter à chaque segment le nœud sur lequel il est censé se trouver.
 \item Pour chaque paire de segments adjacents et n'étant pas sur le même nœud, effectuer une opération de déplacement.
 \end{enumerate}

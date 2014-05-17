@@ -20,10 +20,11 @@ Des acteurs d'origines diverses participent au projet:
 
 Les interactions parfois complexes entre ces acteurs sont expliquées dans \cite{meyssonnier2013analyse}.
 
-\subsection{Formalisme}
+\subsection{Présentation de \ac{OSSIA}}
 Les travaux du projet portent en partie sur la réalisation d'un formalisme assez expressif pour permettre de s'en servir dans des cas d'usages très différents.
 
-Ce formalisme repose sur la notion de scénario interactif, qui elle-même repose sur la notion de temps, au sens ou on l'entend couramment, mais aussi étendu des manières suivantes :
+Ce formalisme repose sur la notion de scénario interactif, qui elle-même repose sur la notion de temps, au sens ou on l'entend couramment, mais aussi étendu des manières présentées en \cref{tbl.tempsOSSIA}.
+
 \begin{table}[H]
 	\centering
 	\tabulinesep=3pt
@@ -36,16 +37,17 @@ Ce formalisme repose sur la notion de scénario interactif, qui elle-même repos
 		Hiérarchique	& Permet une meilleure organisation et la présence de sous-temps. \\ 
 	\end{tabu}
 	\caption{Les différentes familles de temps considérés dans \brand{OSSIA}}
+	\label{tbl.tempsOSSIA}
 \end{table}
 
-\begin{mydef}[Scénario] Une structure pouvant contenir du temps.
+\begin{mydef}[Scénario] Une structure pouvant contenir du temps, au sens du \cref{tbl.tempsOSSIA}. Plus précisément, c'est une représentation d'une suite d'évènements temporels discrets, pouvant être ponctuels ou continus.
 \end{mydef}
 
-Néanmoins, le temps seul n'est pas utile : il faut qu'il y ait une notion de contrôle d'éléments extérieurs, comme par exemple le volume d'un fichier audio, ou l'intensité d'un éclairage.
+Néanmoins, le temps seul n'est pas utile : il faut qu'il y ait une notion de contrôle d'éléments extérieurs, comme par exemple le volume d'un fichier audio, ou l'intensité d'un éclairage. C'est la seconde problématique d'\ac{OSSIA} : l'interopérabilité avec le parc d'applications et de périphériques existants.
 
 Ce contrôle se fait au travers de la notion de processus.
 
-\begin{mydef}[Processus] Le changement d'un paramètre au cours du temps.
+\begin{mydef}[Processus] Le changement d'un paramètre externe au cours du temps. Le nom d'automation est aussi courant. Il peut y avoir un nombre quelconque de processus dans un scénario.
 \end{mydef}
 
 Des exemples de scénarios et de processus sont visibles dans les captures d'écrans de la \cref{figIScore}.
@@ -114,7 +116,7 @@ Les différents acteurs du projet ont tous eu des attentes différentes par rapp
 Néanmoins, il est ressorti des réunions les points suivants : 
 \begin{itemize}
 	\item La répartition peut être faite au niveau des processus ou des scénarios.
-	\item Il est nécessaire de pouvoir grouper facilement les parties sensées s'exécuter sur une même machine.
+	\item Il est nécessaire de pouvoir grouper facilement les parties censées s'exécuter sur une même machine.
 	\item Le backup doit être rendu possible.
 	\item Le choix de synchroniser ou non est laissée au compositeur.
 	\item Un des intérêts principaux est l'embarqué, que ce soit sur des micro-ordinateurs comme \brand{Raspberry Pi} et \brand{BeagleBoard}, ou bien sur des smartphones et tablettes tactiles.
@@ -134,7 +136,7 @@ La duplication peut avoir une arité définie ou indéfinie, c'est à dire que l
 
 Au niveau plus précis des processus, il a été envisagé de concevoir des cas particuliers permettant notamment de réaliser des opérations sur un groupe de signaux entrants. Par exemple, si onze machines sont lancées, dont une "maître" et dix exécutant un sous-scénario spécifique, on veut que les dix puissent agir chacune indépendamment sur un paramètre donné, et prendre comme résultat la moyenne, la somme, le minimum, le maximum, ou autre, de la valeur de ce paramètre sur les dix machines.
 
-\subsubsection{Example dans le formalisme}
+\subsubsection{Exemple dans le formalisme}
 Un exemple, présenté en \cref{fig.RepartOSSIA}, a été conçu pour permettre de mettre en valeur les possibilités offertes.
 
 Il est inspiré de l'exemple canonique du moine d'\ac{OSSIA}, présent en \cref{apx.OSSIAExemple}, et suit la même nomenclature.
@@ -142,7 +144,7 @@ Il est inspiré de l'exemple canonique du moine d'\ac{OSSIA}, présent en \cref{
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.7]{images/ossiaDistri.pdf}
-	\caption{Example de répartition dans le formalisme \brand{OSSIA}.}
+	\caption{Exemple de répartition dans le formalisme \brand{OSSIA}.}
 	\label{fig.RepartOSSIA}
 \end{figure}
 
@@ -186,7 +188,7 @@ Idéalement, il serait possible de faire une différenciation automatique, néan
 	
 	Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car non standardisées. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
 \end{itemize}
-Un troisième point, limitant, à tenir en compte, est celui de la gestion de l'interactivité. Dans ce cas, l'impact de la latence due au réseau physique est inévitable, si par exemple un artiste décide d'activer une fonction qui est sensée s'exécuter sur une autre machine.
+Un troisième point, limitant, à tenir en compte, est celui de la gestion de l'interactivité. Dans ce cas, l'impact de la latence due au réseau physique est inévitable, si par exemple un artiste décide d'activer une fonction qui est censée s'exécuter sur une autre machine.
 
 
 \subsection{Définition du travail à réaliser}

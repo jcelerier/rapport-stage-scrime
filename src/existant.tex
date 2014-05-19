@@ -132,7 +132,7 @@ Des réseaux de Petri spatio-temporels ont été introduits\cite{zhang2014modeli
 Les jeux vidéos peuvent parfois se présenter comme des processus scénarisés, que ce soit dans le temps, ou dans l'espace.
 Une autre famille de réseaux spatio-temporels ont été introduits dans \cite{natkin2004new}, servant à prévoir et agir en fonction des déplacements des joueurs dans des niveaux de jeu.
 
-Plus récemment, une classe de réseaux de Petri dédiée à des buts organisationnels, les WorkFlow nets\cite{oliveira2011game}, ont été appliqués à la modélisation de jeu vidéo.
+Plus récemment, une classe de réseaux de Petri dédiée à des buts organisationnels, les \textit{WorkFlow nets}\cite{oliveira2011game}, ont été appliqués à la modélisation de jeu vidéo.
 \section{Répartition}
 La répartition (\textit{distribution}) est un second point important de ce stage. C'est un domaine qui est souvent très proche de la technique : le besoin d'utiliser des algorithmes répartis provient souvent de contraintes matérielles ou temporelles.
 
@@ -202,7 +202,7 @@ Néanmoins, plutôt que de ne faire garder que leur état logique aux nœuds, on
 Le problème des horloges vectorielles est la croissance de la taille du vecteur dans un système contenant beaucoup de nœuds.
 
 \paragraph{Horloges plausibles}
-Plausible clocks: constant size logical clocks for distributed systems
+Une méthode pour régler le problème de taille de vecteur a été proposée dans \cite{torres1999plausible}. Cela améliore l'efficacité dans le cas de grands réseaux, néanmoins il arrive que des évènements pouvant se dérouler en parallèle soient réorganisés pour se dérouler séquentiellement.
 
 \subsection{Synchronisation physique}
 Comme i-score est un logiciel permettant de manipuler le temps, il nécessite de travailler avec une horloge physique. Le problème principal des systèmes distribués se basant sur une horloge est de s'assurer que tous les nœuds ont la même heure.
@@ -228,22 +228,22 @@ D'autres approches ont essayé d'utiliser d'autres couches que les couches appli
 Enfin, des recherches ont été faites pour gérer les cas de réseaux peu fiables et possédant de grandes latences. Un mécanisme pour gérer les synchronisations par transmission acoustique dans des milieux marins est présenté dans \cite{syed2006time}. Ces cas ont des contraintes très importantes en terme de débits et de pertes de bits, ce qui force l'utilisation d'algorithmes dédiés, qui prennent notamment en compte le décalage d'horloges (\textit{clock skew}) qui peut être particulièrement important.
 \subsection{Estimation de la latence}
 \label{section:latence}
-Network latency estimation % http://www.google.com/patents/US8254264B1
+Il est critique dans de nombreuses applications collaboratives et réparties de pouvoir estimer la latence entre les différentes machines, et ce de la manière la plus précise possible. Cela peut s'appliquer dans le cas de réseaux locaux à haute vitesse, ou bien de l'internet.
 
-King: estimating latency between arbitrary internet end hosts
+L'algorithme le plus simple consiste en un message de type ping/pong entre deux machines, mais la précision est très faible, et il n'est pas possible de connaître la latence dans une seule direction.
 
-Method and system for peer-to-peer network latency measurement % http://www.google.com/patents/US6012096
-
+Des méthodes plus perfectionnées peuvent par exemple faire appel à une machine tierce et des points de repères présents sur le réseau : \cite{banerjee2012network}, ou encore à des comportements entièrement pair-à-pair \cite{im2000method} qui fonctionnent sur des versions avancées de l'algorithme naïf présenté au paragraphe précédent. 
+Une autre approche, purement logicielle, nommée \brand{King} \cite{gummadi2002king}, fait appel à des requêtes \ac{DNS} récursives. Ainsi, cette méthode se destine principalement à une utilisation sur internet.
 
 \section{Projet OSSIA et partitions interactives}
-Le projet \ac{OSSIA} utilise les acquis du projet \brand{Virage} (TODO cite) qui l'a précédé, ainsi que ceux de différents formalismes de partitions interactives. Il est aussi en interaction avec le projet \brand{INÉDIT} qui vise à rendre interopérable différents outils de création musicale et de composition.
+Le projet \ac{OSSIA} utilise les acquis du projet \brand{Virage} \cite{baltazar2009virage} qui l'a précédé, ainsi que ceux de différents formalismes de partitions interactives. Il est aussi en interaction avec le projet \brand{INÉDIT} \cite{fober2013caracterisation} qui vise à rendre interopérable différents outils de création musicale et de composition.
 
 \subsection{Partitions interactives}
 \subsubsection{Origines : Boxes}
 Les premières recherches ont porté sur une méthode de combiner des structures fréquentielles entre elles afin de composer un morceau. Ces travaux, réalisés aux alentours de l'an $\num{2000}$ ont posé les bases des développements actuels, en introduisant les concepts de contraintes, de boites temporelles et de hiérarchisation dans le même logiciel \cite{beurive2000logiciel}, nommé \brand{Boxes}.
 \subsubsection{Premières méthodes}
 Les partitions interactives ont été à l'origine conçues pour offrir un formalisme, et donc des possibilités de provabilité et de vérification, au cas de la composition musicale. 
-L'idée originale a été de concevoir les partitions interactives comme un ensemble d'objets temporels rattachés à des relations d'Allen (TODO cite), qui sont une forme de contrainte logique. Les objets temporels peuvent contenir un processus et une contrainte \cite{allombert2007system}, et peuvent faire partie de différentes classes prédéfinies afin d'aider le compositeur. 
+L'idée originale a été de concevoir les partitions interactives comme un ensemble d'objets temporels rattachés à des relations d'Allen \cite{allen1983maintaining}, qui sont une forme de contraintes logiques adaptées aux évènements temporels. Les objets temporels peuvent contenir un processus et une contrainte locale \cite{allombert2007system}, et peuvent faire partie de différentes classes prédéfinies afin d'aider le compositeur. 
 
 L'interactivité provient du fait que des évènements peuvent être déclenchés en temps-réel, sur scène, par un compositeur ou musicien, tout en maintenant une logique qui aura été écrite au préalable. Par exemple, la lecture d'une vidéo $V$ suit automatiquement la lecture d'un son $S$, lui-même déclenché lors de l'activation d'un capteur extérieur. 
 
@@ -251,25 +251,26 @@ Une des problématiques principales est donc de maintenir les contraintes entre 
 
 Plusieurs méthode ont été étudiées pour répondre à ce problème :
 \begin{itemize}
-\item Une méthode par contraintes concurrentes, insipirée de \ac{NTCC} \cite{allombert2006concurrent}(TODO).
+\item Une méthode par contraintes concurrentes, insipirée de \ac{NTCC} \cite{allombert2006concurrent}.
 \item Une méthode par réseaux de Petri \cite{allombert2007system, allombert2009aspects}.
 \end{itemize}
 
 Ces méthodes ont été implémentées, avec de multiples extensions (présentées en détail dans \cite{toro2012structured} en section 3.2) dans les différents logiciels présentés en \cref{figheritageIScore}.
 
 \subsection{Précision des formalismes}
-Un des problèmes dans la formalisation présentée par Antoine Allombert est l'absence de modèle réunissant branchements et relations temporelles.
+Un des problèmes dans les méthodes présentées par Antoine Allombert est l'absence de modèle réunissant branchements et relations temporelles.
 
-Une solution possible, nommée \textit{Time Conditional-Branching Scores}, est avancée par Mauricio Toro dans sa thèse \cite{toro2012structured} (TODO).
+Une solution possible, nommée \textit{Time Conditional-Branching Scores}, est avancée par Mauricio Toro dans sa thèse \cite{mauricio2012structured}.
 
 \subsection{Problématique du traitement de signal}
 Bien qu'à l'origine, le lien entre partitions interactives et traitement du signal était fort, notamment dans le logiciel \brand{Boxes}, les recherches plus récentes ont porté majoritairement sur un formalisme uniquement scénaristique, sans réelle préoccupation de ce qui était scénarisé.
 
-Un des problèmes principaux rencontrés est la gestion du temps : en effet, les cartes sons ont leur propre fréquence d'horloge, qui est généralement de $\num{44100}\si{\hertz}$, et fonctionnent par buffers, ce qui n'est pas toujours le cas des logiciels implémentants les différents formalismes de partitions interactives.
+Un des problèmes principaux rencontrés est la gestion du temps : en effet, les cartes sons ont leur propre fréquence d'horloge, qui est généralement de $\num{44100}\si{\hertz}$, et fonctionnent par buffers, ce qui n'est pas toujours le cas des logiciels implémentant les différents formalismes de partitions interactives.
 
-Néanmoins, des approches ont été menées en parallèle pour essayer de relier les deux. Mauricio Toro présente dans sa thèse une méthode pour inclure des processus \ac{FauST} dans une partition interactive \cite[chapitre 8]{toro2012structured}.
-Cette approche est continuée par Florent Berthau avec le travail mené sur \brand{libLAScore}, une bibliothèque mêlant \brand{LibAudiostream} qui implémente \ac{FauST}, et \brand{libIscore} (TODO cite).
+Néanmoins, des approches ont été menées en parallèle pour essayer de relier les deux. Mauricio Toro présente dans sa thèse une méthode pour inclure des processus \ac{FAUST} dans une partition interactive \cite[chapitre 8]{mauricio2012structured}.
+Cette approche est continuée par Florent Berthaut avec le travail mené sur \brand{libLAScore}, une bibliothèque intégrant \brand{LibAudiostream} (qui implémente \ac{FAUST}), et \brand{libIscore} \cite{desaintecatherine2014interactive}.
 
-Actuellement, un modèle basé sur la sémantique des réseaux de Petri, qui fonctionne par envoi de jetons correspondant aux paquets de donnée, est en cours de développement par Jaime Arias \cite{arias2014modelling}.
+Actuellement, un autre modèle entièrement basé sur la sémantique des réseaux de Petri, qui fonctionne par envoi de jetons correspondant aux paquets de donnée, est en cours de développement par Jaime Arias \cite{arias2014modelling}.
+
 \subsection{Exemple dans le formalisme OSSIA}
 

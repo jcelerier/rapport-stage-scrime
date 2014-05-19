@@ -22,7 +22,7 @@ J'ai aussi utilisé \brand{Qt} pour les interfaces graphiques, en raison de la c
 
 \subsubsection{Technologie réseau}
 Pour le réseau, j'ai très vite choisi d'utiliser \gls{zeroconf}. En effet, la majorité des utilisateurs étant des artistes, ils ne devraient pas avoir à se poser la question des adresses IP et ports à utiliser.
-Néanmoins, j'ai gardé la possibilité de connexions entre machines en utilisant un couple IP:port.
+Néanmoins, j'ai gardé la possibilité de connexions entre machines en utilisant un couple \verb|IP:port|.
 Pour la communication inter-machines, j'ai choisi d'utiliser \brand{OSC}. En effet, c'est le protocole utilisé dans \brand{i-score} et \brand{Jamoma}, et des bibliothèques pour s'en servir étaient déjà présentes.
 
 \subsection{Fonctionnement en équipe}
@@ -78,7 +78,7 @@ Cela a nécessité un portage du processus de construction logicielle (\textit{b
 
 Réaliser ce développement a aussi permis de distribuer \brand{i-score} sous \gls{macports}, et a ouvert de nouvelles perspectives de développement pour l'embarqué sur le logiciel; de plus, un système d'\gls{contintegr} est désormais envisageable.
 
-Un portage a aussi été réalisé sous \brand{BeagleBoard}, pour offrir un \textit{proof-of-concept} de fonctionnement sur périphérique embarqué courant. Cependant, le moteur d'exécution d'\brand{i-score}, travaillant à une fréquence de $\num{1} \si{\kHz}$.
+Un portage a aussi été réalisé sous \brand{BeagleBoard}, pour offrir un \textit{proof-of-concept} de fonctionnement sur périphérique embarqué courant. Cependant, le moteur d'exécution d'\brand{i-score}, travaillant à une fréquence de $\num{1} \si{\kHz}$, l'exécution demandait trop de ressources pour avoir un fonctionnement correct.
 
 J'ai travaillé sur les branches \texttt{feature/cmake} des projets \texttt{Jamoma/JamomaCore}, \texttt{OSSIA/Score} et \texttt{i-score/i-score} sur \brand{GitHub}.
 \subsection{Implémentation dans l'API OSSIA}

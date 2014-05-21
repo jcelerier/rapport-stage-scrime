@@ -130,6 +130,11 @@ Au niveau de la répartition, plus précisément, deux possibilités principales
 \begin{itemize}
 	\item Le déplacement : le fait de déporter l'exécution d'un processus ou scénario sur une autre machine.
 	\item La duplication : le fait de copier l'exécution d'un processus ou scénario sur une autre machine.
+	Il y a deux manières d'envisager cela : 
+	\begin{itemize}
+		\item Laisser chaque machine gérer les points d'interactivité à sa manière. Toutes les machines exécuteront le même scénario, mais pourront en avoir une interprétation différente selon les actions effectuées dessus.
+		\item Forcer la même exécution sur toutes les machines. Par exemple, en prenant pour référence la première action effectuée par n'importe laquelle des machines, ou encore en rendant les autres machines esclaves d'une du groupe de machines effectuant ce scénario, qui pourra être contrôlée par un musicien (les autres ne faisant que recopier).
+	\end{itemize}
 \end{itemize}
 
 La duplication peut avoir une arité définie ou indéfinie, c'est à dire que le nombre de machines n'est pas forcément connu à l'avance.

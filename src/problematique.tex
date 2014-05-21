@@ -40,14 +40,14 @@ Ce formalisme repose sur la notion de scénario interactif, qui elle-même repos
 	\label{tbl.tempsOSSIA}
 \end{table}
 
-\begin{mydef}[Scénario] Une structure pouvant contenir du temps, au sens du \cref{tbl.tempsOSSIA}. Plus précisément, c'est une représentation d'une suite d'évènements temporels discrets, pouvant être ponctuels ou continus.
+\begin{mydef}[Scénario] Une structure pouvant contenir du temps, au sens du \cref{tbl.tempsOSSIA}. Plus précisément, c'est une représentation d'une suite d'évènements temporels discrets, pouvant être ponctuels ou continus, et pouvant être associés à de l'interactivité~\cite[p. 74--76]{allombert2009aspects}.
 \end{mydef}
 
 Néanmoins, le temps seul n'est pas utile : il faut qu'il y ait une notion de contrôle d'éléments extérieurs, comme par exemple le volume d'un fichier audio, ou l'intensité d'un éclairage. C'est la seconde problématique d'\ac{OSSIA} : l'interopérabilité avec le parc d'applications et de périphériques existants.
 
 Ce contrôle se fait au travers de la notion de processus.
 
-\begin{mydef}[Processus] Le changement d'un paramètre externe au cours du temps. Le nom d'automation est aussi courant. Il peut y avoir un nombre quelconque de processus dans un scénario.
+\begin{mydef}[Processus] Un tuple constitué d'entrées, de sorties, d'un calcul à effectuer, d'étapes du calcul et de contraintes à respecter \cite[p. 68]{allombert2009aspects}. Généralement, il s'agit du changement d'un paramètre externe au cours du temps. Le nom d'automation est aussi courant. Il peut y avoir un nombre quelconque de processus dans un scénario.
 \end{mydef}
 
 Des exemples de scénarios et de processus sont visibles dans les captures d'écrans de la \cref{figIScore}.
@@ -181,15 +181,16 @@ Les dispositifs suivants sont nécessaires pour exécuter ce scénario :
 Il n'y a pas besoin de machine spécifiquement maîtresse : une des deux machines audio ou vidéo peut en faire office.
 Néanmoins, une telle machine peut être rajoutée.
 \subsection{Problèmes posés par la répartition}
-Un des problèmes majeurs ici est le besoin de synchronisation avec une horloge physique. En effet, les relations entre débuts et fins d'évènements sont données sous forme de millisecondes les séparant, les réseaux étant temporels. Ainsi, les mécanismes d'horloges vectorielles et logiques ne sont pas directement applicables.
+\label{section.pbRepart}
+Un des points majeurs ici est le besoin de synchronisation avec une horloge physique. En effet, les réseaux de Petri utilisés sont temporels; cela se traduit dans \ac{OSSIA} par la notion de durée : tout objet temporel a une durée en millisecondes, qui peut être fixe ou variable. Ainsi, les mécanismes d'horloges vectorielles et logiques ne sont pas directement applicables.
 
-Le deuxième problème est qu'il n'est pas réellement question de répartition au sens couramment entendu dans le domaine de l'informatique répartie. En effet, ici, les processus correspondent à des besoins physiquement présents sur des machines et qui ne peuvent pas être déplacés sur d'autres machines. Par exemple, une machine peut avoir une sortie vidéo, et une autre machine une carte son : cela conditionne pour le compositeur l'endroit ou s'exécute un processus, selon qu'il soit relatif à l'image ou au son.
+Le deuxième problème est qu'il n'est pas réellement question de répartition au sens couramment entendu dans le domaine de l'informatique répartie. En effet, ici, les processus correspondent à des ressources physiquement présentes sur des machines et qui ne peuvent pas être déplacés sur d'autres machines. Par exemple, une machine peut avoir une sortie vidéo, et une autre machine une carte son : cela conditionne pour le compositeur l'endroit ou s'exécute un processus, selon qu'il soit relatif à l'image ou au son.
 
 Idéalement, il serait possible de faire une différenciation automatique, néanmoins, deux aspects s'y opposent : 
 \begin{itemize}
 	\item Le compositeur désire avoir le choix pour la répartition.
 	\item Score ne communique qu'avec des messages \ac{OSC}. Un message \ac{OSC} a le format suivant : 
-	\begin{verbatim} /adresse/où/écrire argument1 argument2 ... \end{verbatim}.
+	\begin{verbatim} <adresse> argument1 argument2 ... \end{verbatim}.
 	
 	Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car non standardisées. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
 \end{itemize}

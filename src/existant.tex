@@ -185,19 +185,19 @@ Par exemple, il a été montré dans \cite{hosseinabadi2014exploiting} que les p
 Un outil, \brand{FlockLab} \cite{lim2013flocklab} a été conçu spécifiquement pour la vérification et l'analyse de réseaux sans-fil embarqués. Il permet le débogage, et l'étude des timings à une précision proche de la microseconde en utilisant les protocoles généralement utilisés sur l'embarqué, comme \ac{GPIO}.  
 
 \section{Synchronisation}
-Les problèmes de synchronisation sont généralement vus comme une sous-partie des problèmes inhérents aux systèmes embarqués. Néanmoins, dans ce sujet, c'est une des partie les plus importantes et pertinentes, d'où l'accent qui y est apporté.
+Les problèmes de synchronisation sont généralement vus comme une sous-partie des problèmes inhérents aux systèmes embarqués. Néanmoins, dans ce sujet, c'est une des partie les plus importantes et pertinentes, en raison de ce qui a été expliqué en \cref{section.pbRepart}.
 
-La synchronisation implique toujours un concept d'horloges. Deux branches sont étudiées : les horloges logiques, qui servent à ordonner les éléments entre eux, et les horloges physiques, qui servent de référence absolue.
+La synchronisation implique toujours un concept d'horloges. Deux familles sont présentées : les horloges logiques, qui servent à ordonner les éléments entre eux, et les horloges physiques, qui servent de référence absolue.
 
 \subsection{Synchronisation logique}
 \subsubsection{Origines : les horloges de Lamport}
-Le premier système d'horloge logique est celui conçu par Leslie Lamport, récipient du prestigieux \textit{Turing Award 2013}.
+Le premier système d'horloge logique est celui conçu par Leslie Lamport, récipiendaire du prestigieux \textit{Turing Award 2013}.
 
-Il a notamment conçu les horloges et horodatages qui portent son nom, et qui expriment la notion de "arrivé-avant".
+Il a notamment conçu les horloges et horodatages (\textit{timestamps})~\cite{lamport1978time} qui portent son nom, et qui expriment la notion de "arrivé-avant".
 \subsubsection{Horloges vectorielles}
 Les horloges vectorielles (\textit{vector clocks}) sont une amélioration au dessus du concept des horloges de Lamport.
 
-Néanmoins, plutôt que de ne faire garder que leur état logique aux nœuds, on leur fait garder l'état de tous les nœuds dont ils ont reçu des messages dans un vecteur. Lorsqu'un nœud envoie un message à un autre, ce dernier se met à jour avec les horodatages maximaux contenus dans le vecteur qui est envoyé.
+Néanmoins, plutôt que de ne faire garder que leur état logique aux nœuds, on leur fait garder l'état de tous les nœuds dont ils ont reçu des messages dans un vecteur\cite{fidge1988timestamps}. Lorsqu'un nœud envoie un message à un autre, ce dernier se met à jour avec les horodatages maximaux contenus dans le vecteur qui est envoyé.
 
 Le problème des horloges vectorielles est la croissance de la taille du vecteur dans un système contenant beaucoup de nœuds.
 

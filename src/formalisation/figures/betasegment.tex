@@ -1,0 +1,67 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+\tikzstyle{segment}=[]
+\tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+\tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+\tikzstyle{transition}=[rectangle,thick,draw=black!75,
+fill=black!20,minimum size=4mm]
+\tikzstyle{red}=[draw=red!75,fill=red!20]
+\tikzstyle{green}=[draw=green!75,fill=green!20]
+
+\begin{scope}
+%alpha-sgmt
+\node [place] (Aalpha) [red] {$A_e$};
+\node [transition] (Talpha) [red,right of=Aalpha, label=$0$] {};
+
+%  \node [transition] (Talpha2) [red,below of=Talpha, label=$0$] {};
+
+\node [place] (A) [right of=Talpha] {};
+
+\node [transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+\node [place] (B) [right of=Ta] {$A_s$};
+
+\path
+(Aalpha) edge[post,red] node {} (Talpha)
+(Talpha) edge[red,post] node {} (A)
+(A) edge[post] node {} (Ta) 
+(Ta) edge[post] node {} (B);
+\end{scope}
+\end{tikzpicture}
+
+\vspace{1em}
+Devient
+\vspace{1em}
+
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+\tikzstyle{segment}=[]
+\tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+\tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+\tikzstyle{transition}=[rectangle,thick,draw=black!75,
+fill=black!20,minimum size=4mm]
+\tikzstyle{red}=[draw=red!75,fill=red!20]
+\tikzstyle{green}=[draw=green!75,fill=green!20]
+
+\begin{scope}
+%alpha-sgmt
+\node [place] (Aalpha) [red] {$A_e$};
+\node [transition] (Talpha) [red,right of=Aalpha, label=$0$] {};
+
+\node [place] (A) [right of=Talpha] {};
+\node [transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+\node [place] (B) [right of=Ta] {$A_s$};
+
+\node [place, green] (Be) [below of=A] {};
+\node [transition, green] (TB) [right of=Be, label=$t_A - \delta$] {};
+\node [place, green] (Bs) [right of=TB] {};
+
+\path
+(Aalpha) edge[post,red] node {} (Talpha)
+(Talpha) edge[red,post] node {} (A)
+		 edge[red,post] node {} (Be)
+(A) edge[post] node {} (Ta) 
+(Ta) edge[post] node {} (B)
+(Be) edge[post,green] node {} (TB) 
+(TB) edge[post,green] node {} (Bs)
+
+;
+\end{scope}
+\end{tikzpicture}

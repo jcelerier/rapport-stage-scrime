@@ -1,5 +1,8 @@
 \geometry{headheight=15pt}
-\usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,petri}
+\usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,petri,fit}
+
+% Macro pour mettre le texte en bas dans une node Tikz
+\def\bottom#1#2{\hbox{\vbox to #1{\vfill\hbox{#2}}}}
 
 % Plus de figures
 \renewcommand\floatpagefraction{.9}

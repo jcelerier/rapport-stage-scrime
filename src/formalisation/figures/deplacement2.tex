@@ -5,6 +5,8 @@
   \tikzstyle{transition}=[rectangle,thick,draw=black!75,
   			  fill=black!20,minimum size=4mm]
 
+   \tikzstyle{black box}=[draw=black, fill=black!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.5cm]
+   \tikzstyle{red box}=[draw=red, minimum size=2.1cm, fill=red!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.5cm]
 
   \begin{scope}
   \node[segment](I){In};
@@ -16,7 +18,6 @@
   \node [place] (A3) [above of=B] {$A_3$};
   \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
   \node [place] (C) [right of=Tb] {$C_1$};
-  \node[segment](O) [right of=C]{Out};
   
   \path
   		(I) edge[post] node {} (A)
@@ -26,8 +27,12 @@
   		(Ta) edge[post] node {} (B)
   			 edge[post] node {} (A3)
   		(B) edge[post] node {} (Tb)
-  		(Tb) edge[post] node {} (C)
-  		(C) edge[post] node {} (O);
+  		(Tb) edge[post] node {} (C);
+  		
+ \begin{pgfonlayer}{background}
+  \node [black box, fit=(I2) (C) (A2) (A3)] (Box1) {};
+  \node [above left] at (Box1.south east) {Nœud $N$};
+ \end{pgfonlayer}
   \end{scope}
 \end{tikzpicture}
   
@@ -43,6 +48,9 @@ Devient
   			  fill=black!20,minimum size=4mm]
   \tikzstyle{red}=[draw=red!75,fill=red!20]
  \tikzstyle{green}=[draw=green!75,fill=green!20]
+ 
+    \tikzstyle{black box}=[draw=black, fill=black!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.7cm]
+    \tikzstyle{red box}=[draw=red, minimum size=2.1cm, fill=red!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.7cm]
 
   \begin{scope}
   %alpha-sgmt
@@ -59,13 +67,12 @@ Devient
   \node [transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
   \node [place,dotted] (Bprime) [right of=Ta] {$B'_1$};
   \node [place] (A3) [above of=Bprime] {$A_3$};
-  \node [place] (AS) [green,below of=A] {};
-  \node [transition] (TS) [green,right of=AS, label=$t_A - \delta$] {};
+  \node [place] (AS) [green, below of=A]  {};
+  \node [transition] (TS) [green,right of=AS, label=$t_A - \delta$] at (4, -2.3) {};
   
-  \node [place] (B) [right of=TS] {$B_1$};
+  \node [place] (B) [] at (6, -4.2) {$B_1$};
   \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
   \node [place] (C) [right of=Tb] {$C_1$};
-  \node[segment](O) [right of=C]{Out};
   
   \path
   		(I) edge[post] node {} (Aalpha) 
@@ -82,7 +89,13 @@ Devient
   		(AS) edge[green,post] node {} (TS) 
   		(TS) edge[green,post] node {} (B)         
   		(B) edge[post] node {} (Tb)
-  		(Tb) edge[post] node {} (C)
-  		(C) edge[post] node {} (O);
+  		(Tb) edge[post] node {} (C);
+  		
+   \begin{pgfonlayer}{background}
+    \node [black box, fit=(I2) (A2) (A3) (TS)] (Box1) {};
+  	\node [below right] at (Box1.north west) {Nœud $N$};
+  	\node [black box, fit=(TS) (C)] (Box2) {};
+  	\node [above left] at (Box2.south east) {Nœud $N_d$};
+   \end{pgfonlayer}
   \end{scope}
 \end{tikzpicture}

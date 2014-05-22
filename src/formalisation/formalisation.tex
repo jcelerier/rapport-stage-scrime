@@ -3,32 +3,30 @@
 \section{Introduction}
 Le but de cette partie est de fournir une sémantique  personnalisée pour la distribution de l'exécution d'un réseau de Petri sur un réseau informatique, en prenant en compte les délais dûs à la répartition physique des machines et les contraintes issues du projet \ac{OSSIA}.
 
-\subsection{Rappel du formalisme}
-Le formalisme de base utilisé est celui des réseaux de Petri t-temporisés, disposant d'un couple place $\rightarrow$ transition initiale et transition $\rightarrow$ place finale, avec pour restriction le fait qu'une place ne puisse posséder qu'une entrée et qu'une sortie, et ce pour éviter les problèmes de conflits et confusions : cela en fait des graphes d'évènements\cite[p. 7--9]{david2010discrete}. L'utilisation de la couleur est possible.
+Les règles, définitions, et contraintes sur les réseaux de Petri appliquées ici seront d'abord évoquées, puis trois méthodes différentes et originales seront présentées. Pour des raisons de pertinence, de flexibilité, mais aussi de temps, la seconde sera étudiée plus en détail par la suite et servira enfin de base à l'implémentation.  
 
-Les réseaux de Petri utilisés ici sont connexes : la seule place n'étant pas en sortie de transition est la place initiale, et la seule place n'étant pas en entrée de transition est la place finale.
+\subsection{Rappel du formalisme}
+Le formalisme de base utilisé dans la suite de ce document est celui présenté par Antoine Allombert~\cite[p. 146]{allombert2009aspects}. Brièvement, il consiste en des réseaux de Petri à flux temporels, synchronisés, hiérarchiques, à arcs pondérés, disposant d'un couple \textit{place} $\rightarrow$ \textit{transition initiale} et \textit{transition} $\rightarrow$ \textit{place finale}, avec pour restriction le fait qu'une place ne puisse posséder qu'une entrée et qu'une sortie, et ce pour éviter les problèmes de conflits et confusions : cela en fait des graphes d'évènements\cite[p. 7--9]{david2010discrete}. L'utilisation de la coloration est possible, mais n'est pas appliqué pour l'instant. Enfin, les réseaux de Petri utilisés ici sont connexes : la seule place n'étant pas en sortie de transition est la place initiale, et la seule place n'étant pas en entrée de transition est la place finale. En effet, un des postulats de base est que tout évènement est rattaché temporellement à un évènement précédent, qui peut être le début du scénario.
 
 \subsubsection{Algorithme d'exécution de base}
-(TODO rédiger avec algorithm2e)
-Un jeton est placé dans la place initiale, le temps est initialisé à 0. Une horloge est initialisée.
-
-Pour chaque transition, si elle est sensibilisée, et que la somme des durées entre elle et la place initiale est écoulée, alors elle est franchie.
-
-Quand tous les jetons ont franchi la transition menant à la place finale, l'algorithme termine.
-
-\paragraph{Note} Il est possible que l'algorithme ne termine pas : en effet, on pourrait vouloir un scénario en boucle infinie, pour une installation artistique par exemple.
+\begin{itemize}
+\item \textbf{Initialisation} : Un jeton est placé dans la place initiale, le temps est initialisé à 0. Une horloge est initialisée.
+\item \textbf{Boucle} : Pour chaque transition, si elle est \gls{sensibilisee} pendant un temps qui lui est associé, alors elle est \gls{franchie} (l'algorithme de choix du temps est présenté dans \cite[p. 148]{allombert2009aspects}).
+\item \textbf{Terminaison} : Quand tous les jetons ont franchi la transition menant à la place finale, l'algorithme termine.
+\end{itemize}
+\paragraph{Remarque} Il est possible que l'algorithme ne termine pas : en effet, on pourrait vouloir un scénario en boucle infinie, pour une installation artistique par exemple.
 
 \subsection{Démarche suivie}
-La première étape de mon travail a été de rechercher l'existant proche du cas présent. Néanmoins, malgré diverses rencontres avec des professeurs spécialisés dans le domaine des automates et des réseaux, et une recherche bibliographique sur ce sujet, aucun autre cas de moteur d'exécution de réseau de Petri n'a été trouvé.
+La première étape de mon travail a été de rechercher l'existant proche du cas présent. Néanmoins, malgré diverses rencontres avec des professeurs spécialistes dans le domaine des automates et des réseaux, et une recherche bibliographique sur ce sujet, aucun autre cas de moteur d'exécution de réseau de Petri réparti n'a été trouvé, ces réseaux servant souvent à modéliser des systèmes déjà répartis.
 
 Ainsi, ma recherche s'est plutôt portée sur les moyens de répartir des algorithmes à la base prévus pour une utilisation sur une seule machine. 
 
 L'idée principale a été de lancer les exécutions des sous-scénarios répartis sur d'autres machines en avance.
 
-Cela engendre deux problèmes : 
+Cela engendre deux questions : 
 \begin{itemize}
-\item Comment estimer le retard entre deux machines ?
-\item Comment modifier les réseaux de Petri de manière à ce qu'ils prennent en compte le départ en avance qui en découle ?
+\item Comment estimer la latence entre deux machines (C'est-à-dire le temps entre l'envoi d'un message par une machine et la réception par une autre) ? 
+\item Quelles modifications apporter aux réseaux de Petri utilisés pour compenser cette latence ?
 \end{itemize}
 
 C'est surtout le second qui est au cœur de cette partie, le premier étant couvert de manière extensive par la littérature scientifique.
@@ -56,11 +54,17 @@ $\delta$ sera considéré fixe. Néanmoins, dans un scénario réel, il serait e
 
 Bien que dans de nombreux cas, $\delta_{N_1 \rightarrow N_2} \simeq \delta_{N_2 \rightarrow N_1}$, nous ne ferons pas cette supposition ici. En revanche, nous considérerons toujours des liens en duplex.
 
-Les nœuds de $G$ peuvent contenir des places et des transitions. Si un nœud contient une transition, on dit qu'il l'\textit{exécute}.
+Les nœuds de $G$ peuvent contenir des places et des transitions. Une place peut être partagée par plusieurs nœuds, en revanche une transition ne sera exécutée que sur un seul nœud (néanmoins il est possible d'avoir plusieurs possibilités dans certains cas). Cela n'empêche néanmoins pas de dupliquer les transitions pour avoir un même processus exécuté sur plusieurs nœuds.
 
 \subsection{Définitions relatives aux réseaux de Petri}
+Pour exprimer plus facilement les différentes parties d'un réseau de Petri tout en s'abstrayant des parties du scénario qui sont représentées (afin de concevoir une méthode générique pouvant s'appliquer à d'autres problèmes), la notion de \textbf{segment} est introduite.
 \begin{mydef}[Segment]
-Un segment est composé d'une transition, de ses $N$ places d'entrées, et de ses $M$ places de sortie, avec $N \geq 1, M \geq 1$.
+Un segment est un triplet $(E, T , S)$ ou : 
+\begin{itemize}
+	\item $T$ est une transition.
+	\item $E$ est l'ensemble des places en entrée de $T$, tel que $\mathrm{card}(E) \geq \num{1}$.
+	\item $S$ est l'ensemble des places en sortie de $T$, tel que $\mathrm{card}(S) \geq \num{1}$.
+\end{itemize} 
 \end{mydef}
 
 On notera que mis à part les segments initiaux et finaux, tous les segments partagent au moins une place avec un autre segment.
@@ -110,14 +114,11 @@ On définit : \texttt{lie(sOrigine, pDestination)} qui crée un arc entre la tra
 De même, \texttt{délie(sOrigine, pDestination)} supprime un arc.
 
 \paragraph{Suppression}
-(TODO processus sur place partagée?)
 \texttt{suppr(s)} supprime le segment, ainsi que les arcs en entrée et en sortie.
 
-Si un segment ne se retrouve plus relié à rien suite à cette opération, une place d'entrée lui est rajoutée, qui est reliée en sortie de la transition initiale.
+Si un segment ne se retrouve plus relié à rien suite à cette opération, une place d'entrée lui est rajoutée, qui est reliée en sortie de la transition initiale, et ce afin de ne pas briser la connexité.
 
-\subsubsection{Définition de segments particuliers}
-(TODO cela aurait-il sa place dans la partie plus générale ? Moins utilisé dans formalisation par couleur...)
-
+\subsubsection{Définition de segments particuliers} 
 Ces segments relient les notions de graphe de machines et de réseau de Petri.
 \begin{mydef}[nd-transition]
 Une transition non-distribuée, notée nd-transition, correspond à une transition dont aucune des places d'entrée ou de sortie ne sont situées sur un autre nœud du graphe.
@@ -127,7 +128,7 @@ Une transition non-distribuée, notée nd-transition, correspond à une transiti
 Une transition distribuée, notée d-transition, correspond à une transition dont une des places d'entrée ou de sortie est située sur un autre nœud du graphe.
 \end{mydef}
 
-\begin{mydef}[nd-segment]
+\begin{mydef}[d-segment]
 Un d-segment (resp. nd-segment) est un segment bâti autour d'une d-transition (resp. nd-transition).
 \end{mydef}
 
@@ -137,12 +138,12 @@ Deux segments sont dits consécutifs s'ils partagent au moins une place. Cela im
 
 Un réseau de Petri distribué contient des d-segments et des nd-segments consécutifs, ainsi qu'une place initiale et une place finale.
 
-Des processus existent de plus au-dessus de segments, qui sont signifiés par un changement d'état d'un paramètre entre deux places. Il est donc important d'assurer que la durée de ces processus ne change pas lors de la distribution. (TODO reformaliser par rapport à pbq)
+Comme cela a été vu en \cref{section.presOssia}, un des intérêts principaux est de pouvoir exécuter des processus entre deux évènements séparés par du temps, temps qui est représenté par le franchissement d'une transition. Il est donc important de préserver cette durée si des modifications sont apportées au réseau de Petri pour permettre la répartition.
 
 \subsection{Première tentative de formalisation}
 Cette section présente la première idée qui a été pensée pour résoudre ce problème.
 
-L'idée principale est d'exécuter les segments en les coupant au moment ou les segments suivants sont censés partir en considérant les délais de transmission entre nœuds, puis de continuer leur exécution dans un autre segment.
+L'idée principale est d'exécuter les segments en les divisant en deux sous-segments au moment ou les segments suivants sont censés partir (en considérant les délais de transmission entre nœuds). Les processus qui étaient sur un seul segment peuvent donc maintenant commencer au début d'un segment et se terminer à la fin d'un autre, ce qui est rendu possible par la notion de point de contrôle expliquée en détail dans~\cite[p. 73]{allombert2009aspects}.
  
 \subsubsection{Opérations définies sur segment}
 On considère que dans l'état initial du système, tous les segments sont situés sur le même nœud.
@@ -196,16 +197,18 @@ Il faut donc chercher une méthode qui permette plus de souplesse, et qui prése
 Cette formalisation est similaire à la précédente, car elle change aussi la topologie. Néanmoins, elle permet une plus grande flexibilité et ne pose pas de problèmes en cas d'enchaînements de déplacements.
 Elle est cependant plus complexe à mettre en œuvre.
 
-L'idée est la suivante : nous allons introduire deux segments spéciaux, ayant chacun un but distinct.
+L'idée est la suivante : contrairement à la méthode précédente qui force les processus à être séparés en au moins deux parties, on cherche à les garder intacts. On duplique entièrement les segments précédents à celui que l'on veut déplacer, en ne gardant les processus que sur les segments originaux, et on ajuste la durée des segments dupliqués en fonction de la latence du réseau.
 
-Le premier servira à dupliquer l'exécution d'un segment en en créant plusieurs branches pouvant s'exécuter en parallèle, en étant placées en précédence d'un segment réel (contenant un processus) ou fictif.
+Pour ce faire deux segments spéciaux, ayant chacun un but spécifique, seront introduits.
 
-Le second servira à ajuster la durée des processus fictifs, ce qui permet d'ajuster l'instant auquel démarre le segment à déplacer par rapport aux contraintes du réseau.
+Le premier, décrit en \cref{section.alphasegment} servira à dupliquer l'exécution d'un segment en créant plusieurs branches pouvant s'exécuter en parallèle, placées en précédence de segments réels (contenant un processus) ou fictifs.
+
+Le second servira à ajuster la durée des segments fictifs, ce qui permet d'ajuster l'instant auquel démarre le segment à déplacer par rapport aux contraintes du réseau.
 
 Enfin, un troisième segment sera introduit plus tard, en partie \ref{section:synchroPetri}, permettant de synchroniser la fin des branches.
 
 \subsubsection{Segments spéciaux}
-\label{section:alphasegment}
+\label{section.alphasegment}
 \begin{mydef}[$\alpha$-segment]
 Un $\alpha$-segment est un nd-segment particulier de durée $0$, possédant au moins deux places de sortie et une place d'entrée.
 \end{mydef}
@@ -215,16 +218,45 @@ Un $\alpha$-segment peut être créé en précédence d'un segment $s$ de la man
 \item Une place est créée en sortie de $T_\alpha$ et en entrée de $s$. 
 \end{enumerate}
 
-Le rôle des $\alpha$-segments est de permettre à un segment d'être suivi par un nombre quelconque d'autres segments s'exécutant sur d'autres nœuds, avec des délais différents entre les nœuds.
+Le rôle des $\alpha$-segments est de permettre à un segment d'être suivi par un nombre quelconque d'autres segments s'exécutant sur d'autres nœuds, avec des délais différents entre les nœuds, tout en gardant les conditions d'entrée du segment initial.
 
-Dans les schémas qui suivent, il sera représenté en \textcolor{BrickRed}{rouge}.
+Dans les schémas qui suivent, il sera représenté en \textcolor{BrickRed}{rouge}. Un exemple est donné en \cref{fig.alphaSegment}.
+
+\begin{figure}[H]
+	\centering
+	\input{formalisation/figures/alphasegment}
+	\caption{Ajout d'un $\alpha$-segment en entrée d'un segment $(\lbrace A_s \rbrace, T_A, \lbrace A_e \rbrace)$}
+	\label{fig.alphaSegment}
+\end{figure}
 
 \begin{mydef}[$\beta$-segment]
-Un $\beta$-segment est un d-segment particulier dont la durée vaut celle d'un autre segment moins un délai variable. Il précède nécessairement un nd-segment, et ne peut en être dissocié.
+Un $\beta$-segment est un d-segment particulier dont la durée vaut celle d'un autre segment moins un délai variable. Il suit nécessairement un $\alpha$-segment.
+
 \end{mydef}
 Son rôle est de simuler l'exécution d'un autre segment en ajustant sa durée de manière à ce qu'elle prenne en compte le lien entre deux nœuds, lorsque deux segments consécutifs sont placés sur deux nœuds différents.
 
-Dans les schémas qui suivent, il sera représenté en \textcolor{OliveGreen}{vert}.
+Dans les schémas qui suivent, il sera représenté en \textcolor{OliveGreen}{vert}. Un exemple est présenté en \cref{fig.betaSegment}.
+
+\begin{figure}[H]
+	\centering
+	\input{formalisation/figures/betasegment}
+	\caption{Ajout d'un $\beta$-segment en sortie d'un $\alpha$-segment}
+	\label{fig.betaSegment}
+\end{figure}
+
+
+\paragraph{Choix de répartition}
+Comme un $\beta$-segment est un d-segment, deux choix sont possibles pour la répartition : 
+
+\begin{itemize}
+	\item Exécuter la transition du $\beta$-segment, sur le nœud d'origine.
+	\item Exécuter sur le nœud ou est déplacé $s$.
+\end{itemize}
+
+Dans le premier cas, on attend jusqu'au dernier moment pour envoyer le message, dans le second, on l'envoie au plus tôt. Selon les applications, les deux approches peuvent avoir leur intérêt.
+
+Par exemple, on peut préférer la deuxième approche si le lien de connexion est peu stable. On peut préférer la première approche si des évènements venaient à modifier le réseau de Petri pendant l'exécution.
+
 \subsubsection{Opérations définies sur segments}
 \paragraph{Déplacement et recombinaison}
 
@@ -237,17 +269,18 @@ Il convient de noter que l'opération de déplacement ne peut produire, dans l'i
 \subparagraph{Processus}
 Soit $s$ le segment à déplacer, sur un nœud $N_d$.
 
-On déclare une fonction \texttt{deplacement(Segment1, Segment2, Nœud)} (déplacement de \texttt{Segment2} sur \texttt{Nœud} par rapport à \texttt{Segment1}) que l'on définit comme suit :
+On déclare une fonction \texttt{deplacement(Segment1, Segment2, Nœud)} (déplacement de \texttt{Segment2} sur \texttt{Nœud} par rapport à \texttt{Segment1}) que l'on définit comme suit.
+
 ~ \\
-Pour tout segment $p \in \pre(s)$:
+Pour tout segment $p \in \pre(s)$, trois cas sont possibles : 
 \begin{itemize}
-\item {Si $p$ et $s$ sont sur le même nœud $N \neq N_d$ :
+\item {\textbf{Premier cas} : Si $p$ et $s$ sont sur le même nœud $N \neq N_d$ :
 
 On considère $E_{p}$ l'ensemble des places d'entrées de $p$.
 On note $t_p$ la durée de la transition de $p$.
 
 \begin{itemize}
-\item Si $p$ n'est pas précédé par un $\alpha$-segment, on en crée un de la manière décrite précédemment, en \ref{section:alphasegment}.
+\item Si $p$ n'est pas précédé par un $\alpha$-segment, on en crée un de la manière décrite précédemment, en \ref{section.alphasegment}.
 \item On rajoute en sortie de cet $\alpha$-segment une place $e_s$.
 \end{itemize}
 \vspace{1em}
@@ -263,32 +296,19 @@ C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $s$ et $p$ ont mêm
 Un exemple partiel est fourni en figure \ref{fig:deplacementForm2}.
 }
 \\
-\item{ Si $p$ est sur un nœud $N_1$, $s$ sur un nœud $N_2 \neq N_1$, et que $N_d \neq N_1$, comme il y a déjà eu une opération de déplacement, il suffit d'ajuster le temps de la transition $T_s$, qui vaut $t_p - \delta_{N_1 \rightarrow N_2}$ : on ajoute $\delta_{N_1 \rightarrow N_2}$ et on enlève le nouveau délai entre les deux nœuds, $\delta_{N_1 \rightarrow N_d}$.
+\item{\textbf{Second cas} : Si $p$ est sur un nœud $N_1$, $s$ sur un nœud $N_2 \neq N_1$, et que $N_d \neq N_1$, comme il y a déjà eu une opération de déplacement, il suffit d'ajuster le temps de la transition $T_s$, qui vaut $t_p - \delta_{N_1 \rightarrow N_2}$ : on ajoute $\delta_{N_1 \rightarrow N_2}$ et on enlève le nouveau délai entre les deux nœuds, $\delta_{N_1 \rightarrow N_d}$.
 
 ~ \\
 C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $s$ et $p$ n'ont pas même nœud initial.
 }
 \\
-\item Si $p$ est sur un nœud $N$, et que $N_d = N$, on effectue une opération de recombinaison : toutes les places de sortie de $p$ qui avaient été préservées dans le premier cas de déplacement sont fusionnées avec les places réelles, et le $\beta$-segment correspondant à ce déplacement est supprimé. S'il n'est plus suivi d'aucun $\beta$-segment, on peut aussi supprimer l'$\alpha$-segment précédant $p$.
+\item \textbf{Troisième cas} : Si $p$ est sur un nœud $N$, et que $N_d = N$, on effectue une opération de recombinaison : toutes les places de sortie de $p$ qui avaient été préservées dans le premier cas de déplacement sont fusionnées avec les places réelles, et le $\beta$-segment correspondant à ce déplacement est supprimé. S'il n'est plus suivi d'aucun $\beta$-segment, on peut aussi supprimer l'$\alpha$-segment précédant $p$.
 ~ \\
 ~ \\
 C'est le résultat de \texttt{deplacement(p, s, Nd)} lorsque $N_d$ est le nœud de $p$.
 \end{itemize}
 
 On applique ensuite la même transformation entre $s$ et les segments appartenant à $\post(s)$.
-
-\subparagraph{Choix de répartition}
-Deux choix sont possibles pour la répartition : 
-
-\begin{itemize}
-\item Exécuter $T_s$, la transition du $\beta$-segment, sur le nœud d'origine.
-\item Exécuter $T_s$ sur le nœud ou est déplacé $s$.
-\end{itemize}
-
-Dans le premier cas, on attend jusqu'au dernier moment pour envoyer le message, dans le second, on l'envoie au plus tôt. Selon les applications, les deux approches peuvent avoir leur intérêt.
-
-Par exemple, on peut préférer la deuxième approche si le lien de connexion est peu stable. On peut préférer la première approche si des évènements venaient à modifier le réseau de Petri pendant l'exécution.
-
 
 \begin{figure}[H]
 \centering
@@ -297,9 +317,11 @@ Par exemple, on peut préférer la deuxième approche si le lien de connexion es
 \label{fig:deplacementForm2}
 \end{figure}
 
-Sur la figure \ref{fig:deplacementForm2}, on n'a appliqué \texttt{deplacement} qu'au segment précédent, et non au segment suivant.
+Sur la figure \ref{fig:deplacementForm2}, on n'a appliqué \texttt{deplacement} qu'aux segments précédents, et non aux segments suivants, non représentés.
 
 On y montre comment on déporte l'exécution du segment $B(B_1, T_B, C_1)$.
+
+Pour un exemple complet, se référer à la \cref{fig.duplicationEtRecoll}.
 
 \paragraph{Duplication}
 L'opération de duplication consiste à faire s'exécuter un nd-segment $s$ sur plusieurs nœuds de $G$ (distincts?). Il faut donc le recopier.

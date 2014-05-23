@@ -37,6 +37,8 @@ Une condition, selon le formalisme mis en place par Antoine Allombert \cite[p. 1
 Deux possibilités s'offrent alors : 
 \begin{itemize}
 \item Permettre aux places d'entrée d'avoir plusieurs sorties, ce qui leur donne plus de sens. C'est ce qui est choisi ici. On n'est plus alors dans le cas d'un graphe d'évènements.
+
+Au niveau de ce qui a été présenté précédemment, le changement principal est que les différents arcs de sortie d'une place pourront chacuns être reliés à une $\alpha$-transition différente si nécessaire.
 \item Considérer qu'une place est équivalente à un segment de durée nulle, possédant autant de places d'entrée que d'arcs d'entrée de la place, et autant de places de sortie que d'arcs de sortie de la place. Cela déporte la logique des conditions dans la transition de ce nouveau segment. Mais sans conditions, ce n'est pas strictement équivalent, car on aurait une duplication de jetons supplémentaire.
 \end{itemize}
 

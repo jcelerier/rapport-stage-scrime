@@ -250,7 +250,7 @@ Comme un $\beta$-segment est un d-segment, deux choix sont possibles pour la ré
 
 \begin{itemize}
 	\item Exécuter la transition du $\beta$-segment, sur le nœud d'origine.
-	\item Exécuter sur le nœud ou est déplacé $s$.
+	\item Exécuter sur le nœud du segment déplacé.
 \end{itemize}
 
 Dans le premier cas, on attend jusqu'au dernier moment pour envoyer le message, dans le second, on l'envoie au plus tôt. Selon les applications, les deux approches peuvent avoir leur intérêt.
@@ -324,7 +324,7 @@ On y montre comment on déporte l'exécution du segment $B(B_1, T_B, C_1)$.
 Pour un exemple complet, se référer à la \cref{fig.duplicationEtRecoll}.
 
 \paragraph{Duplication}
-L'opération de duplication consiste à faire s'exécuter un nd-segment $s$ sur plusieurs nœuds de $G$ (distincts?). Il faut donc le recopier.
+L'opération de duplication consiste à faire s'exécuter un nd-segment $s$ sur plusieurs nœuds de $G$. Il faut donc le recopier.
 
 Cette opération revient à la suite d'opérations suivantes : 
 \begin{enumerate}
@@ -409,7 +409,7 @@ Dans cette partie, nous faisons une brève comparaison entre les méthodes vues 
 	\label{tblcompMethods}
 \end{table}
 
-En raison du nombre de points positifs de la méthode 2, et de la durée du stage, c'est celle qui a été principalement retenue pour vérifications ultérieures.
+En raison du nombre de points positifs de la méthode 2, et de la durée du stage, c'est celle qui a été principalement retenue pour vérifications ultérieures. Néanmoins, les premières et troisièmes méthodes ne sont pas à entièrement abandonner : elles peuvent avoir leur intérêt dans certains cas, et, là encore pour des raisons de temps, n'ont pas pu être étudiées avec autant d'attention que la seconde.
 
 \input{formalisation/ameliorations2f}
 \input{formalisation/preuves}

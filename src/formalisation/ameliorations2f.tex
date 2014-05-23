@@ -75,7 +75,7 @@ Le formalisme~\cite{allombert2010virage} permet de changer la vitesse d'exécuti
 
 Pour conserver la correction du formalisme décrit ici, il ne faut pas multiplier le facteur de décalage entre les nœuds, car il ne dépend pas de la vitesse d'exécution du morceau, mais est une caractéristique physique du réseau.
 
-Il serait par exemple possible d'affecter une fonction affine de la forme $av + b$ aux transitions, ou $a$ est la durée de la transition canonique, $v$ le coefficient multiplicateur de vitesse, entre $O.5$ et $2$, et $b$ le délai. 
+Il serait par exemple possible d'affecter une fonction affine de la forme $av + b$ aux transitions, ou $a$ est la durée de la transition canonique, $v$ le coefficient multiplicateur de vitesse, entre $0.5$ et $2$, et $b$ le délai. 
 
 \subsection{Simplifications}
 \subsubsection{$\alpha$-transitions}
@@ -118,9 +118,11 @@ Ou alors de ne pas avoir de réplication d'état : cela veut dire que la plupart
 Si on désire déplacer plusieurs segments adjacents en même temps, il suffit d'appliquer l'opération de déplacement aux segments possédant des places d'entrée ou de sortie communes à un segment ne faisant pas partie de ce groupe. En effet, seules ceux-là sont sensibles au délai entre les nœuds.
 
 \subsection{Approche optimisée pour implémentation}
-Comme i-score précompile les réseaux de Petri à chaque lecture, il serait possible d'appliquer le processus "inverse" de celui décrit, pour avoir un nombre de calculs minimaux à réaliser : 
+Comme i-score précompile les réseaux de Petri à chaque lecture, et ne les génère pas de façon dynamique, il serait possible d'appliquer le processus "inverse" de celui décrit, pour avoir un nombre de calculs minimaux à réaliser : 
 
 \begin{enumerate}
 \item Affecter à chaque segment le nœud sur lequel il est censé se trouver.
 \item Pour chaque paire de segments adjacents et n'étant pas sur le même nœud, effectuer une opération de déplacement.
 \end{enumerate}
+
+Sans cette optimisation, il y aurait par exemple des cas de déplacements puis recombinaisons inutiles.

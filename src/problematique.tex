@@ -1,11 +1,11 @@
 \chapter{Problématique et organisation}
 \section{LaBRI et SCRIME}
-Le stage s'est déroulé du deux février au treize juin, dans les bâtiments du \ac{SCRIME} et en tant que stagiaire du \ac{LaBRI}. L'équipe dont je fais partie est variable mais j'étais entouré de deux ingénieurs affectés à ce projet, ainsi que plusieurs autres stagiaires.
+Le stage s'est déroulé du deux février au treize juin 2014, dans les bâtiments du \ac{SCRIME} et en tant que stagiaire du \ac{LaBRI}. Le nombre de membres de l'équipe dont je fais partie est variable mais j'étais entouré de deux ingénieurs affectés à ce projet, ainsi que de plusieurs autres stagiaires.
 
-J'ai rencontré mes tuteurs, Mme. Desainte-Catherine et M. Chaumette, de manière très régulière, quasiment chaque semaine, pour faire un point sur mon avancement.
+J'ai rencontré mes tuteurs, M\up{me}.~\bsc{Desainte-Catherine} et M.~\bsc{Chaumette}, de manière très régulière, quasiment chaque semaine, pour faire un point sur mon avancement.
 
 \section{Projet OSSIA}
-Le stage s'inscrit dans le cadre du projet \brand{ANR} \ac{OSSIA}. Ce projet, démarré en 2012, apporte une réponse aux questions posées lors du projet \brand{ANR Virage}, qui avait pour but de dresser un état des lieux des besoins et pratiques en terme de contrôle et d'écriture dans le cas des contenus en temps réel, puis d'établir un cahier des charges pour une solution unificatrice pour la conception de scénarios, et l'écriture du temps dans un cadre intermédia et interopérable.
+Le stage s'inscrit dans le cadre du projet \brand{ANR} \ac{OSSIA}. Ce projet, démarré en 2012, apporte une réponse aux questions posées lors du projet \brand{ANR Virage}, qui avait pour but de dresser un état des lieux des besoins et pratiques en terme de contrôle et d'écriture dans le cas des contenus en temps réel. Il s'agit ensuite d'établir un cahier des charges pour une solution unificatrice adaptée à la conception de scénarios, et l'écriture du temps dans un cadre intermédia et interopérable.
 
 Ainsi, \ac{OSSIA} conçoit un formalisme et un cadre logiciel correspondant à ces attentes.
 
@@ -22,9 +22,9 @@ Les interactions parfois complexes entre ces acteurs sont expliquées dans \cite
 
 \subsection{Présentation de OSSIA}
 \label{section.presOssia}
-Les travaux du projet portent en partie sur la réalisation d'un formalisme assez expressif pour permettre de s'en servir dans des cas d'usages très différents.
+Les travaux du projet portent en partie sur la réalisation d'un formalisme assez expressif pour permettre de s'en servir pour des usages très différents.
 
-Ce formalisme repose sur la notion de scénario interactif, qui elle-même repose sur la notion de temps, au sens ou on l'entend couramment, mais aussi étendu des manières présentées en \cref{tbl.tempsOSSIA}.
+Ce formalisme repose sur la notion de scénario interactif, qui repose elle-même sur la notion de temps, au sens ou on l'entend couramment, mais aussi étendu des manières présentées en \cref{tbl.tempsOSSIA}.
 
 \begin{table}[H]
 	\centering
@@ -41,7 +41,7 @@ Ce formalisme repose sur la notion de scénario interactif, qui elle-même repos
 	\label{tbl.tempsOSSIA}
 \end{table}
 
-\begin{mydef}[Scénario] Une structure pouvant contenir du temps, au sens du \cref{tbl.tempsOSSIA}. Plus précisément, c'est une représentation d'une suite d'évènements temporels discrets, pouvant être ponctuels ou continus, et pouvant être associés à de l'interactivité~\cite[p. 74--76]{allombert2009aspects}.
+\begin{mydef}[Scénario] Une structure pouvant contenir du temps, au sens du \cref{tbl.tempsOSSIA}. Plus précisément, c'est la représentation d'une suite d'évènements temporels discrets, pouvant être ponctuels ou continus, et pouvant être associés à de l'interactivité~\cite[p. 74--76]{allombert2009aspects}.
 \end{mydef}
 
 Néanmoins, le temps seul n'est pas utile : il faut qu'il y ait une notion de contrôle d'éléments extérieurs, comme par exemple le volume d'un fichier audio, ou l'intensité d'un éclairage. C'est la seconde problématique d'\ac{OSSIA} : l'interopérabilité avec le parc d'applications et de périphériques existants.
@@ -54,7 +54,7 @@ Ce contrôle se fait au travers de la notion de processus.
 Des exemples de scénarios et de processus sont visibles dans les captures d'écrans de la \cref{figIScore}.
 
 \subsection{Logiciel i-score}
-Le logiciel i-score est en développement depuis plusieurs années, et comporte l'héritage de plusieurs autres logiciels et paradigmes qui ont été développé avant lui, comme visible en \cref{figheritageIScore}.
+Le logiciel i-score est en développement depuis plusieurs années, et comporte l'héritage de plusieurs autres logiciels et paradigmes qui ont été développé avant lui, héritage présenté en \cref{figheritageIScore}.
 
 \begin{figure}[H]
 	\centering
@@ -83,7 +83,7 @@ Deux versions d'i-score (captures d'écran en \cref{figIScore}) sont en dévelop
 		\caption{Version 0.3}
 	\end{subfigure}
 	
-	\caption{Captures d'écran des deux version d'i-score.}
+	\caption{Captures d'écran des deux versions d'i-score.}
 	\label{figIScore}
 \end{figure}
 
@@ -93,7 +93,7 @@ Score est la bibliothèque sous-jacente qui comporte la logique utilisée pour f
 
 \begin{itemize}
 	\item Un moteur d'exécution à base de réseaux de Petri.
-	\item Un résolveur de \ac{CSP}, utilisé pour l'édition et plus spécifiquement le déplacement des boîtes.
+	\item Un résolveur de \ac{CSP}, utilisé pour l'édition et plus spécifiquement pour le déplacement des boîtes.
 \end{itemize}
 
 Cette bibliothèque utilise le cadriciel \brand{Jamoma}.
@@ -104,7 +104,7 @@ La version 0.3 d'i-score se base sur une \ac{API}, qui offre toutes les possibil
 \section{Organisation au cours du stage}
 Cette partie précisera le déroulement de mon stage : compréhension du sujet, recherche, implémentation\dots
 
-Pour rappel, le sujet précis du stage était : 
+Pour rappel, le sujet précis du stage est : 
 \begin{center}
 	\noindent\fbox{\parbox{31em}{Répartition du séquenceur multimedia i-score sur plusieurs machines}}
 \end{center}
@@ -119,31 +119,31 @@ Néanmoins, il est ressorti des réunions les points suivants :
 	\item La répartition peut être faite au niveau des processus ou des scénarios.
 	\item Il est nécessaire de pouvoir grouper facilement les parties censées s'exécuter sur une même machine.
 	\item Le backup doit être rendu possible.
-	\item Le choix de synchroniser ou non est laissée au compositeur.
+	\item Le choix de synchroniser ou non est laissé au compositeur.
 	\item Un des intérêts principaux est l'embarqué, que ce soit sur des micro-ordinateurs comme \brand{Raspberry Pi} et \brand{BeagleBoard}, ou bien sur des smartphones et tablettes tactiles.
-	\item Le processus de composition doit pouvoir lui aussi être réparti (ou du moins accessible à plusieurs utilisateurs simultanément).
+	\item Le processus de composition doit pouvoir lui aussi être réparti, ou du moins accessible à plusieurs utilisateurs simultanément.
 	\item Le formalisme doit être modifié pour prendre en compte la répartition.
 	\item L'interface utilisateur doit être modifiée de manière à pouvoir cacher les parties qui s'exécutent à distance.
 	\item Une interface utilisateur "chef d'orchestre" doit être présente et permettre de pouvoir tout voir et tout modifier.
 \end{itemize}
 
-Au niveau de la répartition, plus précisément, deux possibilités principales ont été vues comme désirables par les compositeurs : 
+Au niveau de la répartition, plus précisément, deux possibilités principales ont été présentées comme désirables par les compositeurs : 
 \begin{itemize}
 	\item Le déplacement : le fait de déporter l'exécution d'un processus ou scénario sur une autre machine.
 	\item La duplication : le fait de copier l'exécution d'un processus ou scénario sur une autre machine.
 	Il y a deux manières d'envisager cela : 
 	\begin{itemize}
-		\item Laisser chaque machine gérer les points d'interactivité à sa manière. Toutes les machines exécuteront le même scénario, mais pourront en avoir une interprétation différente selon les actions effectuées dessus.
+		\item Laisser chaque machine gérer les points d'interactivité à sa manière. Toutes les machines exécuteront le même scénario, mais pourront en avoir une interprétation différente selon les actions effectuées sur chaque machine, et les messages qu'elles reçoivent.
 		\item Forcer la même exécution sur toutes les machines. Par exemple, en prenant pour référence la première action effectuée par n'importe laquelle des machines, ou encore en rendant les autres machines esclaves d'une du groupe de machines effectuant ce scénario, qui pourra être contrôlée par un musicien (les autres ne faisant que recopier).
 	\end{itemize}
 \end{itemize}
 
 La duplication peut avoir une arité définie ou indéfinie, c'est à dire que le nombre de machines n'est pas forcément connu à l'avance.
 
-Au niveau plus précis des processus, il a été envisagé de concevoir des cas particuliers permettant notamment de réaliser des opérations sur un groupe de signaux entrants. Par exemple, si onze machines sont lancées, dont une "maître" et dix exécutant un sous-scénario spécifique, on veut que les dix puissent agir chacune indépendamment sur un paramètre donné, et prendre comme résultat la moyenne, la somme, le minimum, le maximum, ou autre, de la valeur de ce paramètre sur les dix machines.
+Au niveau plus précis des processus, il est envisagé de concevoir des cas particuliers permettant de réaliser des opérations sur un groupe de signaux entrants. Par exemple, si onze machines sont lancées, dont une "maître" et dix exécutant un sous-scénario spécifique, on veut que les dix puissent agir chacune indépendamment sur un paramètre donné, et prendre comme résultat la moyenne, la somme, le minimum, le maximum, ou autre, de la valeur de ce paramètre sur les dix machines.
 
 \subsubsection{Exemple dans le formalisme}
-Un exemple, présenté en \cref{fig.RepartOSSIA}, a été conçu pour permettre de mettre en valeur les possibilités offertes.
+Un exemple, présenté en \cref{fig.RepartOSSIA}, a été conçu pour permettre la mise en valeur des possibilités offertes.
 
 Il est inspiré de l'exemple canonique du moine d'\ac{OSSIA}, présent en \cref{apx.OSSIAExemple}, et suit la même nomenclature.
 
@@ -168,7 +168,7 @@ Le fonctionnement est le suivant :
 	\item Quand personne n'est connecté, des vidéos quelconques sont jouées sur le vidéoprojecteur.
 	\item Quand quelqu'un est connecté, il voit sur sa tablette un moine apparaître, qui suit le mouvement de ses yeux.
 	\item Quand quelqu'un touche sa tablette, le moine de sa tablette récite un proverbe.
-	\item Quand quelqu'un est connecté, un moine s'affiche sur l'écran géant. Le moine regarde dans la direction moyenne des moines présents sur les tablettes connectées au système. Des murmures sont aussi joués par le système de son, avec une augmentation continue et linéaire d'un paramètre (comme volume), puis son retour à zéro.
+	\item Quand quelqu'un est connecté, un moine s'affiche sur l'écran géant. Le moine regarde dans la direction moyenne des moines présents sur les tablettes connectées au système. Des murmures sont aussi joués par le système de son, avec l'augmentation continue et linéaire d'un paramètre (comme le volume), puis son retour à zéro.
 	\item Quand quelqu'un se déconnecte, un message d'au revoir est dit dans la salle.
 \end{itemize}
 
@@ -180,12 +180,12 @@ Les dispositifs suivants sont nécessaires pour exécuter ce scénario :
 \end{itemize}
 
 Il n'y a pas besoin de machine spécifiquement maîtresse : une des deux machines audio ou vidéo peut en faire office.
-Néanmoins, une telle machine peut être rajoutée.
+Néanmoins, une telle machine maîtresse peut être rajoutée.
 \subsection{Problèmes posés par la répartition}
 \label{section.pbRepart}
 Un des points majeurs ici est le besoin de synchronisation avec une horloge physique. En effet, les réseaux de Petri utilisés sont temporels; cela se traduit dans \ac{OSSIA} par la notion de durée : tout objet temporel a une durée en millisecondes, qui peut être fixe ou variable. Ainsi, les mécanismes d'horloges vectorielles et logiques ne sont pas directement applicables.
 
-Le deuxième problème est qu'il n'est pas réellement question de répartition au sens couramment entendu dans le domaine de l'informatique répartie. En effet, ici, les processus correspondent à des ressources physiquement présentes sur des machines et qui ne peuvent pas être déplacés sur d'autres machines. Par exemple, une machine peut avoir une sortie vidéo, et une autre machine une carte son : cela conditionne pour le compositeur l'endroit ou s'exécute un processus, selon qu'il soit relatif à l'image ou au son.
+Le deuxième problème est qu'il n'est pas réellement question de répartition au sens habituel du terme dans le domaine de l'informatique répartie. En effet, ici, les processus correspondent à des ressources physiquement présentes sur des machines et qui ne peuvent pas être déplacés sur d'autres machines. Par exemple, une machine peut avoir une sortie vidéo, et une autre machine une carte son : cela conditionne l'endroit ou s'exécute un processus, selon qu'il est relatif à l'image ou au son, pour le compositeur.
 
 Idéalement, il serait possible de faire une différenciation automatique, néanmoins, deux aspects s'y opposent : 
 \begin{itemize}
@@ -193,13 +193,13 @@ Idéalement, il serait possible de faire une différenciation automatique, néan
 	\item Score ne communique qu'avec des messages \ac{OSC}. Un message \ac{OSC} a le format suivant : 
 	\begin{verbatim} <adresse> argument1 argument2 ... \end{verbatim}.
 	
-	Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car non standardisées. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
+	Les adresses sont laissées à la discrétion des logiciels avec lesquels Score communique, car il n'existe pas de messages standards comme c'est par exemple le cas en \brand{MIDI}. Il n'est donc pas possible de savoir quel type d'information est communiqué. 
 \end{itemize}
 Un troisième point, limitant, à tenir en compte, est celui de la gestion de l'interactivité. Dans ce cas, l'impact de la latence due au réseau physique est inévitable, si par exemple un artiste décide d'activer une fonction qui est censée s'exécuter sur une autre machine.
 
 
 \subsection{Définition du travail à réaliser}
-Étant donné la nature duale du stage, mon travail a été séparé en deux parties qui se sont précisées au fil des réunions avec mes encadrants.
+Étant donné la nature duale du stage et de ma formation, mon travail a été séparé en deux parties qui ont été précisées au fil des réunions avec mes encadrants.
 
 \subsubsection{Recherche théorique sur les réseaux de Petri}
 Il est apparu assez clairement que la majorité de mon travail théorique porterait sur les réseaux de Petri, car l'intérêt majeur est d'avoir une exécution répartie des scénarios.
@@ -209,7 +209,7 @@ Néanmoins, malgré des rencontres avec plusieurs enseignants, je n'ai pas trouv
 Cette phase est détaillée au \cref{chapterStateOfTheArt}.
 
 Par la suite, j'ai essayé de concevoir des méthodes théoriques pouvant répondre au problème.
-J'ai ensuite choisi celle qui a semblé la plus pertinente en les comparant, et ai essayé de prouver sa correction, ainsi que de proposer des améliorations.
+J'ai choisi celle qui a semblé la plus pertinente en les comparant, et j'ai essayé de prouver sa justesse, ainsi que de proposer des améliorations.
 Ce travail est présenté dans le \cref{chapterApports}.
 
 \subsubsection{Travail de conception}
@@ -225,7 +225,7 @@ Elle a été suivie d'une phase d'implémentation.
 Les détails se trouvent au \cref{chapterImpl}.
 
 \subsubsection{Organisation temporelle}
-Je me suis principalement organisé en sprints de 15 jours, qui pouvaient parfois être ponctués par des évènements particuliers. Le détail est présent en \cref{tbl.Timeline}.
+Je me suis principalement organisé en sprints de 15 jours, qui parfois ponctués par des évènements particuliers. Le détail est présent dans le \cref{tbl.Timeline}.
 
 \begin{table}[H]
 	\centering
@@ -235,7 +235,7 @@ Je me suis principalement organisé en sprints de 15 jours, qui pouvaient parfoi
 		Mi à fin février & Recherche d'existant et portage de \brand{Jamoma} et i-score sous Linux \newline \\
 		Début à mi-mars & Conception de l'application de test de répartition, portage sous \brand{Android} et plate-formes \brand{ARM} \newline \\
 		14 et 15 mars & Seconde réunion \ac{OSSIA} \newline \\
-		Mi-mars & Préparation et rendu du rapport à 6 semaines pour l'ENSEIRB-MATMECA. \newline \\
+		Mi-mars & Préparation et remise du rapport à 6 semaines pour l'ENSEIRB-MATMECA. \newline \\
 		20 mars & Présentation à un GT du Scrime \newline \\
 		Mi à fin mars &  Essais de conception des algorithmes de répartition de réseaux de Petri \newline \\
 		Début à mi-avril & Formalisation et vérification, portage de \brand{Jamoma} sous \gls{CMake} \newline \\

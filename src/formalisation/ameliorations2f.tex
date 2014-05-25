@@ -1,7 +1,7 @@
 \section{Améliorations possibles sur seconde formalisation}
 \subsection{Politiques d'\texorpdfstring{$\alpha$-transitions}~}
 \label{section:canon}
-La sémantique des $\alpha$-transitions peut être modifiée afin de pouvoir fournir plusieurs politiques.
+La sémantique des $\alpha$-transitions peut être modifiée afin de fournir plusieurs politiques.
 
 Par exemple : 
 \begin{itemize}
@@ -12,17 +12,17 @@ Par exemple :
 \item Garder le fait qu'un jeton soit passé en mémoire et le renvoyer plus tard (pour une reprise sur erreur, par exemple).
 \end{itemize}
 
-Cela permet d'offrir plus de latitude au compositeur. Néanmoins le réseau de Petri n'est plus "pur", on modifie l'algorithme d'exécution d'une transition.
+Cela offre plus de latitude au compositeur. Néanmoins le réseau de Petri n'est plus "pur", on modifie l'algorithme d'exécution d'une transition.
 
 
 \subsection{Rétropropagation du buffering}
 \label{section:retropropag}
 Un processus a été conçu pour essayer de régler le problème des latences trop grandes entre nœuds.
 
-Il est utile dans le cas ou on n'a pas de point d'interaction entre différents segments successifs.
+Il est utile dans le cas où l'on n'a pas de point d'interaction entre différents segments successifs.
 
 \begin{mydef}[Point d'interaction]
-	Un point d'interaction est un endroit ou l'exécution du réseau de Petri est soumise à influence extérieure : condition, déclenchement interactif, etc. Une définition complète est donnée dans \cite[p. 148]{allombert2009aspects}.
+	Un point d'interaction est un endroit où l'exécution du réseau de Petri est soumise à influence extérieure : condition, déclenchement interactif, etc. Une définition complète est donnée dans \cite[p. 148]{allombert2009aspects}.
 \end{mydef}
 
 \paragraph{Processus}
@@ -48,41 +48,41 @@ Si la durée obtenue est toujours négative, on peut réitérer ce processus jus
 \end{itemize}
 
 \subsection{Utilisation de la duplication pour un backup}
-Le backup consiste à avoir plusieurs nœuds exécutant la même partie du réseau, mais un seul exécute réellement les processus contenus entre les places.
+Le backup consiste à être en possession de plusieurs nœuds exécutant la même partie du réseau, mais un seul exécute réellement les processus contenus entre les places.
 
-Cela permet, si un des nœuds rencontre un problème informatique, d'avoir un autre nœud qui prend le relai.
+Cela permet, si un des nœuds rencontre un problème informatique, d'avoir un autre nœud qui prenne le relai.
 
 Deux approches sont possibles :
 \begin{itemize}
-\item Une, qui a déjà été évoquée, est d'avoir l'opération qui repart depuis le début du déplacement ($\alpha$-segment).
+\item Une, déjà évoquée, est d'avoir l'opération qui repart depuis le début du déplacement ($\alpha$-segment).
 \item L'autre serait d'essayer de repartir au plus proche, c'est-à-dire :  
 \begin{itemize}
-\item Soit au début de la dernière transition s'étant exécutée, en replaçant un jeton. Cela implique un léger retour en arrière.
-\item Soit attendre que la dernière transition qui était en cours d'exécution se finisse. Cela implique une impression de "mise en pause".
+\item Soit replacer un jeton au début de la dernière transition s'étant exécutée. Cela implique un léger retour en arrière.
+\item Soit attendre que la dernière transition qui était en cours d'exécution se termine. Cela implique une impression de "mise en pause".
 \end{itemize}
 
-\item Dans les deux cas présentés ci-dessus, il ne sera pas possible d'échapper à un effet de saut lors de la reprise pour certains processus. Mais une granularité plus fine (c'est-à-dire au niveau des processus et du temps réel) n'est pas possible avec le formalisme des réseaux de Petri.
+\item Dans les deux cas présentés ci-dessus, il sera impossible d'échapper à un effet de saut lors de la reprise pour certains processus. Mais une granularité plus fine (c'est-à-dire au niveau des processus et du temps réel) n'est pas possible avec le formalisme des réseaux de Petri.
 
-Cependant, il est simple de l'implémenter : il suffit d'effectuer une duplication au niveau du réseau de Petri, et de donner aux nœuds du graphe une propriété "activé" ou "désactivé". Si un nœud ne répond plus et est dupliqué à des fins de backup, un autre nœud "active" la branche qui est censée prendre le relai; ce nœud se met alors à émettre des signaux à ses processus instantanément.
+Cependant, il est simple de l'implémenter : il suffit d'effectuer une duplication au niveau du réseau de Petri, et de donner aux nœuds du graphe une propriété avec comme états posibles \textit{activé} ou \textit{désactivé}. Si un nœud ne répond plus et est dupliqué à des fins de backup, un autre nœud \textit{active} la branche censée prendre le relai; ce nœud émet alors instantanément des signaux à ses processus.
 
-De plus, l'idéal serait de pouvoir "muter" uniquement les sorties matérielles de l'ordinateur (ex. : sortie audio, vidéoprojecteur). En effet, un processus externe peut utiliser un effet de feedback; une transition sans interruptions entre une machine ayant planté et la machine de backup ne marchera bien que si toutes les étapes précédentes ont été calculées par la machine de backup.
+De plus, l'idéal serait de pouvoir mettre en sourdine (\textit{to mute}) uniquement les sorties matérielles de l'ordinateur (ex. : sortie audio, vidéo-projecteur). En effet, un processus externe peut utiliser un effet de feedback; une transition sans interruptions entre une machine ayant planté et la machine de backup ne fonctionnera correctement que si toutes les étapes précédentes ont été calculées par la machine de backup.
 
-Enfin, pour des questions d'ergonomie, il pourrait être intéressant d'avoir un concept de groupes de nœuds, censés posséder les mêmes tâches, et d'associer à chaque segment un ou plusieurs groupes. La détection d'un nœud "mort" se ferait dans le groupe par envoi de messages réguliers, et une des machines au hasard du groupe peut reprendre les tâches laissées en plan.
+Enfin, pour des questions d'ergonomie, il serait intéressant d'avoir un concept de groupes de nœuds, censés posséder les mêmes tâches, et d'associer à chaque segment un ou plusieurs groupes. La détection d'un nœud "mort" se ferait dans le groupe par envoi de messages réguliers, et une des machines au hasard du groupe reprendrait les tâches laissées en plan.
 \end{itemize}
 
 \subsection{Cas du changement de vitesse}
 Le formalisme~\cite{allombert2010virage} permet de changer la vitesse d'exécution, en multipliant les durées des transitions par un facteur numérique.
 
-Pour conserver la correction du formalisme décrit ici, il ne faut pas multiplier le facteur de décalage entre les nœuds, car il ne dépend pas de la vitesse d'exécution du morceau, mais est une caractéristique physique du réseau.
+Pour conserver la correction du formalisme décrit ici, il ne faut pas multiplier le facteur de décalage entre les nœuds, car il ne dépend pas de la vitesse d'exécution du morceau: il s'agit d'une caractéristique physique du réseau.
 
-Il serait par exemple possible d'affecter une fonction affine de la forme $av + b$ aux transitions, ou $a$ est la durée de la transition canonique, $v$ le coefficient multiplicateur de vitesse, entre $0.5$ et $2$, et $b$ le délai. 
+Il serait par exemple possible d'affecter une fonction affine de la forme $av + b$ aux transitions, ou $a$ est la durée de la transition canonique, $v$ le coefficient multiplicateur de vitesse compris entre $0.5$ et $2$, et $b$ le délai. 
 
 \subsection{Simplifications}
 \subsubsection{$\alpha$-transitions}
 \begin{itemize}
-\item Si un $\alpha$-segment est en sortie d'un autre, ils peuvent être fusionnés : les places de sortie du segment suivant sont reliés à la transition du précédent. Cela ne change rien car dans les deux cas les délais des transitions sont nuls.
+\item Si un $\alpha$-segment est en sortie d'un autre, ils peuvent être fusionnés : les places de sortie du segment suivant sont reliés à la transition du précédent. Cela ne change rien : dans les deux cas les délais des transitions sont nuls.
 
-\item De même, si un $\alpha$-segment suit directement une $\beta$-segment, on peut supprimer l'$\alpha$-segment et mettre les places qui étaient à sa sortie en sortie du $\beta$-segment.
+\item De même, si un $\alpha$-segment suit directement un $\beta$-segment, on peut supprimer l'$\alpha$-segment et transférer les places qui étaient à sa sortie, en sortie du $\beta$-segment.
 \end{itemize}
 \subsubsection{Connaissance de la topologie du réseau de Petri}
 On peut essayer de faire en sorte que les nœuds n'aient connaissance que des segments qu'ils possèdent et sont censés exécuter, et ce afin d'éviter la duplication.
@@ -97,7 +97,7 @@ Ils doivent au moins posséder :
 Les autres envois de jetons peuvent être faits par le réseau.
 
 \paragraph{Prise de connaissance dynamique ?}
-Tant que l'on se situe avant l'exécution d'un segment par une machine, on peut lui envoyer.
+Tant que l'on se situe avant l'exécution d'un segment par une machine, une autre machine peut lui transférer ce segment par le réseau.
 
 Il faut néanmoins s'assurer qu'elle reçoive le / les segments avant leurs débuts, en calculant la latence entre les nœuds, et informer les autres nœuds du nouveau responsable de ce segment, pour qu'ils sachent ou envoyer leurs jetons.
 
@@ -106,16 +106,16 @@ Si l'on opte pour une connaissance globale, est-il néanmoins nécessaire que ch
 
 Cela pose problème dans :
 \begin{itemize}
-\item Le cas des points d'interaction, ce qui peut engendrer une surcharge au niveau du réseau si par exemple la valeur d'une variable sur laquelle porte une condition doit être transmise à tous les nœuds.
-\item Le cas ou une machine aurait un ralentissement : il y aurait une incohérence entre la position de son jeton et la position du même jeton dans les autres machines.
+\item Le cas des points d'interaction, ce qui engendre parfois une surcharge au niveau du réseau, si par exemple la valeur d'une variable sur laquelle porte une condition doit être transmise à tous les nœuds.
+\item Le cas où une machine aurait un ralentissement : il y aurait une incohérence entre la position de son jeton et la position du même jeton dans les autres machines.
 \end{itemize}
 
-Une solution peut être d'avoir une machine maîtresse, dont l'état est prioritaire sur tous les autres. 
+Une solution serait d'avoir une machine maîtresse, dont l'état est prioritaire sur tous les autres. 
 
-Ou alors de ne pas avoir de réplication d'état : cela veut dire que la plupart des machines seront toujours dans un état incohérent vis-à-vis de la sémantique des réseaux de Petri (car des jetons vont apparaître et disparaître au gré des envois par le réseau), mais le fonctionnement est plus simple à gérer et peut être source de moins de problèmes sur le long terme.
+Ou alors de ne pas avoir de réplication d'état : cela veut dire que la plupart des machines seront toujours dans un état incohérent vis-à-vis de la sémantique des réseaux de Petri (car des jetons vont apparaître et disparaître au gré des envois par le réseau), mais le fonctionnement est plus simple à gérer et provoquerait moins de problèmes sur le long terme.
 
 \subsection{Déplacement de groupes de segments}
-Si on désire déplacer plusieurs segments adjacents en même temps, il suffit d'appliquer l'opération de déplacement aux segments possédant des places d'entrée ou de sortie communes à un segment ne faisant pas partie de ce groupe. En effet, seules ceux-là sont sensibles au délai entre les nœuds.
+Si on désire déplacer plusieurs segments adjacents en même temps, il suffit d'appliquer l'opération de déplacement aux segments possédant des places d'entrée ou de sortie communes à un segment ne faisant pas partie de ce groupe. En effet, seuls ceux-là sont sensibles au délai entre les nœuds.
 
 \subsection{Approche optimisée pour implémentation}
 Comme i-score précompile les réseaux de Petri à chaque lecture, et ne les génère pas de façon dynamique, il serait possible d'appliquer le processus "inverse" de celui décrit, pour avoir un nombre de calculs minimaux à réaliser : 
@@ -125,4 +125,4 @@ Comme i-score précompile les réseaux de Petri à chaque lecture, et ne les gé
 \item Pour chaque paire de segments adjacents et n'étant pas sur le même nœud, effectuer une opération de déplacement.
 \end{enumerate}
 
-Sans cette optimisation, il y aurait par exemple des cas de déplacements puis recombinaisons inutiles.
+Sans cette optimisation, il y aurait par exemple des cas de déplacements suivis de recombinaisons inutiles.

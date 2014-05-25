@@ -41,6 +41,17 @@ escapeinside={\%*}{*)}
            {à}{{\`a}}1
 }
 
+\lstdefinelanguage{pseudoobject}
+{
+	keywords={props,methods},
+	moredelim=[is][\ttfamily]{|}{|},
+	columns=fullflexible,
+	basicstyle={\normalsize },
+	numbers=none,
+	frame=none
+%	framerule=0.9pt
+}
+
 % Enelver espace au dessus de chapitre
 \makeatletter
 \def\ttl@mkchap@i#1#2#3#4#5#6#7{%
@@ -75,7 +86,7 @@ escapeinside={\%*}{*)}
 
 % Commande \brand
 \renewcommand*{\acsfont}[1]{\brand{#1}}
-\newcommand{\brand}[1]{{\textbf{#1}}}
+\newcommand{\brand}[1]{{\bsc{#1}}}
 
 % Paragraphe avec saut de ligne
 \let\oldpar\paragraph
@@ -94,3 +105,6 @@ escapeinside={\%*}{*)}
 
 % Pour timeline verticale
 \newcommand{\vtbullet}{\hspace{-2.3pt}$\bullet$ \hspace{5pt}}
+
+% Typographie française
+\renewcommand{\contentsname}{Sommaire}

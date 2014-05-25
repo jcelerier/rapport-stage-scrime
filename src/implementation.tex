@@ -154,19 +154,20 @@ Par exemple, comme présenté dans la \cref{fig.RepartOSSIA}, on propose la poss
 
 L'interface proposée est la suivante : (\texttt{group} peut être remplacé par le nom du groupe, mais cela pose problème car il faut alors interdire les caractères spéciaux et les espaces).
 
-En écriture sur le groupe : 
+\subparagraph{En écriture sur le groupe} 
 \begin{itemize}
 	\item \texttt{/group/enable/fonctionnalité ip port param1 param2 \dots} active l'envoi de messages décrits par cette fonctionnalité sur la machine dont les paramètres sont passés au message.
 	\item \texttt{/group/disable/fonctionnalité ip port} fait l'inverse.
 	\item \texttt{/group/parameter/nomDuParamètre id} permet d'écrire un paramètre sur le groupe, pour permettre des comportements globaux.
 \end{itemize}
 
-Émis par le groupe :
+\subparagraph{Émis par le groupe}
 \begin{itemize}
 	\item \texttt{/group/connexions} qui renvoie le nombre de machines connectées à ce groupe quand une nouvelle machine se connecte.
 	\item \texttt{/group/parameter/nomDuParamètre/fonctionnalité} envoi le message correspondant à la fonctionnalité présentée.
 \end{itemize}
 
+\subparagraph{Implémentation}
 Il y a deux possibilités pour réaliser cela : 
 \begin{itemize}
 	\item Approche simple : la machine qui fait tourner la session maître gère les options des groupes, et envoie et reçoit les messages décris précédemment.
@@ -176,5 +177,102 @@ Il y a deux possibilités pour réaliser cela :
 Pour des raisons de temps, et de simplicité d'implémentation, c'est la première approche qui est retenue.
 \subsection{Implémentation dans le logiciel i-score}
 \subsubsection{Algorithme opérant sur réseaux de Petri}
+L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet, avec notamment les objets présentés en \cref{fig.classSegment} le processus décrit en \cref{section.processusDeplacement}.
+
+\begin{algorithm}[H] %[language=pseudoobject]
+\SetKwBlock{Props}{Propriétés : }{}
+\SetKwBlock{Methods}{Méthodes : }{}
+
+\SetKwBlock{Segment}{Segment}{}
+\SetKwBlock{AlphaSegt}{AlphaSegment : Segment}{}
+\Segment
+{
+    \Props
+    {
+        nœud \tcc*[r]{Le nœud sur lequel ce segment est exécuté}
+        places \tcc*[r]{Les places de ce segment}
+        transition \tcc*[r]{La transition de ce segment}
+	}
+	~ \\
+    \Methods
+    { 
+        precedents() \tcc*[r]{Les segments reliés aux places d'entrée de ce segment}
+        suivants() \tcc*[r]{Les segments reliés aux places de sortie de ce segment}
+        ~ \\
+        alpha() \tcc*[r]{L'$\alpha$-segment précédant ce segment}
+        cree\_alpha() \tcc*[r]{Crée un $\alpha$-segment en précédence de ce segment}
+        supprime\_alpha() \tcc*[r]{Supprime l'$\alpha$-segment en précédence de ce segment}
+    }
+}
+~ \\
+~ \\
+\AlphaSegt
+{
+	\Props
+	{
+		parent \tcc*[r]{Référence vers le segment ayant servi à créer cet $\alpha$-segment}
+	}
+	~ \\
+	\Methods
+	{
+		beta(segment) \tcc*[r]{Renvoie le beta-segment menant au segment passé en paramètre}
+		cree\_beta(segment) \tcc*[r]{crée et renvoie un nouveau beta-segment en sortie, dont la durée correspond au temps du segment de base que précède l'alpha-segment moins la latence avec le nœud du segment passé en paramètre}
+		supprime\_beta(segment) \tcc*[r]{supprime le beta-segment menant au segment passé en paramètre}
+	}
+}
+
+\caption{Objets utilisés}
+\label{fig.classSegment}
+\end{algorithm}
+
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\Donnees{Un segment s, un nœud Nd ou on veut le déplacer}
+	\Res{Le réseau du segment s est modifié pour que le déplacement soit correctement effectué}
+	
+	~ \\
+	
+	\PourCh{segment p $\in$ s.precedents()}
+	{
+		\uSi{p.nœud $=$ s.nœud \textbf{et} p.nœud $=$ Nd}
+		{
+			Ne rien faire;	
+		}
+		\uSinonSi(\tcc*[f]{Cas du déplacement}){p.nœud $=$ s.nœud \textbf{et} p.nœud $\neq$ Nd}
+		{
+			\uSi{p.precedents() contient un $\alpha$-segment}
+			{
+				alphaseg $\longleftarrow$ p.cree\_alpha()\;
+			}
+			\Sinon
+			{
+				alphaseg $\longleftarrow$ p.alpha()\;
+			}
+			
+			betaseg $\longleftarrow$ alphaseg.cree\_beta(s)\;
+			deplace(s, betaseg)\;
+					
+		}
+		\uSinonSi(\tcc*[f]{Cas de la recombinaison}){p.nœud $\neq$ s.nœud \textbf{et} p.nœud $=$ Nd}
+		{
+			alphaseg $\longleftarrow$ p.alpha()\;
+			alphaseg.supprime\_beta(s)\;
+			deplace(s, p) \;
+					
+			\Si{p.alpha().suivants().taille() $=$ 1}
+			{
+				p.supprime\_alpha()\;
+			}		
+		}
+		\SinonSi(\tcc*[f]{Cas du re-déplacement}){p.nœud $=$ s.nœud}
+		{
+			betaseg $\longleftarrow$ p.alpha().beta(s)\;
+			betaseg.transition.change\_duree(p.transition.duree + delta(p.noeud, nd))\;
+		}	
+	}
+	
+	\caption{Algorithme de déplacement}
+	\label{alg.deplacement}
+\end{algorithm}
 \subsection{Démonstration dans le cadre d'un vrai scénario}
 \section{Résultats}

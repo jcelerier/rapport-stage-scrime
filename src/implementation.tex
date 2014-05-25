@@ -12,13 +12,13 @@ Les technologies étaient fixées d'avance par les contraintes du projet.
 	\item Les outils de gestion de projet sont \brand{Dropbox}, \brand{GitHub} et \brand{Asana}.
 \end{itemize}
 
-Néanmoins, très tôt j'ai décidé d'entreprendre un portage des librairies nécessaires sous systèmes \brand{Linux}, de manière à pouvoir faire fonctionner le logiciel sur systèmes embarqués.
+Néanmoins, j'ai décidé très tôt d'entreprendre un portage des librairies nécessaires sous systèmes \brand{Linux}, de manière à pouvoir faire fonctionner le logiciel sur systèmes embarqués.
 
 \section{Organisation du travail}
 \subsection{Choix effectués}
 \subsubsection{Prototypage}
-Pour prototyper rapidement des applications utilisant les réseaux de Petri, j'ai choisi d'utiliser \brand{PetriNet API}, en raison de la simplicité d'utilisation de cette bibliothèque. En la prenant en main, j'ai rapidement pu comprendre le fonctionnement des réseaux de Petri.
-J'ai aussi utilisé \brand{Qt} pour les interfaces graphiques, en raison de la connaissance préalable que j'en avais.
+Pour prototyper rapidement des applications utilisant les réseaux de Petri, j'ai choisi d'utiliser \brand{PetriNet API}, en raison de la simplicité d'utilisation de cette bibliothèque. En la prenant en main, j'ai rapidement compris le fonctionnement des réseaux de Petri.
+J'ai aussi utilisé \brand{Qt} pour les interfaces graphiques, en raison de ma connaissance préalable du sujet.
 
 \subsubsection{Technologie réseau}
 Pour le réseau, j'ai très vite choisi d'utiliser \gls{zeroconf}. En effet, la majorité des utilisateurs étant des artistes, ils ne devraient pas avoir à se poser la question des adresses IP et ports à utiliser.
@@ -29,7 +29,7 @@ Pour la communication inter-machines, j'ai choisi d'utiliser \brand{OSC}. En eff
 Étant dans un travail en équipe et open-source, j'ai été confronté de multiples fois à des problèmes courants dans cette situation : 
 
 \begin{itemize}
-	\item Dans le cas d'implémentations divergentes. Une partie de mon travail étant situé sur les branches de développement, et n'étant pas le seul à y avoir les droits de commit, il arrivait parfois que les builds soient cassés.
+	\item Dans le cas d'implémentations divergentes. Une partie de mon travail étant situé sur les branches de développement, et n'étant pas le seul à avoir les droits de commit, il arrivait parfois que les builds soient cassés.
 	\item Dans le cas de contributions à mon travail. Il est arrivé que des contributeurs extérieurs fassent des requêtes (\textit{pull requests}) sur mon code, afin d'ajouter des fonctionnalités.
 \end{itemize}
 
@@ -37,11 +37,11 @@ Les dépôts étant publics, il m'est aussi arrivé d'avoir des questions sur le
 
 \section{Réalisations}
 \subsection{Logiciel de test de répartition}
-Ma première impulsion a été de créer un logiciel, nommé \brand{dpetri} (pour \textit{distributed petri}) qui permette d'exécuter un réseau de Petri sur un réseau informatique, en associant à chaque machine du réseau des transitions (la valeur des places est partagée intelligemment entre les deux nœuds qui y sont attenants).
+Ma première impulsion a été de créer un logiciel, nommé \brand{dpetri} (pour \textit{distributed petri}) permettant d'exécuter un réseau de Petri sur un réseau informatique, en associant à chaque machine du réseau des transitions (la valeur des places est partagée intelligemment entre les deux nœuds qui y sont attenants).
 
 Les échanges de messages se font par \ac{OSC}, et il n'y a pas de gestion du retard intégrée. Cette tâche reste à appliquer à la main, ou avec un algorithme externe, sur les réseaux de Petri passés en entrée.
 
-La librairie sous-jacente utilisée était à la base \brand{PetriNet API}~\cite{lohmann2009petri}. Néanmoins, en voulant tester sur \brand{Android}, la librairie n'a pas pu fonctionner car elle requiert un fichier binaire propriétaire, qui n'est compilé que pour architectures \brand{x86}. J'ai donc réimplémenté une structure de réseau de Petri qui suit l'architecture de \brand{PetriNet API}, mais en offrant uniquement les capacités nécessaires au logiciel. Ceci dit, la visualisation en temps-réel n'est alors plus possible.
+La librairie sous-jacente utilisée était à la base \brand{PetriNet API}~\cite{lohmann2009petri}. Néanmoins, en voulant tester sur \brand{Android}, la librairie n'a pu fonctionner car elle requiert un fichier binaire propriétaire, qui n'est compilé que pour architectures \brand{x86}. J'ai donc réimplémenté une structure de réseau de Petri qui suit l'architecture de \brand{PetriNet API}, mais en offrant uniquement les capacités nécessaires au logiciel. Ceci dit, la visualisation en temps-réel n'est alors plus possible.
 
 Le logiciel affiche le retard à l'exécution d'une transition. L'interface, visible en \cref{fig.dpetri}, est écrite en \brand{Qt}, et utilise \brand{ZeroConf} avec une architecture client / serveur.
 \begin{figure}[H]
@@ -76,7 +76,7 @@ Afin d'avoir une exécution des scénarios interactifs sur embarqué, il était 
 
 Cela a nécessité un portage du processus de construction logicielle (\textit{build system})  de \brand{Jamoma}, un script Ruby personnalisé, vers \gls{CMake}.
 
-Réaliser ce développement a aussi permis de distribuer \brand{i-score} sous \gls{macports}, et a ouvert de nouvelles perspectives de développement pour l'embarqué sur le logiciel; de plus, un système d'\gls{contintegr} est désormais envisageable.
+Réaliser ce développement a également permis de distribuer \brand{i-score} sous \gls{macports}, et a ouvert de nouvelles perspectives de développement pour l'embarqué sur le logiciel; de plus, un système d'\gls{contintegr} est désormais envisageable.
 
 Un portage a aussi été réalisé sous \brand{BeagleBoard}, pour offrir un \textit{proof-of-concept} de fonctionnement sur périphérique embarqué courant. Cependant, le moteur d'exécution d'\brand{i-score}, travaillant à une fréquence de $\num{1} \si{\kHz}$, l'exécution demandait trop de ressources pour avoir un fonctionnement correct.
 
@@ -127,17 +127,17 @@ Une session maîtresse sert principalement à :
 	\item Avoir une adresse à laquelle se connecter.
 	\item Mettre en relation les clients entre eux.
 	\item Vérifier si les clients sont toujours connectés.
-	\item Éventuellement avoir un rôle de validation des données échangées, amis cela n'a pas été implémenté.
+	\item Éventuellement avoir un rôle de validation des données échangées, mais cela n'a pas été implémenté.
 \end{itemize}
 
 \subsubsection{Groupe}
 Des scénarios sont assignés à un groupe.
 
-Comme il a pu être vu en \cref{fig.RepartOSSIA}, la méthode visuelle recommandée pour différencier des groupes est la couleur.
+Comme cela est montré en \cref{fig.RepartOSSIA}, la méthode visuelle recommandée pour différencier des groupes est la couleur.
 
 Un groupe peut aussi être mis en sourdine, que ce soit au niveau local (sur une seule machine), ou au niveau de la session (sur toutes les machines). Cela signifie que ses processus ne s'exécutent plus. 
 
-Enfin, l'idée d'un groupe spécial dédié à la sauvegarde (\textit{backup}) est proposée : dans ce groupe, les clients sont par défaut mis en sourdine, à l'exception d'un seul. Si lors de l'exécution un des clients ne répond plus, la session maîtresse enlève sa sourdine à un autre client.
+Enfin, l'idée d'un groupe spécial dédié à la sauvegarde (\textit{backup}) est proposée : dans ce groupe, les clients sont mis en sourdine par défaut, à l'exception d'un seul. Si lors de l'exécution un des clients ne répond plus, la session maîtresse enlève sa sourdine à un autre client.
 
 \paragraph{Duplication et indépendance des choix}
 Une des fonctionnalités des groupes est la duplication des choix. C'est-à-dire que l'on peut choisir si dans un groupe toutes les machines exécuteront exactement les mêmes choses (c'est-à-dire que la première à faire un choix impose son choix sur les autres), ou si chaque machine pourra avoir un comportement interne divergeant.
@@ -152,7 +152,7 @@ Un groupe possède de plus certaines fonctionnalités d'agrégation des clients 
 
 Par exemple, comme présenté dans la \cref{fig.RepartOSSIA}, on propose la possibilité dans un groupe d'avoir des paramètres quelconques (définis par le compositeur), qui auraient un comportement local sur chaque nœud du groupe, mais aussi un comportement global : par exemple la moyenne des paramètres locaux, le maximum, une valeur au hasard\dots
 
-L'interface proposée est la suivante : (\texttt{group} peut être remplacé par le nom du groupe, mais cela pose problème car il faut alors interdire les caractères spéciaux et les espaces).
+L'interface proposée est la suivante : (\texttt{group} peut être remplacé par le nom du groupe, mais cela pose problème car cela nécessite d'interdire les caractères spéciaux et les espaces).
 
 \subparagraph{En écriture sur le groupe} 
 \begin{itemize}
@@ -164,18 +164,23 @@ L'interface proposée est la suivante : (\texttt{group} peut être remplacé par
 \subparagraph{Émis par le groupe}
 \begin{itemize}
 	\item \texttt{/group/connexions} qui renvoie le nombre de machines connectées à ce groupe quand une nouvelle machine se connecte.
-	\item \texttt{/group/parameter/nomDuParamètre/fonctionnalité} envoi le message correspondant à la fonctionnalité présentée.
+	\item \texttt{/group/parameter/nomDuParamètre/fonctionnalité} envoie le message correspondant à la fonctionnalité présentée.
 \end{itemize}
 
 \subparagraph{Implémentation}
 Il y a deux possibilités pour réaliser cela : 
 \begin{itemize}
-	\item Approche simple : la machine qui fait tourner la session maître gère les options des groupes, et envoie et reçoit les messages décris précédemment.
-	\item Approche répartie : dans chaque groupe, définir automatiquement un sous-maître (par exemple la machine la plus puissante, ou bien la première à s'être connectée) qui s'occupera de cette tâche. Cela permet notamment de répartir l'envoi de fonctionnalités différentes sur les différentes machines. En revanche il est possible qu'elles doivent alors toutes communiquer entre elles (du moins dans le groupe).
+	\item Approche simple : la machine qui fait tourner la session maître gère les options des groupes, elle envoie et reçoit les messages décrits précédemment.
+	\item Approche répartie : dans chaque groupe, définir automatiquement un sous-maître (par exemple la machine la plus puissante, ou bien la première à s'être connectée) qui s'occupera de cette tâche. Cela permet notamment de répartir l'envoi de fonctionnalités différentes sur les différentes machines. En revanche il est possible qu'elles doivent alors toutes communiquer entre elles, du moins dans le groupe.
 \end{itemize}
 
-Pour des raisons de temps, et de simplicité d'implémentation, c'est la première approche qui est retenue.
+Pour des raisons de temps, et de simplicité d'implémentation, la première approche a été retenue.
 \subsection{Implémentation dans le logiciel i-score}
+Un des problèmes principaux en développement logiciel est la maintenabilité. Par exemple, une implémentation particulière pourrait changer, néanmoins il est plus rare que les interfaces fournies changent, pour des raisons de compatibilité.
+
+Pour cette raison, j'ai choisi de baser mon travail d'implémentation principal sur l'\brand{API Score}, plutôt que sur son implémentation actuelle, ou directement sur les réseaux de Petri. Cela est dû au fait que d'autres implémentations parallèles sont à l'étude, comme une en \brand{Reactive ML}, et qu'il serait dommage de perdre les bénéfices de la répartition en changeant d'implémentation.
+
+J'ai aussi travaillé sur des implémentations naïves des algorithmes principaux sur les réseaux de Petri présentés en \cref{chapterApports}.
 \subsubsection{Algorithme opérant sur réseaux de Petri}
 L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet, avec notamment les objets présentés en \cref{fig.classSegment} le processus décrit en \cref{section.processusDeplacement}.
 

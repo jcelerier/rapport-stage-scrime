@@ -280,14 +280,36 @@ L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet,
 \end{algorithm}
 
 \subsection{Résultats sur un exemple}
-Pour tester, l'exemple présent dans les parties précédentes du document est utilisé. L'estimation de la latence a été faite de manière statique, en moyennant la latence aller-retour pour cent paquets, ce qui a donné environ $\num{20} \si{\milli\second}$ de latence dans un sens.
+Pour tester, l'exemple présent dans les parties précédentes du document est utilisé.
+
+\subsubsection{Résultats sur machines virtuelles}
+Dans un temps limité, des essais ont été mené sur machine virtuelle à l'aide de \brand{WANem}, une distribution Linux spécialisée dans la simulation de conditions réseau particulières.
+
+Le schéma de réseau est le suivant : 
+\begin{itemize}
+	\item Une machine virtuelle sous \brand{WANem}.
+	\item Deux machines virtuelles sous \brand{Debian}, chacune reliée à la machine \brand{WANem}.
+\end{itemize}
+
+La machine \brand{WANem} est réglée pour simuler une latence fixe de $\num{50}\si{\milli\second}$ entre les deux machines sous \brand{Debian}, ce qui correspond à des conditions moyennes sur Internet.
+
+\subsubsection{Résultats sur un réseau réel}
+Ici, on utilise le schéma suivant : 
+
+\begin{itemize}
+	\item Un téléphone \brand{Google Nexus S}, qui sert de routeur et de point d'accès Wi-Fi.
+	\item Un ordinateur portable et une tablette \brand{Google Nexus 7 (2013)} reliés à ce réseau.
+\end{itemize}
+
+L'estimation de la latence a été faite de manière statique, en moyennant la latence aller-retour pour cent paquets, ce qui a donné environ $\num{20} \si{\milli\second}$ de latence dans un sens.
+
 
 \subsubsection{Résultats sans application de l'algorithme}
 
 \subsubsection{Résultats avec application de l'algorithme}
-
+\includegraphics[scale=0.3]{images/resultats/test1mieux.png}
 
 \subsubsection{Problème de latence variable avec périphérique Android}
-Cet exemple a relativement bien marché, néanmoins en moyenne ce n'était pas toujours le cas : en effet, la latence entre l'ordinateur et la tablette \brand{Android} avait un écart-type très important (de l'ordre de $\num{150} \si{\milli\second}$).
+Cet exemple a relativement bien marché, néanmoins en moyenne ce n'était pas toujours le cas : en effet, la latence entre l'ordinateur et la tablette \brand{Android} avait une moyenne de l'ordre de $\num{20} \si{\milli\second}$, mais il y avait parfois des pics allant jusqu'à $\num{400} \si{\milli\second}$.
 
-Cela pose notamment problème dans le cas d'une latence parfois inférieure à la latence attendue.
+Cela peut avoir plusieurs causes : l'utilisation du téléphone peu puissant en point d'accès, ou encore le scheduling utilisé sous \brand{Android}.

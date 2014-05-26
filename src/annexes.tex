@@ -1,6 +1,9 @@
-\begin{appendices}
-	\crefalias{chapter}{appchap}
+\let\cleardoublepage\clearpage
+\appendix
+	\crefalias{section}{appchap}
+	\let\cleardoublepage\clearpage
 	\chapter{Sujet du stage}
+	\let\cleardoublepage\clearpage
 	\label{apx.SujetStage}
 	\section*{Répartition du séquenceur multimedia i-score sur plusieurs machines}
 	
@@ -32,8 +35,9 @@
 	
 	Le stagiaire intégrera une équipe de 3 ingénieurs du LaBRI et du
 	SCRIME et de 5 chercheurs permanents du LaBRI.
-	
+	\let\cleardoublepage\clearpage
 	\chapter{Exemple OSSIA}
+	\let\cleardoublepage\clearpage
 	\label{apx.OSSIAExemple}
-	\includepdf{images/moineOSSIA.pdf}
-\end{appendices}
+	\includegraphics[clip,trim=0cm 28cm 0cm 0cm, width=1.00\textwidth]{images/moineOSSIA.pdf}
+	\includegraphics[clip,trim=0cm 0cm 0cm 26cm, width=1.00\textwidth]{images/moineOSSIA.pdf}

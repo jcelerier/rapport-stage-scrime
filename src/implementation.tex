@@ -83,7 +83,7 @@ Un portage a aussi été réalisé sous \brand{BeagleBoard}, pour offrir un \tex
 J'ai travaillé sur les branches \texttt{feature/cmake} des projets \texttt{Jamoma/JamomaCore}, \texttt{OSSIA/Score} et \texttt{i-score/i-score} sur \brand{GitHub}.
 \subsection{Implémentation dans l'API OSSIA}
 L'\brand{API} expose les éléments du paradigme \brand{OSSIA} : 
-\texttt{
+
 \begin{itemize}
 	\item Boîtes
 	\item Processus
@@ -91,7 +91,6 @@ L'\brand{API} expose les éléments du paradigme \brand{OSSIA} :
 	\item Évènements
 	\item Branchements conditionnels
 \end{itemize}
-}
 
 Les notions qui ont été ajoutées sont celles de \texttt{Groupes, Permissions, Clients, Sessions}.
 
@@ -279,5 +278,13 @@ L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet,
 	\caption{Algorithme de déplacement}
 	\label{alg.deplacement}
 \end{algorithm}
-\subsection{Démonstration dans le cadre d'un vrai scénario}
-\section{Résultats}
+
+\subsection{Résultats sur un exemple}
+Pour tester, l'exemple présent dans les parties précédentes du document est utilisé. L'estimation de la latence a été faite de manière statique, en moyennant la latence aller-retour pour cent paquets, ce qui a donné environ $\num{20} \si{\milli\second}$ de latence dans un sens.
+
+\subsubsection{Résultats sans application de l'algorithme}
+
+\subsubsection{Problème de latence variable avec périphérique Android}
+Cet exemple a relativement bien marché, néanmoins en moyenne ce n'était pas toujours le cas : en effet, la latence entre l'ordinateur et la tablette \brand{Android} avait un écart-type très important (de l'ordre de $\num{150} \si{\milli\second}$).
+
+Cela pose notamment problème dans le cas d'une latence parfois inférieure à la latence attendue.

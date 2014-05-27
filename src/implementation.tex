@@ -292,13 +292,26 @@ Dans un temps limité, des essais ont été mené sur machine virtuelle à l'aid
 Le schéma de réseau est le suivant : 
 \begin{itemize}
 	\item Une machine virtuelle sous \brand{WANem}.
-	\item Deux machines virtuelles sous \brand{Debian}, chacune reliée à la machine \brand{WANem}.
+	\item Deux machines virtuelles sous \brand{Debian}, chacune reliée à la machine \brand{WANem}, en suivant ce guide : \url{http://arashafiei.wordpress.com/2013/04/02/wanem-on-virtualbox/}.
 \end{itemize}
 
-La machine \brand{WANem} est réglée pour simuler une latence fixe de $\num{50}\si{\milli\second}$ entre les deux machines sous \brand{Debian}, ce qui correspond à des conditions moyennes sur Internet.
+La machine \brand{WANem} est réglée pour simuler une latence fixe de $\num{40}\si{\milli\second}$ entre les deux machines sous \brand{Debian}, ce qui correspond à des conditions moyennes sur Internet. 
+
+Ces résultats sont à prendre avec précaution. En effet, en raison de la perte de puissance due à l'utilisation de trois machines virtuelles en parallèle, même l'exécution d'un réseau sur une seule machine ne se fait pas correctement, et il y a un retard variant entre $\num{5}\si{\milli\second}$ et $\num{20}\si{\milli\second}$ par transition.	Cela est visible dans la capture d'écran donnée en annexe \ref{fig.executionTheoriqueVM}.
+
+\paragraph{Résultats sans application de l'algorithme}
+On déplace l'exécution de $t_2$ sur la tablette.
+L'exécution est visible en annexe \ref{fig.simpleVM}.
+
+La dernière transition, $t_3$, s'exécute avec un retard de $\num{111} \si{\milli\second}$.
+
+\paragraph{Résultats avec application de l'algorithme}
+On applique l'algorithme de déplacement au segment $(\lbrace B \rbrace, t_2, \lbrace C \rbrace)$. L'exécution est visible en annexe \ref{fig.algoVM}
+
+La dernière transition, $t_C$ (équivalente à $t_3$ dans l'exécution naïve), s'exécute avec un retard de $\num{47} \si{\milli\second}$, qui sont imputables au problème énoncé précédemment en raison du nombre élevé de transitions.
 
 \subsubsection{Résultats sur un réseau réel}
-Ici, on utilise le schéma suivant : 
+Pour ce test, on utilise le réseau physique suivant suivant : 
 
 \begin{itemize}
 	\item Un téléphone \brand{Google Nexus S}, qui sert de routeur et de point d'accès Wi-Fi.
@@ -307,18 +320,20 @@ Ici, on utilise le schéma suivant :
 
 L'estimation de la latence a été faite de manière statique, en moyennant la latence aller-retour pour cent paquets, ce qui a donné environ $\num{10} \si{\milli\second}$ de latence dans un sens en éloignant les périphériques les uns des autres (chacun dans une pièce fermée).
 
-\subsubsection{Résultats sans application de l'algorithme}
+\paragraph{Résultats sans application de l'algorithme}
 On déplace l'exécution de $t_2$ sur la tablette.
 Sans déplacement, on obtient un retard de $\num{15} \si{\milli\second}$  lors de l'exécution de $t2$. L'exécution est visible en annexe \ref{fig.androSimpl}.
 
 La dernière transition, $t_3$, s'exécute avec un retard de $\num{56} \si{\milli\second}$.
 
-\subsubsection{Résultats avec application de l'algorithme}
+\paragraph{Résultats avec application de l'algorithme}
 On applique l'algorithme de déplacement au segment $(\lbrace B \rbrace, t_2, \lbrace C \rbrace)$. On a alors $t_2$ qui s'exécute bien à $\num{600}\si{\milli\second}$. L'exécution est visible en annexe \ref{fig.androDepl}
 
 La dernière transition, $t_C$ (équivalente à $t_3$ dans l'exécution naïve), s'exécute avec un retard de $\num{4} \si{\milli\second}$.
 
-\subsubsection{Problème de latence variable avec périphérique Android}
+Il y a donc une réelle amélioration apportée au niveau de la précision.
+
+\paragraph{Problème de latence variable avec périphérique Android}
 Cet exemple a relativement bien marché, néanmoins en moyenne ce n'était pas toujours le cas : en effet, la latence entre l'ordinateur et la tablette \brand{Android} avait une moyenne de l'ordre de $\num{10} \si{\milli\second}$, mais il y avait parfois des pics allant jusqu'à $\num{100} \si{\milli\second}$.
 
 Cela peut avoir plusieurs causes : l'utilisation du téléphone peu puissant en point d'accès, ou encore le scheduling utilisé sous \brand{Android}.

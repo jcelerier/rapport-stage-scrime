@@ -284,6 +284,8 @@ Pour tester, l'exemple présent dans les parties précédentes du document est u
 
 Il y a trois transitions en séquences. La première est sensée s'exécuter à $\num{500}\si{\milli\second}$, la seconde à $\num{600}\si{\milli\second}$ et la troisième à $\num{700}\si{\milli\second}$.
 
+Le résultat idéal, c'est-à-dire tel que s'il était exécuté sur une seule machine, est visible en annexe \ref{fig.executionTheorique}.
+
 \subsubsection{Résultats sur machines virtuelles}
 Dans un temps limité, des essais ont été mené sur machine virtuelle à l'aide de \brand{WANem}, une distribution Linux spécialisée dans la simulation de conditions réseau particulières.
 
@@ -303,58 +305,20 @@ Ici, on utilise le schéma suivant :
 	\item Un ordinateur portable et une tablette \brand{Google Nexus 7 (2013)} reliés à ce réseau.
 \end{itemize}
 
-L'estimation de la latence a été faite de manière statique, en moyennant la latence aller-retour pour cent paquets, ce qui a donné environ $\num{20} \si{\milli\second}$ de latence dans un sens.
+L'estimation de la latence a été faite de manière statique, en moyennant la latence aller-retour pour cent paquets, ce qui a donné environ $\num{10} \si{\milli\second}$ de latence dans un sens en éloignant les périphériques les uns des autres (chacun dans une pièce fermée).
 
 \subsubsection{Résultats sans application de l'algorithme}
 On déplace l'exécution de $t_2$ sur la tablette.
-Sans déplacement, on obtient un retard de $\num{15} \si{\milli\second}$  lors de l'exécution de $t2$. L'exécution est visible en \cref{fig.androSimpl}.
+Sans déplacement, on obtient un retard de $\num{15} \si{\milli\second}$  lors de l'exécution de $t2$. L'exécution est visible en annexe \ref{fig.androSimpl}.
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{images/resultats/server_simple_wifi.png}
-		\caption{Serveur}
-	\end{subfigure}
-	
-	\vspace{1cm}
-	
-	
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.16]{images/resultats/client_simple_wifi.png}
-		\caption{Client}
-	\end{subfigure}
-	
-	\caption{Exécution naïve sur tablette}
-	\label{fig.androSimpl}
-\end{figure}
+La dernière transition, $t_3$, s'exécute avec un retard de $\num{56} \si{\milli\second}$.
 
 \subsubsection{Résultats avec application de l'algorithme}
-On applique l'algorithme de déplacement au segment $(\lbrace B \rbrace, t_2, \lbrace C \rbrace)$. On a alors $t_2$ qui s'exécute bien à $\num{600}\si{\milli\second}$. L'exécution est visible en \cref{fig.androDepl}
+On applique l'algorithme de déplacement au segment $(\lbrace B \rbrace, t_2, \lbrace C \rbrace)$. On a alors $t_2$ qui s'exécute bien à $\num{600}\si{\milli\second}$. L'exécution est visible en annexe \ref{fig.androDepl}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.3]{images/resultats/server_algo_wifi.png}
-		\caption{Serveur}
-	\end{subfigure}
-	
-	\vspace{1cm}
-	
-	
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[scale=0.16]{images/resultats/client_algo_wifi.png}
-		\caption{Client}
-	\end{subfigure}
-	
-	\caption{Exécution avec algorithme de déplacement sur tablette}
-	\label{fig.androDepl}
-\end{figure}
+La dernière transition, $t_C$ (équivalente à $t_3$ dans l'exécution naïve), s'exécute avec un retard de $\num{4} \si{\milli\second}$.
 
 \subsubsection{Problème de latence variable avec périphérique Android}
-Cet exemple a relativement bien marché, néanmoins en moyenne ce n'était pas toujours le cas : en effet, la latence entre l'ordinateur et la tablette \brand{Android} avait une moyenne de l'ordre de $\num{20} \si{\milli\second}$, mais il y avait parfois des pics allant jusqu'à $\num{400} \si{\milli\second}$.
+Cet exemple a relativement bien marché, néanmoins en moyenne ce n'était pas toujours le cas : en effet, la latence entre l'ordinateur et la tablette \brand{Android} avait une moyenne de l'ordre de $\num{10} \si{\milli\second}$, mais il y avait parfois des pics allant jusqu'à $\num{100} \si{\milli\second}$.
 
 Cela peut avoir plusieurs causes : l'utilisation du téléphone peu puissant en point d'accès, ou encore le scheduling utilisé sous \brand{Android}.

@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  This Beamer template was created by Cameron Bracken.
+%%  Anyone can freely use or modify it for any purpose
+%%  without attribution.
+%%
+%%  Last Modified: January 9, 2009
+%%
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[xcolor=x11names,compress]{beamer}
+
+%% General document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{lettrine}
+\usepackage{hhline}
+\usepackage{setspace}
+
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{xspace}
+\usepackage[french]{babel}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+\usepackage{float}
+\usepackage{datetime}
+
+\usepackage{amsthm}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[french,algoruled,figure]{algorithm2e}
+\usepackage[footnote,smaller]{acronym}
+\usepackage{multirow}
+\usepackage{tabu}
+\usepackage{mfirstuc}
+
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage[numbers,longnamesfirst]{natbib}
+
+\usepackage{cleveref}
+\usepackage[object=vectorian]{pgfornament}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% Beamer Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\useoutertheme[subsection=false,shadow]{miniframes}
+\useinnertheme{default}
+\usefonttheme{serif}
+\usepackage{kpfonts}
+\usepackage{microtype} % after fonts
+
+\setbeamerfont{title like}{shape=\scshape}
+\setbeamerfont{frametitle}{shape=\scshape}
+
+\setbeamercolor*{lower separation line head}{bg=AntiqueWhite4} 
+\setbeamercolor*{normal text}{fg=black,bg=white} 
+\setbeamercolor*{alerted text}{fg=red} 
+\setbeamercolor*{example text}{fg=black} 
+\setbeamercolor*{structure}{fg=black} 
+ 
+\setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
+\setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
+
+\renewcommand{\(}{\begin{columns}}
+\renewcommand{\)}{\end{columns}}
+\newcommand{\<}[1]{\begin{column}{#1}}
+\renewcommand{\>}{\end{column}}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{footline}{series=\bfseries,size*={11}{16}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Répartition des réseaux de Petri dans le logiciel i-score}
+
+\author{
+	Jean-Michaël \textsc{Celerier}\texorpdfstring{ \\~ \\
+	Sous la direction de : \\
+	Myriam \textsc{Desainte-Catherine} \and Serge \textsc{Chaumette}\\}{}
+}
+\institute{Université de Bordeaux, ENSEIRB-MATMECA}
+\date{
+	\pgfornament[width=5cm]{86}
+	\\
+	\vspace{1cm}
+	\today
+}
+
+
+% Opérateurs
+\DeclareMathOperator{\entree}{E}
+\DeclareMathOperator{\sortie}{O}
+\DeclareMathOperator{\pre}{Pre}
+\DeclareMathOperator{\post}{Post}
+\DeclareMathOperator{\shared}{Shared}
+\DeclareMathOperator{\memory}{Memory}
+
+\def\bottom#1#2{\hbox{\vbox to #1{\vfill\hbox{#2}}}}
+
+\usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,petri,fit}
+\begin{document}
+\input{header}
+\input{presentation}
+\input{existant}
+\input{methodes}
+\input{implementation}
+\input{conclusion}
+\end{document}

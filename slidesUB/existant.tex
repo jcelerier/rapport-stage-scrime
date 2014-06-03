@@ -4,9 +4,9 @@
 \section{\scshape Théorisation}
 \subsection{Réseaux de Petri}
 \begin{frame}{Utilisation des réseaux de Petri}
-Utilisé comme moteur d'exécution : traduction des scénarios en réseaux de Petri [citer allombert].
+Utilisé comme moteur d'exécution : traduction des scénarios en réseaux de Petri\cite{allombert2009aspects}.
 
-Autres moteurs en développement : Reactive ML, ...
+Autres moteurs possibles : Reactive ML\cite{arias2014modelling}, NTCC\cite{allombert2006concurrent}.
 
 Multiples possibilités se chevauchant :
 \begin{itemize}
@@ -23,11 +23,10 @@ Multiples possibilités se chevauchant :
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Répartition}
 \begin{frame}{Répartition et synchronisation}
-	Le problème n'est pas un problème de répartition algorithmique.
-	\begin{itemize}
-		\itemar Le compositeur place lui-même les scénarios en fonction des logiciels dont il dispose.
-	\end{itemize}
+	Le problème n'est pas un problème de répartition algorithmique:
+	Le compositeur place lui-même les scénarios en fonction des logiciels dont il dispose.
 	
+	~ \\
 	Deux aspects à la répartition désirée : 
 	\begin{itemize}
 		\item Déplacement.
@@ -35,9 +34,12 @@ Multiples possibilités se chevauchant :
 	\end{itemize}
 	~ \\
 	Nécessaire : estimation de latence.
+	\begin{itemize}
+		\item Méthodes naïves, P2P\cite{im2000method}, King\cite{gummadi2002king}.
+	\end{itemize}
 	
 	Utile : synchronisation en temps des machines.
 	\begin{itemize}
-		\itemar{Protocoles PTP, NTP\dots}
+		\itemar{Protocoles \textsc{PTP}\cite{scheiterer2009synchronization}, \textsc{NTP}\cite{mills1991internet}}
 	\end{itemize}
 \end{frame}

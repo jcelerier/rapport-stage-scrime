@@ -1,0 +1,37 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,minimum size=6mm]
+  \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+
+  \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+  \tikzstyle{red}=[draw=red!75,fill=red!20]
+  \tikzstyle{black}=[draw=black!75,fill=black!20]
+
+  \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+  \tikzstyle{tred}=[draw=red!100,fill=red!75]
+  \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+
+  \begin{scope}
+  \node[segment](I){In};
+  \node [blue,place,colored tokens={blue}] (A) [right of=I,label=$A_1$] {};
+  \node [blue,place] (A2) [below of=A,label=$A_2$,colored tokens={blue}] {};
+  \node[segment](I2) [left of=A2]{In 2};
+  \node [blue,transition] (Ta) [right of=A, label=$T_A$] {};
+  \node [blue,place] (B) [right of=Ta,label=$B_1$] {};
+  \node [blue,place] (A3) [above of=B,label=$A_3$] {};
+  \node [blue,transition] (Tb) [right of=B, label=$T_B$] {};
+  \node [blue,place] (C) [right of=Tb,label=$C_1$] {};
+  \node[segment](O) [right of=C]{Sortie};
+  
+  \path
+  		(I) edge[post] node {} (A)
+  		(I2) edge[post] node {} (A2)
+  		(A) edge[post] node {} (Ta)
+  		(A2) edge[post] node{} (Ta)
+  		(Ta) edge[post] node {} (B)
+  			 edge[post] node {} (A3)
+  		(B) edge[post] node {} (Tb)
+  		(Tb) edge[post] node {} (C)
+  		(C) edge[post] node {} (O);
+  \end{scope}
+\end{tikzpicture}

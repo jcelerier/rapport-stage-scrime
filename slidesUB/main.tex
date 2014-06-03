@@ -19,7 +19,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{xspace}
 \usepackage[french]{babel}
-\usepackage{caption}
+\usepackage[labelformat=empty]{caption}
 \usepackage[T1]{fontenc}
 \usepackage{relsize}
 \usepackage{float}
@@ -103,6 +103,7 @@
 \usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,petri,fit}
 
 \setbeamertemplate{itemize items}{--}
+\newcommand{\itemar}{\item[$\rightarrow$]}
 \begin{document}
 \input{header}
 \input{presentation}

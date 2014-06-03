@@ -1,16 +1,43 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\scshape État de l'art}
-\subsection{frame 1}
-\begin{frame}{frame 1}
+\section{\scshape Théorisation}
+\subsection{Réseaux de Petri}
+\begin{frame}{Utilisation des réseaux de Petri}
+Utilisé comme moteur d'exécution : traduction des scénarios en réseaux de Petri [citer allombert].
+
+Autres moteurs en développement : Reactive ML, ...
+
+Multiples possibilités se chevauchant :
+\begin{itemize}
+	\item Réseaux colorés.
+	\item Réseaux temporels et temporisés.
+	\item Réseaux spatio-temporels.
+	\item Réseaux hiérarchiques.
+\end{itemize}
 
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{frame 1}
-\begin{frame}{frame 1}
-
+\subsection{Répartition}
+\begin{frame}{Répartition et synchronisation}
+	Le problème n'est pas un problème de répartition algorithmique.
+	\begin{itemize}
+		\itemar Le compositeur place lui-même les scénarios en fonction des logiciels dont il dispose.
+	\end{itemize}
+	
+	Deux aspects à la répartition désirée : 
+	\begin{itemize}
+		\item Déplacement.
+		\item Duplication. 
+	\end{itemize}
+	~ \\
+	Nécessaire : estimation de latence.
+	
+	Utile : synchronisation en temps des machines.
+	\begin{itemize}
+		\itemar{Protocoles PTP, NTP\dots}
+	\end{itemize}
 \end{frame}

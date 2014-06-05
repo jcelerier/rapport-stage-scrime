@@ -12,7 +12,7 @@
 	L'implémentation dans le logiciel doit offrir des concepts simples aux compositeurs (abstraction de la technique).
 	
 	\begin{itemize}
-		\itemar Création de concepts de haut-niveau travaillant avec l'\textsc{API Score} : Groupes, Clients, Permissions.
+		\itemar Création de concepts de haut-niveau travaillant avec l'\textsc{API Score} : Session, Groupe, Client, Permission.
 	\end{itemize}
 \end{frame}
 
@@ -23,17 +23,40 @@
 		\itemar Répartition à la volée.
 		\itemar Communication par messages \textsc{OSC}.
 		\itemar Sert de chantier d'expérimentation pour les choix effectués par la suite.
+		\itemar A été porté sur \textsc{Android} pour permettre l'étude de cas réels.
 	\end{itemize}
-	
 \end{frame}
 
 \subsection{API OSSIA}
 \begin{frame}{Implémentation dans l'API OSSIA}
-	Permet l'utilisation pour la dernière version d'i-score.
+	Permet l'utilisation pour la version en développement de i-score, et depuis le code, ce qui rend possible le développement d'autres logiciels ou d'autres implémentations.
+	
+	La répartition est faite au niveau du scénario.
+	
+	Concepts : 
+	\begin{itemize}
+		\item \textbf{Session}: Rassemble les informations concernant le scénario et les clients connectés. 
+		\item \textbf{Client} :  Représente une machine sur le réseau.
+		\item \textbf{Groupe} :  Associe des scénarios entre eux, et permet duplication et déplacement.
+		\item \textbf{Permission} :  
+		Permet des optimisations au niveau de l'envoi de messages entre clients.
+		
+	\end{itemize}
 \end{frame}
 
 \subsection{Résultats}
 \begin{frame}{Résultats}
-
+	Deux protocoles : 
+	
+	\begin{itemize}
+		\item Un en utilisant des machines virtuelles séparées par une latence quasiment fixe (avec \textsc{WANem}).
+		\item Un en utilisant des machines réelles connectées en Wi-Fi.
+	\end{itemize}
+	
+	Résultats obtenus :
+	\begin{itemize}
+		\item Cas VM : retard de 111 millisecondes sans algorithme, 47 millisecondes avec.
+		\item Cas réel : retard de 56 millisecondes sans algorithme, 4 millisecondes avec.
+	\end{itemize}
 \end{frame}
 

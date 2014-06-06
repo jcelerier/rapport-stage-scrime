@@ -49,14 +49,14 @@
 \setbeamerfont{title like}{shape=\scshape}
 \setbeamerfont{frametitle}{shape=\scshape}
 
-\setbeamercolor*{lower separation line head}{bg=AntiqueWhite4} 
+\setbeamercolor*{lower separation line head}{fg=AntiqueWhite4,bg=AntiqueWhite4} 
 \setbeamercolor*{normal text}{fg=black,bg=white} 
 \setbeamercolor*{alerted text}{fg=red} 
 \setbeamercolor*{example text}{fg=black} 
 \setbeamercolor*{structure}{fg=black} 
  
-\setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
-\setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
+\setbeamercolor*{palette tertiary}{fg=black!10,bg=black!10} 
+\setbeamercolor*{palette quaternary}{fg=black!10,bg=black!10} 
 
 \renewcommand{\(}{\begin{columns}}
 \renewcommand{\)}{\end{columns}}
@@ -73,15 +73,11 @@
 \author{
 	Jean-Michaël \textsc{Celerier}\texorpdfstring{ \\~ \\
 	Sous la direction de : \\
-	Myriam \textsc{Desainte-Catherine} \and Serge \textsc{Chaumette}\\}{}
+	Myriam \textsc{Desainte-Catherine} \and Serge \textsc{Chaumette}\\ ~ \\
+	Pour l'obtention du Master Informatique spécialité Image, Son, Vidéo}{}
 }
 \institute{Université de Bordeaux, ENSEIRB-MATMECA}
-\date{
-	\pgfornament[width=5cm]{86}
-	\\
-	\vspace{1cm}
-	\today
-}
+\date{\today}
 
 
 % Opérateurs
@@ -101,6 +97,10 @@
 \renewcommand{\bibsection}{\subsubsection*{\bibname } }
 \begin{document}
 \input{header}
+
+\setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
+\setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
+
 \input{presentation}
 \input{existant}
 \input{methodes}

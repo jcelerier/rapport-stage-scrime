@@ -14,21 +14,18 @@
 	Une méthode par modification de la topologie a été retenue pour une étude plus poussée.
 \end{frame}
 
-\section{Présentation des méthodes}
+\section{\scshape Méthodes}
 \subsection{Première méthode}
 \begin{frame}{Première méthode}
 	\begin{figure}[h!]
 		\centering
-		\input{figures/deplacementMethode1}
+		\resizebox{!}{2cm}{\input{figures/deplacementMethode1}}
 		\caption{Avant déplacement}
 		\label{fig:deplacementMethode1}
 	\end{figure}
-\end{frame}
-
-\begin{frame}{Première méthode}
 	\begin{figure}[h!]
 		\centering
-		\input{figures/deplacementMethode1suite}
+		\resizebox{!}{3cm}{\input{figures/deplacementMethode1suite}}
 		\caption{Après déplacement}
 		\label{fig:deplacementMethode1-2}
 	\end{figure}
@@ -55,39 +52,15 @@
 
 \subsection{Troisième méthode}
 \begin{frame}{Troisième méthode}
-	\begin{figure}[h!]
-		\centering
-		\input{figures/deplacementCol}
-		\caption{Avant déplacement}
-		\label{fig:deplacementMethode3}
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Troisième méthode}
-	\begin{figure}[h!]
-		\centering
-		\input{figures/deplacementColsuite}
-		\caption{Après déplacement}
-		\label{fig:deplacementMethode3-2}
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Troisième méthode}
-	\begin{figure}[h!]
-		\centering
-		\input{figures/deplacementColsuite2}
-		\caption{Exécution}
-		\label{fig:deplacementMethode3-3}
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Troisième méthode}
-	\begin{figure}[h!]
-		\centering
-		\input{figures/deplacementColsuite3}
-		\caption{Exécution (suite)}
-		\label{fig:deplacementMethode3-4}
-	\end{figure}
+	On modifie l'algorithme d'exécution des transitions : on différencie la durée de la transition en fonction de la couleur de la place qui la suit. 
+	
+	\begin{itemize}
+		\itemar Création de paires \textit{couleur} $\leftrightarrow$ \textit{latence}.
+		\itemar La transition se fait en plusieurs étapes.
+		\itemar Utilisation de la notion d'arcs filtrants et de jetons colorés, pour la duplication.
+	\end{itemize}
+	
+	Pour la duplication, il est de plus nécessaire de changer la pondération des arcs de sortie, et de placer un jeton par couleur de la place de sortie.
 \end{frame}
 
 \begin{frame}

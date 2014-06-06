@@ -1,9 +1,9 @@
 \section{\scshape Théorisation}
 \subsection{Réseaux de Petri}
 \begin{frame}{Utilisation des réseaux de Petri}
-Utilisé comme moteur d'exécution : traduction des scénarios en réseaux de Petri\cite{allombert2009aspects}.
+Utilisés comme moteur d'exécution : traduction des scénarios en réseaux de Petri\cite{allombert2009aspects}.
 
-Autres moteurs possibles : Reactive ML\cite{arias2014modelling}, NTCC\cite{allombert2006concurrent}.
+Autres moteurs possibles : Reactive ML\cite{arias2014executing}, NTCC\cite{allombert2006concurrent}.
 
 Multiples possibilités se chevauchant :
 \begin{itemize}
@@ -12,27 +12,29 @@ Multiples possibilités se chevauchant :
 	\item Réseaux spatio-temporels.
 	\item Réseaux hiérarchiques.
 \end{itemize}
+
+En parallèle : utilisation des réseaux de Petri pour transfert de flux de données~\cite{arias2014modelling}.
 \end{frame}
 
 \subsection{Répartition}
 \begin{frame}{Répartition et synchronisation}
 	Le problème n'est pas un problème de répartition algorithmique:
-	Le compositeur place lui-même les scénarios en fonction des logiciels dont il dispose.
+	le compositeur place lui-même les scénarios en fonction des logiciels dont il dispose.
 	
 	~ \\
-	Deux aspects à la répartition désirée : 
+	Deux aspects de la répartition désirée : 
 	\begin{itemize}
 		\item Déplacement de scénarios.
 		\item Duplication de scénarios. 
 	\end{itemize}
 	~ \\
-	Nécessaire : estimation de latence pour les faire partir au bon moment.
+	Nécessaire : estimation de latence pour que les scénarios démarrent au bon moment.
 	\begin{itemize}
 		\itemar Méthodes par ping, P2P\cite{im2000method}, King\cite{gummadi2002king}.
 	\end{itemize}
 	
-	Peut simplifier : synchronisation en temps des machines.
+	Optimisation : synchronisation en temps des machines.
 	\begin{itemize}
-		\itemar{Protocoles \textsc{PTP}\cite{scheiterer2009synchronization}, \textsc{NTP}\cite{mills1991internet}}
+		\itemar{Protocoles \textsc{PTP}\cite{scheiterer2009synchronization}, \textsc{NTP}\cite{mills1991internet}}.
 	\end{itemize}
 \end{frame}

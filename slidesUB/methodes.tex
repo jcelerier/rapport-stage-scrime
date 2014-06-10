@@ -1,7 +1,8 @@
 \subsection{Approche suivie}
 \begin{frame}{Approche suivie}
 	\begin{itemize}
-		\itemar Introduire la notion de répartition par des modifications du réseau de Petri.
+		\itemar Introduire les notions de répartition désirées par des modifications du réseau de Petri.
+		\itemar Prendre en compte la latence.
 		\itemar Élément atomique utilisé : \textit{segment}.
 	\end{itemize}
 	\vspace{1em}
@@ -55,7 +56,7 @@
 	On modifie l'algorithme d'exécution des transitions : on différencie la durée de la transition en fonction de la couleur de la place qui la suit. 
 	
 	\begin{itemize}
-		\itemar Création de paires \textit{couleur} $\leftrightarrow$ \textit{latence}.
+		\itemar Création de correspondances \textit{paire de couleurs} $\leftrightarrow$ \textit{latence}.
 		\itemar La transition se fait en plusieurs étapes.
 		\itemar Utilisation de la notion d'arcs filtrants et de jetons colorés, pour la duplication.
 	\end{itemize}

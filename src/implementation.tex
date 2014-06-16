@@ -246,11 +246,11 @@ L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet,
 		{
 			\uSi{p.precedents() contient un $\alpha$-segment}
 			{
-				alphaseg $\longleftarrow$ p.cree\_alpha()\;
+				alphaseg $\longleftarrow$ p.alpha()\;
 			}
 			\Sinon
 			{
-				alphaseg $\longleftarrow$ p.alpha()\;
+				alphaseg $\longleftarrow$ p.cree\_alpha()\;
 			}
 			
 			betaseg $\longleftarrow$ alphaseg.cree\_beta(s)\;
@@ -268,7 +268,7 @@ L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet,
 				p.supprime\_alpha()\;
 			}		
 		}
-		\SinonSi(\tcc*[f]{Cas du re-déplacement}){p.nœud $=$ s.nœud}
+		\SinonSi(\tcc*[f]{Cas du re-déplacement}){p.nœud $\neq$ s.nœud}
 		{
 			betaseg $\longleftarrow$ p.alpha().beta(s)\;
 			betaseg.transition.change\_duree(p.transition.duree + delta(p.noeud, nd))\;

@@ -1,0 +1,113 @@
+\geometry{headheight=15pt}
+\usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,petri,fit}
+
+% Macro pour mettre le texte en bas dans une node Tikz
+\def\bottom#1#2{\hbox{\vbox to #1{\vfill\hbox{#2}}}}
+
+% Plus de figures
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}   
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+% C++ pour lstlistings
+\lstset{
+language=C++,
+basicstyle=\footnotesize,
+numbers=left,
+numberstyle=\footnotesize,
+stepnumber=1,
+numbersep=5pt,
+backgroundcolor=\color{white},
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+frame=single,
+tabsize=2,
+captionpos=b,
+breaklines=true,
+breakatwhitespace=false,
+escapeinside={\%*}{*)}
+}
+
+% Accents dans commentaires lstlistings
+\lstset{
+  literate={ù}{{\`u}}1
+           {é}{{\'e}}1
+           {è}{{\'e}}1
+           {à}{{\`a}}1
+}
+
+\lstdefinelanguage{pseudoobject}
+{
+	keywords={props,methods},
+	moredelim=[is][\ttfamily]{|}{|},
+	columns=fullflexible,
+	basicstyle={\normalsize },
+	numbers=none,
+	frame=none
+%	framerule=0.9pt
+}
+
+% Enelver espace au dessus de chapitre
+\makeatletter
+\def\ttl@mkchap@i#1#2#3#4#5#6#7{%
+    \ttl@assign\@tempskipa#3\relax\beforetitleunit
+    \vspace{\@tempskipa}
+    \global\@afterindenttrue
+    \ifcase#5 \global\@afterindentfalse\fi
+    \ttl@assign\@tempskipb#4\relax\aftertitleunit
+    \ttl@topmode{\@tempskipb}{%
+        \ttl@select{#6}{#1}{#2}{#7}}%
+    \ttl@finmarks  % Outside the box!
+    \@ifundefined{ttlp@#6}{}{\ttlp@write{#6}}}
+\makeatother
+
+% Théorêmes usuels
+\newtheoremstyle{joliedef}% name
+   {1em}%      Space above
+   {1em}%      Space below
+   {}%         Body font
+   {}%         Indent amount (empty = no indent, \parindent = para indent)
+   {\bfseries}% Thm head font
+   {\\}%        Punctuation after thm head
+   {1em}%     Space after thm head: " " = normal interword space;
+   %       \newline = linebreak
+   {\thmname{#1}: \textit{\thmnote{#3}}} %         Thm head spec (can be left empty, meaning `normal')
+
+\theoremstyle{joliedef}
+\newtheorem{mydef}{Définition}
+\theoremstyle{plain}
+\newtheorem{myth}{Théorême}
+\newtheorem*{mynot}{Notation}
+
+% Commande \brand
+\renewcommand*{\acsfont}[1]{\brand{#1}}
+\newcommand{\brand}[1]{{\bsc{#1}}}
+
+% Paragraphe avec saut de ligne
+\let\oldpar\paragraph
+\renewcommand{\paragraph}[1]{\oldpar{#1}\mbox{}\\}
+
+% Opérateurs
+\DeclareMathOperator{\entree}{E}
+\DeclareMathOperator{\sortie}{O}
+\DeclareMathOperator{\pre}{Pre}
+\DeclareMathOperator{\post}{Post}
+\DeclareMathOperator{\shared}{Shared}
+\DeclareMathOperator{\memory}{Memory}
+
+% Ajout d'un type appendices
+\crefname{appchap}{annexe}{annexes}
+
+% Pour timeline verticale
+\newcommand{\vtbullet}{\hspace{-2.3pt}$\bullet$ \hspace{5pt}}
+
+% Typographie française
+\renewcommand{\contentsname}{Sommaire}
+
+% Petits tirets
+\setitemize{label=--}

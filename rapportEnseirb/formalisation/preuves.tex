@@ -1,0 +1,82 @@
+\section{Preuves et vérifications}
+Cette section s'adresse encore spécifiquement au cas de la seconde formalisation présentée tantôt.
+
+\subsection{Correction de la solution par rapport au problème} 
+Il convient d'abord de définir ce que signifie une exécution correcte.
+On peut parcourir le réseau (en utilisant par exemple un parcours en largeur), et affecter à chaque transition un instant auquel elle doit s'exécuter, jusqu'à ce que toutes les transitions non-interactives aient un temps affecté. Puis, à chaque activation de transition interactive, on peut affecter un temps aux transitions qui la suivent (en faisant un sous-parcours), et ce jusqu'à la fin de l'exécution du morceau.
+
+On considère une horloge globale, initialisée à 0, et que l'on démarre simultanément avec l'exécution du scénario.
+
+Une exécution correcte est une exécution où toutes les transitions commencent à s'exécuter effectivement à l'instant qui leur est affecté (le cas réel a une précision d'une milliseconde).
+
+\begin{myth}
+Quand on déplace un segment, le réseau s'exécute correctement (dans la contrainte d'un délai fixe).
+\end{myth}
+
+Soit $p$ un segment, et soit $s$ un segment attenant à $p$ que l'on déplace sur un nœud différent de celui de $s$ par le processus décrit précédemment.
+
+Comme les nœuds de $p$ et $s$ sont séparés par un délai de transmission d'information $\delta$, quand la $\beta$-transition s'exécute, l'information arrive en place d'entrée de $D$ à $t$ car $t - \delta + \delta = t$.   
+
+\subsection{Inversibilité du processus}
+\begin{myth}
+	L'opération de recombinaison est inverse de celle du déplacement.
+\end{myth}
+Soit $p$ un segment, et soit $s$ un segment attenant à $p$ que l'on déplace sur un nœud différent de celui de $p$ par le processus décrit précédemment.
+
+$p$ est donc précédé d'un $\alpha$-segment et est suivi d'un $\beta$-segment menant à $s$.
+Par construction, re-déplacer $s$ sur le nœud où se situe $p$ revient à supprimer le $\beta$-segment, et replacer les entrées de $s$ qui sont aussi des sorties de $p$ en sortie de la transition de base de $p$. S'il n'y a plus de $\beta$-segments suivant l'$\alpha$-segment, on peut le supprimer.
+
+On retrouve alors la configuration initiale.
+
+\subsection{Vérification dans le cas des boucles}
+On désire déplacer un des deux segments de la boucle sur un autre nœud.
+
+Les boucles sont un cas particulier : elles possèdent une condition en sortie.
+Une condition, selon le formalisme mis en place par Antoine Allombert \cite[p.~167--170]{allombert2009aspects}, se manifeste par une place qui se trouve en entrée de plusieurs transitions, ce que nous avions interdit jusqu'alors. La condition se manifeste donc en pratique par la transition qui est tirée si cette condition est vraie.
+
+Deux possibilités s'offrent alors : 
+\begin{itemize}
+\item Permettre aux places d'entrée d'avoir plusieurs sorties, ce qui leur confère plus de sens. C'est la solution privilégiée ici. On n'est plus alors dans le cas d'un graphe d'évènements.
+
+Au niveau de ce qui a été présenté précédemment, le changement principal réside dans le fait que les différents arcs de sortie d'une place pourront chacun être reliés à une $\alpha$-transition différente, si nécessaire.
+\item Considérer qu'une place est équivalente à un segment de durée nulle, possédant autant de places d'entrée que d'arcs d'entrée de la place, et autant de places de sortie que d'arcs de sortie de la place. Cela déporte la logique des conditions dans la transition de ce nouveau segment. Mais sans conditions, ce n'est pas strictement équivalent, car on aurait une duplication de jetons supplémentaire.
+\end{itemize}
+
+Nous avons dans la figure \ref{fig:verifBoucles} un exemple de ce qui se passe si l'on désire déplacer une transition d'une boucle sur une autre machine. Les deux nœuds sont notés $N$ et $N_d$, en suivant la notation employée jusque là.
+
+\begin{figure}[H]
+\centering
+\input{formalisation/figures/verifBoucle}
+\caption{Vérification du fonctionnement du déplacement dans le cas des boucles.}
+\label{fig:verifBoucles}
+\end{figure}
+
+
+\subsection{Vérification dans le cas de la duplication}
+\label{section:synchroPetri}
+Lors d'une duplication, il est nécessaire de procéder à un recollage par la suite des différentes branches. On reprend le schéma de la figure \ref{fig:deplacementForm2}, mais on décide en plus de dupliquer le segment $B(B_1, T_B, C_1)$ sur plusieurs machines.
+
+Plusieurs approches sont possibles pour le recollement : 
+\begin{itemize}
+\item N'avoir qu'une place d'entrée pour le segment suivant, et relier la sortie des $\beta$-transitions dupliquées à l'entrée de la place du segment suivant.
+
+Cela a pour conséquence d'avoir des jetons dupliqués pour la suite du parcours : le reste du réseau de Petri s'exécutera autant de fois qu'il y a eu duplication. Si ce comportement n'est pas celui recherché, il est nécessaire d'introduire une construction qui supprimera les jetons superflus. 
+
+On peut, par exemple, modifier la sémantique de manière à ce que la transition $T_C$ supprime tout jeton arrivant dans ses places d'entrée si elle est en cours d'exécution, ou bien introduire un nouveau segment qui aura spécifiquement cette mission, ou encore changer la sémantique de la place d'entrée $C$, de manière à ce que quand elle reçoit un jeton, elle ne tienne pas compte (et supprime) les $k$ prochains segments, $k$ étant le nombre de machines sur lequel on duplique, moins $1$.
+
+Cela peut par exemple servir à faire un effet de canon musical, et de partir au plus tôt pour la suite.
+
+\item Avoir un segment tampon supplémentaire entre les $\beta$-segments dupliqués (représenté en orange sur la figure \ref{fig.duplicationEtRecoll}), et les segments suivants.
+La conséquence est l'attente de la terminaison de tous les processus (au moins une fois, dans le cas de boucles à effet dupliquant) sur toutes les machines.
+
+Ce nouveau segment tampon (nommons-le $\gamma$-segment) devrait être situé sur le nœud du segment qui le suit.
+\item Ne pas avoir de recollement : seule une branche continuera sur la suite et les autres seront mortes.  Le compositeur choisira quelle branche aura la priorité.
+
+Dans ce cas, on effectue la seconde opération de déplacement uniquement avec la branche qui va effectivement être reliée à l'extérieur.
+\end{itemize}
+
+\begin{figure}[h!]
+\centering
+\input{formalisation/figures/duplicationEtRecoll}
+\label{fig.duplicationEtRecoll}
+\end{figure}

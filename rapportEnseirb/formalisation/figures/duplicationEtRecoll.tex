@@ -1,0 +1,330 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,
+  			  fill=black!20,minimum size=4mm]
+
+
+  \begin{scope}
+  \node[segment](I){In};
+  \node [place] (A) [right of=I] {$A$};
+  \node [transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+  \node [place] (B) [right of=Ta] {$B$};
+  \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
+  \node [place] (C) [right of=Tb] {$C$};
+  \node [transition] (Tc) [right of=C, label=$t_C$] {$T_C$};
+  \node [place] (D) [right of=Tc] {$D$};
+  \node[segment](O) [right of=D]{Out};
+  
+  \path
+  		(I) edge[post] node {} (A)
+  		(A) edge[post] node {} (Ta)
+  		(Ta) edge[post] node {} (B)
+  		(B) edge[post] node {} (Tb)
+  		(Tb) edge[post] node {} (C)
+    	(C) edge[post] node {} (Tc)
+    	(Tc) edge[post] node {} (D)
+  		(D) edge[post] node {} (O);
+  \end{scope}
+\end{tikzpicture}
+  
+\vspace{1em}
+À la base, tout est sur le nœud $N_0$. On déplace le segment $(\lbrace B \rbrace, T_B, \lbrace C \rbrace)$ et on le duplique sur deux nœuds $N_1$ et $N_2$.
+\vspace{1em}
+  
+  
+  \begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+    \tikzstyle{segment}=[]
+    \tikzstyle{place}=[circle,thick,minimum size=6mm]
+    \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+  
+    \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+    \tikzstyle{red}=[draw=red!75,fill=red!20]
+    \tikzstyle{black}=[draw=black!75,fill=black!20]
+    \tikzstyle{green}=[draw=green!75,fill=green!20]
+  
+    \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+    \tikzstyle{tred}=[draw=red!100,fill=red!75]
+    \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+  
+    \begin{scope}
+    % Début
+      \node[segment](I){In};
+      \node[red,place] (Aalpha) [right of=I] {$A_\alpha$};
+      \node[red,transition] (Talpha) [right of=Aalpha, label=$0$] {$T_\alpha$}; 
+    
+    % Branche centrale
+      \node[green, place] (Abeta2) [right of=Talpha] {$A_{\beta}$};
+      \node[green,transition] (Tbeta) [right of=Abeta2, label=$t_A-\delta_{0\rightarrow1}$] {$T_\beta$};
+      
+      \node[red,place] (Balpha) [right of=Tbeta] {$B_\alpha$};
+      \node[red, transition] (Talpha2) [right of=Balpha, label=$0$] {$T_\alpha$};
+      
+      \node[blue,place] (B) [right of=Talpha2] {$B$};
+      \node[blue, transition] (TB) [right of=B, label=$t_B$] {$T_B$};
+      \node[blue, dotted, place] (AFake) [right of=TB] {$C_0$};
+      
+    % Branche du bas
+      \node[green, place] (Bbeta) [below of=B] {$B_\beta$};
+      \node[green,transition] (Tbeta2) [right of=Bbeta,label=$t_B-\delta_{1\rightarrow0}$] {$T_{\beta2}$};
+    
+      \node[blue, place] (C) at (13,-2.59) [] {$C$};
+      \node[blue, transition] (TC) [right of=C, label=$t_C$] {$T_C$};
+      \node[blue, place] (D) [right of=TC] {$D$}; 
+% % % % % % % % % % % % % % %
+% % Partie dupliquée  % % % %
+% % % % % % % % % % % % % % %
+    % Branche centrale
+      \node[blue, transition] (DupTB) [below of=Tbeta2, label=$t_B$] {$T_B$};
+      \node[blue,place] (DupB) [below of=Bbeta] {$B$};
+      \node[red, transition] (DupTalpha2) [left of=DupB, label=$0$] {$T_\alpha$};
+      \node[red,place] (DupBalpha) [left of=DupTalpha2] {$B_\alpha$};
+      \node[green,transition] (DupTbeta) [left of=DupBalpha, label=$t_A-\delta_{0\rightarrow2}$] {$T_\beta$};
+      \node[green, place] (DupAbeta2) [left of=DupTbeta] {$A_{\beta}$};
+      \node[blue, dotted, place] (DupAFake) [right of=DupTB] {$C_0$};
+      
+    % Branche du bas
+      \node[green, place] (DupBbeta) [below of=DupB] {$B_\beta$};
+      \node[green,transition] (DupTbeta2) [right of=DupBbeta,label=$t_B-\delta_{2\rightarrow0}$] {$T_{\beta2}$};
+    
+% % % % % % % % % % % % %
+
+    % Branche supérieure
+      \node[blue,place] (A) [above of=Abeta2] {$A$};
+      \node[blue,transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+      \node[dotted,blue,place] (B0) [right of=Ta] {$B_0$};
+      
+    \path
+    		(I) edge[post] node {} (Aalpha)
+    		(Aalpha) edge[post,red] node {} (Talpha)
+    		(Talpha) edge[post,red] node {} (A)
+    				 edge[post,red] node {} (Abeta2)
+    				 edge[post,red] node {} (DupAbeta2)
+    		(A) edge[post] node {} (Ta)
+    		(Ta) edge[post] node {} (B0)
+    		
+    		(Abeta2) edge[post,green] node {} (Tbeta)
+    		(Tbeta) edge[post,green] node {} (Balpha)
+    		
+    		(Balpha) edge[post,red] node {} (Talpha2)
+    		(Talpha2) edge[post,red] node {} (B)
+    		 edge[post,red] node {} (Bbeta)
+    		(B) edge[post] node {} (TB)
+    		(TB) edge[post] node {} (AFake)
+    		(Bbeta) edge[post,green] node {} (Tbeta2)
+    		(Tbeta2) edge[post,draw=green!75,bend left] node {} (C)
+    		(C) edge[post] node {} (TC)
+    		(TC) edge[post] node {} (D)
+    		
+    		
+    		(DupAbeta2) edge[post,green] node {} (DupTbeta)
+    		(DupTbeta) edge[post,green] node {} (DupBalpha)
+    		
+    		(DupBalpha) edge[post,red] node {} (DupTalpha2)
+    		(DupTalpha2) edge[post,red] node {} (DupB)
+    		    		 edge[post,red] node {} (DupBbeta)
+    		(DupB) edge[post] node {} (DupTB)
+    		(DupTB) edge[post] node {} (DupAFake)
+    		(DupBbeta) edge[post,green] node {} (DupTbeta2)
+    		(DupTbeta2) edge[post,draw=green!75,bend right] node {} (C)
+    		;
+    		
+    \end{scope}
+  \end{tikzpicture}
+\caption{Déplacement, duplication, et recollage : cas des jetons dupliqués.}
+  
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+   \tikzstyle{segment}=[]
+   \tikzstyle{place}=[circle,thick,minimum size=6mm]
+   \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+ 
+   \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+   \tikzstyle{red}=[draw=red!75,fill=red!20]
+   \tikzstyle{black}=[draw=black!75,fill=black!20]
+   \tikzstyle{green}=[draw=green!75,fill=green!20]
+   \tikzstyle{orange}=[draw=orange!75,fill=orange!20]
+ 
+   \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+   \tikzstyle{tred}=[draw=red!100,fill=red!75]
+   \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+ 
+   \begin{scope}
+   % Début
+     \node[segment](I){In};
+     \node[red,place] (Aalpha) [right of=I] {$A_\alpha$};
+     \node[red,transition] (Talpha) [right of=Aalpha, label=$0$] {$T_\alpha$}; 
+   
+   % Branche centrale
+     \node[green, place] (Abeta2) [right of=Talpha] {$A_{\beta}$};
+     \node[green,transition] (Tbeta) [right of=Abeta2, label=$t_A-\delta_{0\rightarrow1}$] {$T_\beta$};
+     
+     \node[red,place] (Balpha) [right of=Tbeta] {$B_\alpha$};
+     \node[red, transition] (Talpha2) [right of=Balpha, label=$0$] {$T_\alpha$};
+     
+     \node[blue,place] (B) [right of=Talpha2] {$B$};
+     \node[blue, transition] (TB) [right of=B, label=$t_B$] {$T_B$};
+     \node[blue, dotted, place] (AFake) [right of=TB] {$C_0$};
+     
+   % Branche du bas
+     \node[green, place] (Bbeta) [below of=B] {$B_\beta$};
+     \node[green,transition] (Tbeta2) [right of=Bbeta,label=$t_B-\delta_{1\rightarrow0}$] {$T_{\beta2}$};
+   	 \node[orange, place] (Ptampon) [right of=Tbeta2] {$C_\gamma$};
+     
+ % % % % % % % % % % % % % %
+ % Partie dupliquée  % % % %
+ % % % % % % % % % % % % % %
+   % Branche centrale
+     \node[blue, transition] (DupTB) [below of=Tbeta2, label=$t_B$] {$T_B$};
+     \node[blue,place] (DupB) [below of=Bbeta] {$B$};
+     \node[red, transition] (DupTalpha2) [left of=DupB, label=$0$] {$T_\alpha$};
+     \node[red,place] (DupBalpha) [left of=DupTalpha2] {$B_\alpha$};
+     \node[green,transition] (DupTbeta) [left of=DupBalpha, label=$t_A-\delta_{0\rightarrow2}$] {$T_\beta$};
+     \node[green, place] (DupAbeta2) [left of=DupTbeta] {$A_{\beta}$};
+     \node[blue, dotted, place] (DupAFake) [right of=DupTB] {$C_0$};
+     
+   % Branche du bas
+     \node[green, place] (DupBbeta) [below of=DupB] {$B_\beta$};
+     \node[green,transition] (DupTbeta2) [right of=DupBbeta,label=$t_B-\delta_{2\rightarrow0}$] {$T_{\beta2}$};
+  	 \node[orange, place] (DupPtampon) [right of=DupTbeta2] {$C_\gamma$};
+ % % % % % % % % % % % %
+   % Branche supérieure
+     \node[blue,place] (A) [above of=Abeta2] {$A$};
+     \node[blue,transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+     \node[dotted,blue,place] (B0) [right of=Ta] {$B_0$};
+     
+   % Fin
+   \node[orange, transition] (Ttampon) at (13, -2.59) [label=$0$] {$T_\gamma$};
+	\node[blue, place] (C)  [right of=Ttampon] {$C$};
+    \node[blue, transition] (TC) [right of=C, label=$t_C$] {$T_C$};
+    \node[blue, place] (D) [right of=TC] {$D$}; 
+   \path
+   		(I) edge[post] node {} (Aalpha)
+   		(Aalpha) edge[post,red] node {} (Talpha)
+   		(Talpha) edge[post,red] node {} (A)
+   				 edge[post,red] node {} (Abeta2)
+   				 edge[post,red] node {} (DupAbeta2)
+   		(A) edge[post] node {} (Ta)
+   		(Ta) edge[post] node {} (B0)
+   		
+   		(Abeta2) edge[post,green] node {} (Tbeta)
+   		(Tbeta) edge[post,green] node {} (Balpha)
+   		
+   		(Balpha) edge[post,red] node {} (Talpha2)
+   		(Talpha2) edge[post,red] node {} (B)
+   		 edge[post,red] node {} (Bbeta)
+   		(B) edge[post] node {} (TB)
+   		(TB) edge[post] node {} (AFake)
+   		(Bbeta) edge[post,green] node {} (Tbeta2)
+   		(Tbeta2) edge[post,green] node {} (Ptampon)
+   		(Ptampon) edge[post,orange] node {} (Ttampon)
+   		(TC) edge[post] node {} (D)
+   		
+    		
+   		(DupAbeta2) edge[post,green] node {} (DupTbeta)
+   		(DupTbeta) edge[post,green] node {} (DupBalpha)
+   		
+   		(DupBalpha) edge[post,red] node {} (DupTalpha2)
+   		(DupTalpha2) edge[post,red] node {} (DupB)
+   		    		 edge[post,red] node {} (DupBbeta)
+   		(DupB) edge[post] node {} (DupTB)
+   		(DupTB) edge[post] node {} (DupAFake)
+   		(DupBbeta) edge[post,green] node {} (DupTbeta2)
+   		(DupTbeta2) edge[post,green] node {} (DupPtampon)
+   		(DupPtampon) edge[post,orange] node {} (Ttampon)
+   		
+   		(Ttampon) edge[post,orange] node {} (C)
+   		(C) edge[post] node {} (TC)
+  		;
+   		
+  \end{scope}
+\end{tikzpicture}
+\caption{Déplacement, duplication, et recollage : cas de la synchronisation.}
+
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+   \tikzstyle{segment}=[]
+   \tikzstyle{place}=[circle,thick,minimum size=6mm]
+   \tikzstyle{transition}=[rectangle,thick,minimum size=4mm]
+ 
+   \tikzstyle{blue}=[draw=blue!75,fill=blue!20]
+   \tikzstyle{red}=[draw=red!75,fill=red!20]
+   \tikzstyle{black}=[draw=black!75,fill=black!20]
+   \tikzstyle{green}=[draw=green!75,fill=green!20]
+   \tikzstyle{orange}=[draw=orange!75,fill=orange!20]
+ 
+   \tikzstyle{tblue}=[draw=blue!100,fill=blue!75]
+   \tikzstyle{tred}=[draw=red!100,fill=red!75]
+   \tikzstyle{tblack}=[draw=black!100,fill=black!75]
+ 
+   \begin{scope}
+   % Début
+     \node[segment](I){In};
+     \node[red,place] (Aalpha) [right of=I] {$A_\alpha$};
+     \node[red,transition] (Talpha) [right of=Aalpha, label=$0$] {$T_\alpha$}; 
+   
+   % Branche centrale
+     \node[green, place] (Abeta2) [right of=Talpha] {$A_{\beta}$};
+     \node[green,transition] (Tbeta) [right of=Abeta2, label=$t_A-\delta_{0\rightarrow1}$] {$T_\beta$};
+     
+     \node[red,place] (Balpha) [right of=Tbeta] {$B_\alpha$};
+     \node[red, transition] (Talpha2) [right of=Balpha, label=$0$] {$T_\alpha$};
+     
+     \node[blue,place] (B) [right of=Talpha2] {$B$};
+     \node[blue, transition] (TB) [right of=B, label=$t_B$] {$T_B$};
+     \node[blue, dotted, place] (AFake) [right of=TB] {$C_0$};
+     
+   % Branche du bas
+     \node[green, place] (Bbeta) [below of=B] {$B_\beta$};
+     \node[green,transition] (Tbeta2) [right of=Bbeta,label=$t_B-\delta_{1\rightarrow0}$] {$T_{\beta2}$};
+     
+ % % % % % % % % % % % % % %
+ % Partie dupliquée  % % % %
+ % % % % % % % % % % % % % %
+   % Branche centrale
+     \node[blue, transition] (DupTB) [below of=Tbeta2, label=$t_B$] {$T_B$};
+     \node[blue,place] (DupB) [below of=Bbeta] {$B$};
+     \node[green,transition] (DupTbeta) [left of=DupB, label=$t_A-\delta_{0\rightarrow2}$] {$T_\beta$};
+     \node[green, place] (DupAbeta2) [left of=DupTbeta] {$A_{\beta}$};
+     \node[blue, dotted, place] (DupAFake) [right of=DupTB] {$C_0$};
+     
+ % % % % % % % % % % % %
+   % Branche supérieure
+     \node[blue,place] (A) [above of=Abeta2] {$A$};
+     \node[blue,transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+     \node[dotted,blue,place] (B0) [right of=Ta] {$B_0$};
+     
+   % Fin
+	\node[blue, place] (C)  [right of=Tbeta2] {$C$};
+    \node[blue, transition] (TC) [right of=C, label=$t_C$] {$T_C$};
+    \node[blue, place] (D) [right of=TC] {$D$}; 
+   \path
+   		(I) edge[post] node {} (Aalpha)
+   		(Aalpha) edge[post,red] node {} (Talpha)
+   		(Talpha) edge[post,red] node {} (A)
+   				 edge[post,red] node {} (Abeta2)
+   				 edge[post,red] node {} (DupAbeta2)
+   		(A) edge[post] node {} (Ta)
+   		(Ta) edge[post] node {} (B0)
+   		
+   		(Abeta2) edge[post,green] node {} (Tbeta)
+   		(Tbeta) edge[post,green] node {} (Balpha)
+   		
+   		(Balpha) edge[post,red] node {} (Talpha2)
+   		(Talpha2) edge[post,red] node {} (B)
+   		 edge[post,red] node {} (Bbeta)
+   		(B) edge[post] node {} (TB)
+   		(TB) edge[post] node {} (AFake)
+   		(Bbeta) edge[post,green] node {} (Tbeta2)
+   		(Tbeta2) edge[post,green] node {} (C)
+    		
+   		(DupAbeta2) edge[post,green] node {} (DupTbeta)
+   		(DupTbeta) edge[post,green] node {} (DupB)
+   		
+   		(DupB) edge[post] node {} (DupTB)
+   		(DupTB) edge[post] node {} (DupAFake)
+   		(C) edge[post] node {} (TC)
+   		(TC) edge[post] node{} (D)
+  		;
+  \end{scope}
+\end{tikzpicture}
+\caption{Déplacement, duplication, et recollage : cas de la priorité d'une branche.}

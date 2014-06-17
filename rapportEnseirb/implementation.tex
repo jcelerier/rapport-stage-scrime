@@ -74,13 +74,13 @@ Le code source est présent sur \brand{GitHub} à l'adresse \url{https://github.
 \subsection{Portage sous GNU/Linux et Android}
 Afin d'avoir une exécution des scénarios interactifs sur embarqué, il était nécessaire de porter \brand{Jamoma} et \brand{i-score} sous systèmes Linux (\brand{Android} étant très semblable).
 
-Cela a nécessité un portage du processus de construction logicielle (\textit{build system})  de \brand{Jamoma}, un script Ruby personnalisé, vers \gls{CMake}.
+Cela a nécessité un portage du processus de construction logicielle (\textit{build system})  de \brand{Jamoma}, un script Ruby personnalisé, vers \gls{CMake}. En effet, ce scrit contenait les compilateurs et options hard-codés pour les plate-formes \brand{Mac OS X}, \brand{Windows}, et \brand{Linux Desktop} (qui n'était pas maintenu et non-fonctionnel), ce qui empêchait notamment une extension facile à d'autres plate-formes.
 
-Réaliser ce développement a également permis de distribuer \brand{i-score} sous \gls{macports}, et a ouvert de nouvelles perspectives de développement pour l'embarqué sur le logiciel; de plus, un système d'\gls{contintegr} est désormais envisageable.
+Réaliser ce développement a également permis de distribuer \brand{i-score} sous \gls{macports}, et a ouvert de nouvelles perspectives de développement pour l'embarqué sur le logiciel; de plus, un système d'\gls{contintegr} est désormais envisageable. Enfin, des tests de couverture avec \brand{gcov}, et une analyse statique avec \brand{cppcheck} ont été intégrés.
 
-Un portage a aussi été réalisé sous \brand{BeagleBoard}, pour offrir un \textit{proof-of-concept} de fonctionnement sur périphérique embarqué courant. Cependant, le moteur d'exécution d'\brand{i-score}, travaillant à une fréquence de $\num{1} \si{\kHz}$, l'exécution demandait trop de ressources pour avoir un fonctionnement correct.
+Un portage a aussi été réalisé sous \brand{BeagleBoard} et \brand{Raspberry Pi}, pour offrir un \textit{proof-of-concept} de fonctionnement sur périphérique embarqué courant. Cependant, le moteur d'exécution d'\brand{i-score}, travaillant à une fréquence de $\num{1} \si{\kHz}$, l'exécution demandait trop de ressources pour avoir un fonctionnement correct en plus de la mise-à-jour de l'interface.
 
-J'ai travaillé sur les branches \texttt{feature/cmake} des projets \texttt{Jamoma/JamomaCore}, \texttt{OSSIA/Score} et \texttt{i-score/i-score} sur \brand{GitHub}.
+J'ai travaillé sur les branches \texttt{feature/cmake} des projets \texttt{Jamoma/JamomaCore}, \texttt{OSSIA/Score} et \texttt{i-score/i-score} sur \brand{GitHub}, qui sont en cours de merge, ou dont le merge a déjà été effectué vers les branches de développement actives.
 \subsection{Implémentation dans l'API OSSIA}
 L'\brand{API} expose les éléments du paradigme \brand{OSSIA} : 
 
@@ -174,13 +174,92 @@ Il y a deux possibilités pour réaliser cela :
 \end{itemize}
 
 Pour des raisons de temps, et de simplicité d'implémentation, la première approche a été retenue.
+
 \subsection{Implémentation dans le logiciel i-score}
 Un des problèmes principaux en développement logiciel est la maintenabilité. Par exemple, une implémentation particulière pourrait changer, néanmoins il est plus rare que les interfaces fournies changent, pour des raisons de compatibilité.
 
 Pour cette raison, j'ai choisi de baser mon travail d'implémentation principal sur l'\brand{API Score}, plutôt que sur son implémentation actuelle, ou directement sur les réseaux de Petri. Cela est dû au fait que d'autres implémentations parallèles sont à l'étude, comme une en \brand{Reactive ML}, et qu'il serait dommage de perdre les bénéfices de la répartition en changeant d'implémentation.
 
-J'ai aussi travaillé sur des implémentations naïves des algorithmes principaux sur les réseaux de Petri présentés en \cref{chapterApports}.
+\subsubsection{Cas d'utilisation}
+Il a fallu réfléchir à une manière d'utiliser les objets présentés précédemment de manière simple.
+
+On reprend le cas du scénario du moine réparti présenté en \cref{fig.RepartOSSIA}.
+
+On se donne donc trois ensembles de machines : 
+\begin{itemize}
+	\item Une première machine, pouvant faire office de serveur, et disposant des logiciels de contrôle vidéo (par exemple un \brand{Mac Pro}).
+	\item Une seconde machine uniquement pour contrôler le son (par exemple un \brand{Raspberry Pi}).
+	\item Plusieurs tablettes tactiles.
+\end{itemize}
+
+Un exemple de déroulement est présenté en \cref{tbl.utilisationIscore}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabu} to \linewidth {r |@{\vtbullet} X[l]}
+		Régisseur & Lance les logiciels adjacents nécessaires sur le \brand{Mac}. \\
+				   & Lance i-score sur le \brand{Mac}. \\
+				   & Démarre une session maîtresse et charge le fichier de scénario. \newline \\
+				   & Allume le \brand{Raspberry Pi}. \\
+				   & Lance les logiciels de son et i-score. \\
+				   & Rejoint la session maîtresse sur le réseau. \\
+				   & Met la permission d'exécution sur le groupe <<~Son~>>. \newline \\
+		Participants & Allument les tablettes. \\
+					 & Rejoignent la session maître et le groupe <<~Tablette~>>. \\
+					 & Lancent un programme annexe qui est contrôlé par i-score. \newline \\
+		Régisseur & Fait \textit{lecture} sur la session maître. \\
+	\end{tabu}
+	\caption{Utilisation d'i-score en réparti}
+	\label{tbl.utilisationIscore}
+\end{table}
+
+Diverses variations sont possibles : par exemple, les actions sur Raspberry et tablettes peuvent être scriptées de manière à ne pas nécessiter d'intervention extérieure autre que l'allumage.
+
+Le régisseur peut aussi faire lecture \textit{lecture} même si toutes les tablettes ne sont pas activées : elles peuvent rejoindre la session à la volée.
+
+\subsection{Description de la communication}
+La communication se fait entièrement par messages \brand{OSC}, dans un souci d'inter-opérabilité et d'intégration avec le code existant.
+
+La construction se fait à l'aide de l'objet \texttt{ClientSessionBuilder}, qui exécute une demande à la session maître, et reçoit les données de session nécessaires de manière asynchrone.
+Un exemple est donné en \cref{fig.connection}.
+
+\begin{figure}[H]
+	\centering
+	\input{diagrammes/sequenceNetAPI}
+	\caption{Échange de messages lors de la connection d'un client.}
+	\label{fig.connection}
+\end{figure}
+
+Le changement de permissions est complexe : c'est ce qui déclenche la découverte des données distantes (processus, scénarios\dots), et permet de créer des connections entre différentes machines du même groupe.
+
+De l'extérieur, seules deux notions sont importantes : 
+\begin{itemize}
+	\item Le fait d'écouter (\texttt{listens()}).
+	\item Le fait d'écrire (\texttt{writes()}). \texttt{writes()} implique \texttt{listens()}.
+\end{itemize}
+
+Il y a quatre possibilités de changements pour une session cliente : 
+\begin{itemize}
+	\item \texttt{!listens()} devient \texttt{listens()} : les autres clients qui ont \texttt{writes()} sur le groupe prennent connaissance de moi.
+	\item \texttt{listens()} devient \texttt{!listens()} : les autres clients qui ont \texttt{writes()} sur le groupe m'oublient.
+	\item \texttt{!writes()} devient \texttt{writes()} : je prends connaissance des clients (message \texttt{/session/connect/discover}) qui ont \texttt{listens()} sur le groupe. Un exemple est donné en \cref{fig.seqPermission}.
+	\item \texttt{writes()} devient \texttt{!writes()} : j'oublie les autres clients du groupe.
+\end{itemize}
+
+~ \\ 
+
+\begin{sidewaysfigure}
+	\centering
+	\input{diagrammes/sequencePermission}
+	\caption{Exemple : un client acquiert les permissions d'écriture sur un groupe Vidéo, puis écrit dessus.}
+	\label{fig.seqPermission}
+\end{sidewaysfigure}
+
+\newpage
+
 \subsubsection{Algorithme opérant sur réseaux de Petri}
+J'ai aussi travaillé sur des implémentations naïves des algorithmes principaux sur les réseaux de Petri présentés en \cref{chapterApports}.
+
 L'algorithme présenté en \cref{alg.deplacement} présente dans un style objet, avec notamment les objets présentés en \cref{fig.classSegment} le processus décrit en \cref{section.processusDeplacement}.
 
 \begin{algorithm}[H] %[language=pseudoobject]

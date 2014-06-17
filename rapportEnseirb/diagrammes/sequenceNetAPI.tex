@@ -1,0 +1,11 @@
+\begin{tikzpicture}
+\begin{umlseqdiag}
+\umlobject[class=MasterSession]{master}
+\umlobject[x=6,class=ClientSessionBuilder]{clientBuilder}
+\begin{umlcall}[op={\texttt{/session/connect}}]{clientBuilder}{master}
+\begin{umlcall}[op={\texttt{/session/setClientId}}]{master}{clientBuilder}\end{umlcall}
+\begin{umlcall}[op={\texttt{/session/update/group}}]{master}{clientBuilder}\end{umlcall}
+\begin{umlcall}[op={\texttt{/session/isReady}}]{master}{clientBuilder}\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag}
+\end{tikzpicture} 

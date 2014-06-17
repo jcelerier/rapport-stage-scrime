@@ -48,7 +48,7 @@ Un réseau informatique est représenté par un graphe orienté $G$ dont les nœ
 
 Les arêtes sont étiquetées par un temps $\delta$, signifiant le temps de transmission d'un message entre les deux nœuds attenants à l'arête.
 \end{mydef}
-$\delta$ sera considéré fixe. Néanmoins, dans un scénario réel, il serait envisageable (et recommandé) de mesurer et corriger $\delta$ régulièrement en raison de la latence entre les nœuds qui peut varier, notamment à l'aide des méthodes présentées en partie \ref{section:latence}.
+$\delta$ sera considéré fixe. Néanmoins, dans un scénario réel, il serait envisageable (et recommandé) de mesurer et corriger $\delta$ régulièrement en raison de la latence entre les nœuds qui peut varier, notamment à l'aide de différentes méthodes comme King\cite{gummadi2002king} ou pair-à-pair\cite{im2000method}.
 \\
 \begin{mynot}
 	Soient $N_1$ et $N_2$ deux nœuds du graphe. On note $\delta_{N_1 \rightarrow N_2}$ le temps de transmission entre $N_1$ et $N_2$.

@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+\begin{umlseqdiag}
+\umlactor[x=28]{Compositeur vidéo}
+\umlobject[class=MasterSession]{master}
+\umlobject[x=9,class=ClientSession]{clientVideo1}
+\umlobject[x=22,class=ClientSession]{clientVideo2}
+\begin{umlcall}[op={\texttt{/session/permission/update}}]{clientVideo2}{master}
+	\begin{umlcall}[op={\texttt{/session/connect/discover}}]{master}{clientVideo2}
+	\end{umlcall}
+	\begin{umlcall}[op={\texttt{/session/permission/listens}}]{master}{clientVideo2}
+	\end{umlcall}
+\end{umlcall}
+
+\begin{umlcall}[dt=25,op={Modification d'un processus vidéo}]{Compositeur vidéo}{clientVideo2}
+
+
+\begin{umlcall}[op={\texttt{/process/update}}]{clientVideo2}{master}
+\end{umlcall}
+\begin{umlcall}[op={\texttt{/process/update}}]{clientVideo2}{clientVideo1}
+\end{umlcall}
+\end{umlcall}
+\end{umlseqdiag}
+\end{tikzpicture} 

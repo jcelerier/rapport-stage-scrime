@@ -1,0 +1,30 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,
+  			  fill=black!20,minimum size=4mm]
+  			  
+  \tikzstyle{black box}=[draw=black, fill=black!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.5cm]
+
+
+  \begin{scope}
+    \node [transition] (Tk) [label=$t_p$] {};
+	\node [segment] (Pk) [left of=Tk] {$\pre(p)$};
+	\node [segment] (S) [right of=Tk] {$s$};
+	\node [segment] (Sk) [below of=S] {$\post(p) \setminus s$};
+			
+  	\path
+  		(Pk) edge[post] node {} (Tk)
+  		(Tk) edge[post] node {} (S)
+  			 edge[post] node {} (Sk);
+  
+   \begin{pgfonlayer}{background}
+    \node [black box, fit=(Tk) (Pk) (S) (Sk)] (Box1) {};
+    \node[above right] at (Box1.south west) {Nœud $N$};
+   \end{pgfonlayer}
+  \end{scope}
+\end{tikzpicture}
+
+  

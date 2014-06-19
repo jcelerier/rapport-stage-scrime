@@ -1,0 +1,62 @@
+\section{\scshape Répartition}
+\subsection{Problématique}
+\begin{frame}
+	\frametitle{Problématique}
+	\begin{block}<+->{Une seule machine}
+		\begin{itemize}
+			\item Horloge globale
+			\item Hypothèse synchrone
+			\item Ordre des calculs dans chaque cycle
+			\item Durées exprimées en cycles
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}<+->{Plusieurs machines}
+		\begin{itemize}
+			\item Horloges locales
+			\item Relativité : échanges de signaux
+			\item Distances temporelles : durée de transmission
+			\item Topologie du réseau
+		\end{itemize}
+	\end{block}
+\end{frame}
+\subsection*{Présentation}
+\begin{frame}{Présentation}
+	{\large Répartition des réseaux de Petri dans i-score}
+	
+	Aspects principaux : 
+	\begin{itemize}
+		\item Réseaux de Petri $\rightarrow$ recherche d'existant et étude théorique.
+		\item i-score $\rightarrow$ implémentation.
+	\end{itemize} 
+	\vspace{1em}
+	
+	Fonctionnalités désirées : 
+	\begin{itemize}
+		\item Édition collaborative.
+		\item Fonctionnement avec les concepts \textsc{OSSIA}.
+		\item Fonctionnement sur plate-formes embarquées (smartphones, \textsc{Raspberry Pi}, \textsc{BeagleBoard}).
+		\item Multiples méthodes de synchronisation.
+		\item Backup, mode canon.
+	\end{itemize}
+\end{frame}
+
+\subsection{Synchronisation}
+\begin{frame}{Répartition et synchronisation}
+	Le problème n'est pas un problème de répartition algorithmique:
+	le compositeur place lui-même les scénarios en fonction des logiciels dont il dispose.
+	
+	~ \\
+	Deux aspects de la répartition désirée : 
+	\begin{itemize}
+		\item Déplacement de scénarios.
+		\item Duplication de scénarios. 
+	\end{itemize}
+	~ \\
+
+	Méthode générale retenue : 
+	\begin{itemize}
+		\itemar Estimer la latence entre les paires de machines communiquantes, et faire partir les scénarios plus tôt en utilisant cette information.
+		\itemar Implémentation en terme de réseaux de Petri, mais aussi implémentation générique dans \textsc{OSSIA}.
+	\end{itemize}
+\end{frame}

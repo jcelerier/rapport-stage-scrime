@@ -1,0 +1,54 @@
+\subsection{Approche suivie}
+\begin{frame}{Approche suivie}
+	\begin{itemize}
+		\itemar Introduire les notions de répartition désirées par des modifications du réseau de Petri.
+		\itemar Prendre en compte la latence.
+		\itemar Élément atomique utilisé : \textit{segment}.
+	\end{itemize}
+	\vspace{1em}
+	Trois méthodes proposées.
+	\begin{itemize}
+		\item Deux modifient la topologie du réseau de Petri.
+		\item Une modifie la sémantique du réseau de Petri.
+	\end{itemize}
+	
+	Une méthode par modification de la topologie a été retenue pour une étude plus poussée.
+\end{frame}
+
+\subsection{Méthode retenue}
+\begin{frame}{Méthode retenue}
+	\begin{figure}[h!]
+		\centering
+		\input{figures/deplacement2}
+		\caption{Avant déplacement}
+		\label{fig:deplacementMethode2}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Méthode retenue}
+	\begin{figure}[h!]
+		\centering
+		\resizebox{11cm}{!}{\input{figures/deplacement2suite}}
+		\caption{Après déplacement}
+		\label{fig:deplacementMethode2-2}
+	\end{figure}
+\end{frame}
+
+\begin{frame}	
+	\begin{itemize}
+		\item[\textbullet] Améliorations proposées : 
+			\begin{itemize}
+				\item Utilisation pour secours informatique (\textit{backup}).
+				\item Fonctionnement en mode «~canon~».
+				\item Rétro-propagation si délai trop important.
+				\item Simplifications de l'algorithme dans les cas courants.
+			\end{itemize}
+		\vspace{1em}
+		\item[\textbullet] Différents modes de synchronisation : 
+			\begin{itemize}
+				\item Attente de tous.
+				\item Duplication de chaque jeton.
+				\item Un seul continue.
+			\end{itemize}
+	\end{itemize}
+\end{frame}

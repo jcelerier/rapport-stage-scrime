@@ -56,12 +56,12 @@ $\delta$ sera considéré fixe. Néanmoins, dans un scénario réel, il serait e
 
 Bien que dans de nombreux cas, $\delta_{N_1 \rightarrow N_2} \simeq \delta_{N_2 \rightarrow N_1}$, nous ne ferons pas cette supposition ici. En revanche, nous considérerons toujours des liens en duplex.
 
-Les nœuds de $G$ peuvent contenir des places et des transitions. Une place peut être partagée par plusieurs nœuds, en revanche une transition sera exécutée sur un seul nœud (néanmoins il est possible d'avoir plusieurs possibilités dans certains cas). Cependant, cela n'empêche pas de dupliquer les transitions pour avoir un même processus exécuté sur plusieurs nœuds.
+Les nœuds de $G$ peuvent contenir des places et des transitions. Une place peut être partagée par plusieurs nœuds, en revanche une transition sera exécutée sur un seul nœud (néanmoins il est parfois possible d'avoir le choix du n\oe ud). Cependant, cela n'empêche pas de dupliquer les transitions pour avoir un même processus exécuté sur plusieurs nœuds.
 
 \subsection{Définitions relatives aux réseaux de Petri}
 Pour exprimer plus facilement les différentes parties d'un réseau de Petri tout en s'abstrayant des parties du scénario qui sont représentées, et afin de concevoir une méthode générique pouvant s'appliquer à d'autres problèmes, la notion de \textbf{segment} est introduite.
 \begin{mydef}[Segment]
-Un segment est un triplet $(E, T , S)$ ou : 
+Un segment est un triplet $(E, T , S)$ où : 
 \begin{itemize}
 	\item $T$ est une transition.
 	\item $E$ est l'ensemble des places en entrée de $T$, tel que $\mathrm{card}(E) \geq \num{1}$.
@@ -99,7 +99,7 @@ Par la suite, chaque méthode comportera ses propres opérations, qui serviront 
 
 Toutes ces opérations seront écrites en police informatique : \texttt{maFonction(x)}.
 
-Il convient de noter que les opérations appliquant la répartition sont réversibles. Ainsi, il est toujours possible d'appliquer les opérations atomiques sans avoir besoin de tenir compte de la répartition : il suffit d'inverser ces dernières, d'appliquer les opérations atomiques, puis de ré-appliquer les opérations de répartition effectuées, si possible (un cas impossible serait celui ou on voudrait supprimer un segment qui était réparti).
+Il convient de noter que les opérations appliquant la répartition sont réversibles. Ainsi, il est toujours possible d'appliquer les opérations atomiques sans avoir besoin de tenir compte de la répartition : il suffit d'inverser ces dernières, d'appliquer les opérations atomiques, puis de ré-appliquer les opérations de répartition effectuées, si possible (un cas impossible serait celui où on voudrait supprimer un segment qui était réparti).
 
 \paragraph{Création}
 On considère la fonction \texttt{crée(d, nPlacesEntrée, nPlacesSortie)}. Elle permet de créer un segment, de durée \texttt{d} et avec un nombre explicite de places d'entrée et de sortie.
@@ -345,7 +345,7 @@ Cette méthode utilise la notion de coloration du réseau.
 Chaque nœud de $G$ se voit associer une couleur distincte.
 
 \subsection{Généralités}
-Les places et les transitions du réseau de Petri peuvent être colorés avec ces mêmes couleurs. Elles peuvent avoir plusieurs couleurs.
+Les places et les transitions du réseau de Petri peuvent être colorées avec ces mêmes couleurs. Elles peuvent avoir plusieurs couleurs.
 À l'état initial, le réseau entier est coloré avec la couleur du premier nœud.
 
 Si une transition est sensibilisée (elle possède un jeton de couleur $c$ dans toutes ses places d'entrée), elle adopte le comportement suivant : 

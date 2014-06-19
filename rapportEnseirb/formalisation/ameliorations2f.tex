@@ -60,15 +60,15 @@ Deux approches sont possibles :
 \item Soit replacer un jeton au début de la dernière transition s'étant exécutée. Cela implique un léger retour en arrière.
 \item Soit attendre que la dernière transition qui était en cours d'exécution se termine. Cela implique une impression de "mise en pause".
 \end{itemize}
+\end{itemize}
 
-\item Dans les deux cas présentés ci-dessus, il sera impossible d'échapper à un effet de saut lors de la reprise pour certains processus. Mais une granularité plus fine (c'est-à-dire au niveau des processus et du temps réel) n'est pas possible avec le formalisme des réseaux de Petri.
+Dans les deux cas présentés ci-dessus, il sera impossible d'échapper à un effet de saut lors de la reprise pour certains processus. Mais une granularité plus fine (c'est-à-dire au niveau des processus et du temps réel) n'est pas possible avec le formalisme des réseaux de Petri.
 
 Cependant, il est simple de l'implémenter : il suffit d'effectuer une duplication au niveau du réseau de Petri, et de donner aux nœuds du graphe une propriété avec comme états posibles \textit{activé} ou \textit{désactivé}. Si un nœud ne répond plus et est dupliqué à des fins de backup, un autre nœud \textit{active} la branche censée prendre le relai; ce nœud émet alors instantanément des signaux à ses processus.
 
 De plus, l'idéal serait de pouvoir mettre en sourdine (\textit{to mute}) uniquement les sorties matérielles de l'ordinateur (ex. : sortie audio, vidéo-projecteur). En effet, un processus externe peut utiliser un effet de feedback; une transition sans interruptions entre une machine ayant planté et la machine de backup ne fonctionnera correctement que si toutes les étapes précédentes ont été calculées par la machine de backup.
 
 Enfin, pour des questions d'ergonomie, il serait intéressant d'avoir un concept de groupes de nœuds, censés posséder les mêmes tâches, et d'associer à chaque segment un ou plusieurs groupes. La détection d'un nœud "mort" se ferait dans le groupe par envoi de messages réguliers, et une des machines au hasard du groupe reprendrait les tâches laissées en plan.
-\end{itemize}
 
 \subsection{Cas du changement de vitesse}
 Le formalisme~\cite{allombert2010virage} permet de changer la vitesse d'exécution, en multipliant les durées des transitions par un facteur numérique.

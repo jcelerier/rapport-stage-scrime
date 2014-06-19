@@ -1,0 +1,161 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  This Beamer template was created by Cameron Bracken.
+%%  Anyone can freely use or modify it for any purpose
+%%  without attribution.
+%%
+%%  Last Modified: January 9, 2009
+%%
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[xcolor=x11names,compress]{beamer}
+
+%% General document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{lettrine}
+\usepackage{hhline}
+\usepackage{setspace}
+
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage{xspace}
+\usepackage[french]{babel}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{relsize}
+\usepackage{float}
+\usepackage{datetime}
+
+\usepackage{amsthm}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[french,algoruled,figure]{algorithm2e}
+\usepackage[footnote,smaller]{acronym}
+\usepackage[perpage]{footmisc}
+\usepackage{multirow}
+\usepackage{tabu}
+\usepackage{mfirstuc}
+
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage[numbers,longnamesfirst]{natbib}
+
+\usepackage{cleveref}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% Beamer Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\useoutertheme[subsection=false,shadow]{miniframes}
+\useinnertheme{default}
+\usefonttheme{serif}
+\usepackage{kpfonts}
+\usepackage{microtype} % after fonts
+
+\setbeamerfont{title like}{shape=\scshape}
+\setbeamerfont{frametitle}{shape=\scshape}
+
+\setbeamercolor*{lower separation line head}{bg=AntiqueWhite4} 
+\setbeamercolor*{normal text}{fg=black,bg=white} 
+\setbeamercolor*{alerted text}{fg=red} 
+\setbeamercolor*{example text}{fg=black} 
+\setbeamercolor*{structure}{fg=black} 
+ 
+\setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
+\setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
+
+\renewcommand{\(}{\begin{columns}}
+\renewcommand{\)}{\end{columns}}
+\newcommand{\<}[1]{\begin{column}{#1}}
+\renewcommand{\>}{\end{column}}
+
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{footline}{series=\bfseries,size*={13}{16}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\scshape Introduction}
+\begin{frame}
+\title{Répartition des réseaux de Petri dans le logiciel i-score}
+
+\author{
+	Jean-Michaël \textsc{Celerier}\\
+	{\it Université de Bordeaux, ENSEIRB-MATMECA}\\ ~ \\
+	Sous la direction de : \\
+	Myriam \textsc{Desainte-Catherine}, Serge \textsc{Chaumette}\\
+}
+\date{
+	\\
+	\vspace{1cm}
+	\today
+}
+\titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Sommaire}
+\tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\scshape Background}
+\subsection{frame 1}
+\begin{frame}{frame 1}
+\begin{itemize}
+\item Item A
+\item Item B
+\begin{itemize}
+\item Subitem 1
+\item Subtem 2
+\end{itemize}
+\item Item C
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{frame 2}
+\begin{frame}{frame 2}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{frame 3}
+\begin{frame}{frame 3}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\scshape Methodology}
+\subsection{frame 1}
+\begin{frame}{frame 1}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{frame 1}
+\begin{frame}{frame 1}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\scshape Results}
+\subsection{Frame 1}
+\begin{frame}{Frame 1}
+
+\end{frame}
+
+\end{document}

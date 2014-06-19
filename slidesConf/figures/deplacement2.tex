@@ -1,0 +1,37 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,
+  			  fill=black!20,minimum size=4mm]
+
+   \tikzstyle{black box}=[draw=black, fill=black!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.5cm]
+   \tikzstyle{red box}=[draw=red, minimum size=2.1cm, fill=red!30, draw opacity=0.7, fill opacity=0.2, thick, dashed, inner sep=0.5cm]
+
+  \begin{scope}
+  \node[segment](I){In};
+  \node [place] (A) [right of=I] {$A_1$};
+  \node [place] (A2) [below of=A] {$A_2$};
+  \node[segment](I2) [left of=A2]{In 2};
+  \node [transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+  \node [place] (B) [right of=Ta] {$B_1$};
+  \node [place] (A3) [above of=B] {$A_3$};
+  \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
+  \node [place] (C) [right of=Tb] {$C_1$};
+  
+  \path
+  		(I) edge[post] node {} (A)
+  		(I2) edge[post] node {} (A2)
+  		(A) edge[post] node {} (Ta)
+  		(A2) edge[post] node{} (Ta)
+  		(Ta) edge[post] node {} (B)
+  			 edge[post] node {} (A3)
+  		(B) edge[post] node {} (Tb)
+  		(Tb) edge[post] node {} (C);
+  		
+ \begin{pgfonlayer}{background}
+  \node [black box, fit=(I2) (C) (A2) (A3)] (Box1) {};
+  \node [above left] at (Box1.south east) {Nœud $N$};
+ \end{pgfonlayer}
+  \end{scope}
+\end{tikzpicture}

@@ -1,0 +1,146 @@
+\section{\scshape Introduction}
+\subsection{Composition}
+\begin{frame}
+	\frametitle{Deux modalités de composition}
+	\begin{block}<+->{Orientée partition}
+		\begin{itemize}
+			\item Pièce sur support
+			%\item Métaphore de la flêche
+			\item Time-line
+			\item Bloc univers
+			\item Déterminisme
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}<+->{Orientée performance}
+		\begin{itemize}
+			\item Programme temps réel
+			%\item Métaphore du fleuve
+			\item Flots temporisés de données (streams)
+			\item Cours du temps
+			\item Indéterminisme
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Modélisation hybride du temps}
+	\begin{block}<+->{Les séries de Mc Taggart}
+		\begin{itemize}
+			\item Série A~: être passé, être présent, être futur;
+			\item Série B~: être avant, être pendant, être après;
+			\item Série C~: chronologique
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}<+->{Supports temporels}
+		\begin{itemize}
+			\item Time-flow~: série A, événements dynamiques;
+			\item Time-line~: série B, événements statiques;
+			\item Temps granulaire~: série C, tout événement;
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\subsection{Partitions interactives}
+\begin{frame}
+	\frametitle{Partition interactive}
+	\begin{block}<+->{Interpétation}
+		\begin{itemize}
+			\item Espace de liberté pour le musicien
+			\item Limites imposées par le compositeur
+			\item Plusieurs pièces musicales possibles
+			\item Articulations, modifications agogiques
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}<+->{Objets temporels}
+		\begin{itemize}
+			\item Événements
+			\begin{itemize}
+				\item Statiques : datés sur la time-line
+				\item Dynamiques : datés à l'exécution
+			\end{itemize}
+			\item Intervalles
+			\item Boîtes processus
+			\item Boîtes hiérarchiques
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Partition interactives}
+	\begin{block}<+->{Principe de construction}
+		\begin{itemize}
+			\item Soustractive / additive
+			\item Incertitude positions et durées
+			\item Contraintes temporelles~: logique de points
+			\item Restriction de l'ensemble des possibles
+			\item Maintien automatique de la cohérence de la pièce
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}<+->{Principe d'exécution}
+		\begin{itemize}
+			\item Cohérence~: relations temporelles
+			\item Ordre partiel de positions
+			\item Modèle concurrent de processus
+			\item Réseaux de Petri, NTCC, RML
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Extension non linéaire}
+	\begin{block}<+->{Événements conditionnés}
+		\begin{itemize}
+			\item Généralisation des événements dynamiques
+			\item Certains événements ne s'exécutent pas
+			\item Plusieurs branches possibles
+			\item \emph{Amplitude d'existence}~: portées par les jetons
+		\end{itemize}
+	\end{block}
+	
+	\begin{block}<+->{Boucles}
+		\begin{itemize}
+			\item Généralisation des intervalles
+			\item Temps lisse / temps strié
+			\item Certains événements s'exécutent plusieurs fois
+			\item Répétition
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Support théorique}
+	Réseaux de Petri : outil de modélisation de processus, conçu dans les années 60.
+\end{frame}
+
+\subsection{OSSIA}
+\begin{frame}{OSSIA}
+	Implémentation des concepts théoriques permettant leur utilisation par les compositeurs.
+	
+	Notions : 
+	\begin{itemize}
+		\item{Temps:
+		\begin{itemize}
+			\item Scénario.
+			\item Évènement.
+			\item TimeBox.
+			\item TimeProcess.
+		\end{itemize}
+		}
+		
+		\item{Interopérabilité:
+		\begin{itemize}
+			\item Jamoma.
+			\item Minuit.
+		\end{itemize}
+	}
+	\end{itemize}
+	
+	\begin{itemize}
+		\itemar Implémentation partielle dans i-score~0.2.
+		\itemar Implémentation totale visée pour i-score~0.3.
+	\end{itemize}
+\end{frame}

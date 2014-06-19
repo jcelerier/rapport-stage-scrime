@@ -74,7 +74,7 @@ Le code source est présent sur \brand{GitHub} à l'adresse \url{https://github.
 \subsection{Portage sous GNU/Linux et Android}
 Afin d'avoir une exécution des scénarios interactifs sur embarqué, il était nécessaire de porter \brand{Jamoma} et \brand{i-score} sous systèmes Linux (\brand{Android} étant très semblable).
 
-Cela a nécessité un portage du processus de construction logicielle (\textit{build system})  de \brand{Jamoma}, un script Ruby personnalisé, vers \gls{CMake}. En effet, ce scrit contenait les compilateurs et options hard-codés pour les plate-formes \brand{Mac OS X}, \brand{Windows}, et \brand{Linux Desktop} (qui n'était pas maintenu et non-fonctionnel), ce qui empêchait notamment une extension facile à d'autres plate-formes.
+Cela a nécessité un portage du processus de construction logicielle (\textit{build system})  de \brand{Jamoma}, un script Ruby personnalisé, vers \gls{CMake}. En effet, ce script contenait les compilateurs et options hard-codés pour les plate-formes \brand{Mac OS X}, \brand{Windows}, et \brand{Linux Desktop} (qui n'était pas maintenu et non-fonctionnel), ce qui empêchait notamment une extension facile à d'autres plate-formes.
 
 Réaliser ce développement a également permis de distribuer \brand{i-score} sous \gls{macports}, et a ouvert de nouvelles perspectives de développement pour l'embarqué sur le logiciel; de plus, un système d'\gls{contintegr} est désormais envisageable. Enfin, des tests de couverture avec \brand{gcov}, et une analyse statique avec \brand{cppcheck} ont été intégrés.
 
@@ -151,7 +151,7 @@ Un groupe possède de plus certaines fonctionnalités d'agrégation des clients 
 
 Par exemple, comme présenté dans la \cref{fig.RepartOSSIA}, on propose la possibilité dans un groupe d'avoir des paramètres quelconques (définis par le compositeur), qui auraient un comportement local sur chaque nœud du groupe, mais aussi un comportement global : par exemple la moyenne des paramètres locaux, le maximum, une valeur au hasard\dots
 
-L'interface proposée est la suivante : (\texttt{group} peut être remplacé par le nom du groupe, mais cela pose problème car cela nécessite d'interdire les caractères spéciaux et les espaces).
+L'interface proposée est la suivante : (\texttt{group} peut être remplacé par le nom du groupe, mais cela pose problème car cela nécessite d'interdire les caractères spéciaux et les espaces)
 
 \subparagraph{En écriture sur le groupe} 
 \begin{itemize}
@@ -242,7 +242,7 @@ Il y a quatre possibilités de changements pour une session cliente :
 \begin{itemize}
 	\item \texttt{!listens()} devient \texttt{listens()} : les autres clients qui ont \texttt{writes()} sur le groupe prennent connaissance de moi.
 	\item \texttt{listens()} devient \texttt{!listens()} : les autres clients qui ont \texttt{writes()} sur le groupe m'oublient.
-	\item \texttt{!writes()} devient \texttt{writes()} : je prends connaissance des clients (message \texttt{/session/connect/discover}) qui ont \texttt{listens()} sur le groupe. Un exemple est donné en \cref{fig.seqPermission}.
+	\item \texttt{!writes()} devient \texttt{writes()} : je prends connaissance des clients ~ \\ (message \texttt{/session/connect/discover}) qui ont \texttt{listens()} sur le groupe. Un exemple est donné en \cref{fig.seqPermission}.
 	\item \texttt{writes()} devient \texttt{!writes()} : j'oublie les autres clients du groupe.
 \end{itemize}
 

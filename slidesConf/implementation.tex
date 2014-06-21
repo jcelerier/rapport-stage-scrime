@@ -28,6 +28,30 @@
 	\end{itemize}
 \end{frame}
 
+\subsection{Résultats}
+\begin{frame}{Résultats}
+	Deux protocoles : 
+	
+	\begin{itemize}
+		\item Un en utilisant des machines virtuelles séparées avec une latence quasiment fixe (avec \textsc{WANem}).
+		\item Un en utilisant des machines réelles connectées en Wi-Fi.
+	\end{itemize}
+	
+	Résultats obtenus (retard après déplacement d'un segment, sans modification au réseau, puis avec application de la seconde méthode de déplacement présentée précédemment) :
+	
+	\begin{table}[H]
+		\centering
+		\tabulinesep=3pt
+		\begin{tabu} to \linewidth {XXX}
+			Protocole & Sans déplacement & Avec déplacement \\
+			\toprule[0.15em]
+			VM & $\num{111}\si{\milli\second}$ & $\num{47}\si{\milli\second}$ \\
+			Tablettes & $\num{56}\si{\milli\second}$ & $\num{4}\si{\milli\second}$ \\
+		\end{tabu}
+	\end{table}
+	
+\end{frame}
+
 \subsection{API OSSIA}
 \begin{frame}{Implémentation dans l'API OSSIA}
 	Permet l'utilisation pour la version en développement de i-score, et depuis le code, ce qui rend possible le développement d'autres logiciels ou d'autres implémentations.
@@ -75,27 +99,10 @@
 	\end{figure}
 \end{frame}
 
-\subsection{Résultats}
-\begin{frame}{Résultats}
-	Deux protocoles : 
+\begin{frame}{Exemple d'interface utilisateur}
+	Utilisation de la couleur : 
 	
-	\begin{itemize}
-		\item Un en utilisant des machines virtuelles séparées avec une latence quasiment fixe (avec \textsc{WANem}).
-		\item Un en utilisant des machines réelles connectées en Wi-Fi.
-	\end{itemize}
-	
-	Résultats obtenus (retard après déplacement d'un segment, sans modification au réseau, puis avec application de la seconde méthode de déplacement présentée précédemment) :
-
-\begin{table}[H]
-	\centering
-	\tabulinesep=3pt
-	\begin{tabu} to \linewidth {XXX}
-		Protocole & Sans déplacement & Avec déplacement \\
-		\toprule[0.15em]
-		VM & $\num{111}\si{\milli\second}$ & $\num{47}\si{\milli\second}$ \\
-		Tablettes & $\num{56}\si{\milli\second}$ & $\num{4}\si{\milli\second}$ \\
-	\end{tabu}
-\end{table}
-
+	\begin{figure}[H]
+		\includegraphics[scale=0.3]{images/repartScore.png}
+	\end{figure}
 \end{frame}
-

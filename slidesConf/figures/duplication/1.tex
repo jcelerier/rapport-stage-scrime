@@ -1,0 +1,30 @@
+\begin{tikzpicture}[node distance=1.3cm,>=stealth,bend angle=45,auto]
+  \tikzstyle{segment}=[]
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,
+  			  fill=black!20,minimum size=4mm]
+
+
+  \begin{scope}
+  \node[segment](I){In};
+  \node [place] (A) [right of=I] {$A$};
+  \node [transition] (Ta) [right of=A, label=$t_A$] {$T_A$};
+  \node [place] (B) [right of=Ta] {$B$};
+  \node [transition] (Tb) [right of=B, label=$t_B$] {$T_B$};
+  \node [place] (C) [right of=Tb] {$C$};
+  \node [transition] (Tc) [right of=C, label=$t_C$] {$T_C$};
+  \node [place] (D) [right of=Tc] {$D$};
+  \node[segment](O) [right of=D]{Out};
+  
+  \path
+  		(I) edge[post] node {} (A)
+  		(A) edge[post] node {} (Ta)
+  		(Ta) edge[post] node {} (B)
+  		(B) edge[post] node {} (Tb)
+  		(Tb) edge[post] node {} (C)
+    	(C) edge[post] node {} (Tc)
+    	(Tc) edge[post] node {} (D)
+  		(D) edge[post] node {} (O);
+  \end{scope}
+\end{tikzpicture}

@@ -1,3 +1,4 @@
+\pdfminorversion=4
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[xcolor=x11names,compress]{beamer}
 
@@ -17,7 +18,7 @@
 \usepackage{relsize}
 \usepackage{float}
 \usepackage{datetime}
-
+\usepackage{animate}
 \usepackage{amsthm}
 \usepackage{fancyvrb}
 \usepackage{float}
@@ -95,13 +96,14 @@
 \setbeamertemplate{itemize items}{--}
 \newcommand{\itemar}{\item[$\rightarrow$]}
 \renewcommand{\bibsection}{\subsubsection*{\bibname } }
+\pgfdeclareimage[height=3.2cm]{banniere}{banniere}
+
 \begin{document}
 \input{header}
 
 \setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
 \setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
 \input{debut}
-\input{presentation}
 \input{existant}
 \input{methodes}
 \input{implementation}

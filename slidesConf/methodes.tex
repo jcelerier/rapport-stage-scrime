@@ -38,17 +38,26 @@
 	\begin{itemize}
 		\item[\textbullet] Améliorations proposées : 
 			\begin{itemize}
-				\item Utilisation pour secours informatique (\textit{backup}).
-				\item Fonctionnement en mode «~canon~».
+				\item Utilisation pour secours informatique (\textit{backup}) : si une machine qui effectuait un scénario s'arrête, une autre (qui possède les mêmes logiciels et entrées - sorties) prend le relais.
+				\item Fonctionnement en mode «~canon~» : les machines démarrent un scénario plus ou moins en différé.
 				\item Rétro-propagation si délai trop important.
 				\item Simplifications de l'algorithme dans les cas courants.
 			\end{itemize}
 		\vspace{1em}
-		\item[\textbullet] Différents modes de synchronisation : 
+		\item[\textbullet] Différents modes de synchronisation lors de la duplication : 
 			\begin{itemize}
 				\item Attente de tous.
 				\item Duplication de chaque jeton.
 				\item Un seul continue.
 			\end{itemize}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Duplication}
+	\begin{figure}[H]
+		\centering
+		\only<1>{\input{figures/duplication/1}\caption{Pas de duplication}}\only<2>{\scalebox{0.7}{\input{figures/duplication/2}}\caption{Duplication de jetons}}\only<3>{\scalebox{0.6}{\input{figures/duplication/3}}\caption{Synchronisation (attente)}}\only<4>{\scalebox{0.7}{\input{figures/duplication/4}}\caption{Une seule branche continue}}
+		
+		\label{fig:petriNet}
+	\end{figure}
 \end{frame}
